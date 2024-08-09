@@ -1,0 +1,38 @@
+<!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/i18n -->
+<!-- eslint-disable @angular-eslint/template/attributes-order -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="isMinimized ? 'over' : 'side'"
+    [opened]="!isMinimized"
+    class="sidenav"
+  >
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item><a matLine href="#">Health & Fitness</a></mat-list-item>
+      <mat-list-item><a matLine href="#">Food</a></mat-list-item>
+      <mat-list-item><a matLine href="#">Courses</a></mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>{{ isMinimized ? "menu_open" : "menu" }}</mat-icon>
+      </button>
+      <span>My Application</span>
+      <span class="spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item (click)="logout()">Sign Out</button>
+      </mat-menu>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-chat></app-chat>

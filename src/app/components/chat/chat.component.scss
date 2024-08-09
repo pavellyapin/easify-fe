@@ -1,0 +1,131 @@
+/* chat.component.scss */
+.chat-container {
+  display: flex;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  flex-direction: column;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.chat-bubble {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background-color: #a8e6cf; /* Primary color */
+  width: 60px;
+  height: 60px;
+}
+
+.chat-bubble-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.chat-bubble-tail {
+  position: absolute;
+  bottom: -10px;
+  margin-left: -5px;
+  border: 10px solid transparent;
+  border-bottom: 0;
+  border-top-color: #a8e6cf; /* Same as bubble color */
+  width: 0;
+  height: 0;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+  width: 300px;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.message-bubble {
+  margin: 5px 0;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.chat-message.user .message-bubble {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.message-input {
+  flex: 1;
+  margin-right: 8px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.typing-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+}
+
+.typing-indicator span {
+  display: block;
+  opacity: 0;
+  animation: typing 1.2s infinite;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: #007bff;
+  width: 8px;
+  height: 8px;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 20px;
+}

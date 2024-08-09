@@ -1,0 +1,44 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="question-container" [formGroup]="questionForm">
+  <h5>{{ question.question }}</h5>
+  <ng-container [ngSwitch]="question.type">
+    <div *ngSwitchCase="'single'" class="card-grid">
+      <div
+        *ngFor="let option of question.options"
+        class="card"
+        [class.selected]="questionForm.get('answer')?.value === option"
+        (click)="selectOption(option)"
+      >
+        {{ option }}
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'multiple'" class="card-grid">
+      <div
+        *ngFor="let option of question.options"
+        class="card"
+        [class.selected]="questionForm.get(option)?.value"
+        (click)="toggleOption(option)"
+      >
+        {{ option }}
+      </div>
+    </div>
+
+    <textarea
+      *ngSwitchCase="'open'"
+      formControlName="answer"
+      rows="4"
+      cols="50"
+    ></textarea>
+    <div>
+      <button i18n mat-button color="primary" (click)="onSubmit()">
+        Submit
+      </button>
+    </div>
+  </ng-container>
+</div>

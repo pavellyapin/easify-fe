@@ -1,0 +1,32 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="login-container">
+  <h2 i18n>Login</h2>
+  <form
+    action="/login"
+    method="post"
+    i18n-action
+    (ngSubmit)="login()"
+    i18n-method
+  >
+    <label i18n for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      required
+      [(ngModel)]="email"
+    />
+
+    <label i18n for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      [(ngModel)]="password"
+    />
+
+    <button i18n type="submit">Login</button>
+  </form>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

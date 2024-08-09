@@ -1,0 +1,24 @@
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-chip {
+  margin: 4px;
+}

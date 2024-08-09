@@ -1,0 +1,87 @@
+@use "@angular/material" as mat;
+
+// Define color variables for use throughout the app
+$primary-color: #56c98a;
+$primary-light-color: #8cdcb7;
+$primary-dark-color: #36a468;
+$primary-contrast-color: #333333;
+
+$secondary-color: #8cc9ee;
+$secondary-light-color: #b4dcf4;
+$secondary-dark-color: #64b6e7;
+$secondary-contrast-color: #333333;
+
+$accent-color: #ff8c50;
+$accent-light-color: #ffbb94;
+$accent-dark-color: #ff5d0c;
+$accent-contrast-color: #333333;
+
+// Define custom color palettes using the variables
+$primary-palette: mat.m2-define-palette(
+  (
+    50: #e3f8ef,
+    100: #c2f0da,
+    200: #a8e6cf,
+    300: #8cdcb7,
+    400: #72d3a0,
+    500: $primary-color,
+    600: $primary-dark-color,
+    700: #36a468,
+    800: #2a8657,
+    900: #1e6746,
+    A100: #b2ffc3,
+    A200: #7fff91,
+    A400: #4cff5f,
+    A700: #1aff2d,
+    contrast: (
+      default: $primary-contrast-color,
+    ),
+  )
+);
+
+$secondary-palette: mat.m2-define-palette(
+  (
+    50: #f2f8fc,
+    100: #dceef9,
+    200: #c8e5f7,
+    300: #b4dcf4,
+    400: #a0d2f1,
+    500: $secondary-color,
+    600: $secondary-dark-color,
+    700: #64b6e7,
+    800: #50ade4,
+    900: #3ca4e1,
+    A100: #dceef9,
+    A200: #c8e5f7,
+    A400: #b4dcf4,
+    A700: #a0d2f1,
+    contrast: (
+      default: $secondary-contrast-color,
+    ),
+  )
+);
+
+$accent-palette: mat.m2-define-palette(
+  (
+    50: #fff5ec,
+    100: #ffebd8,
+    200: #ffd3b6,
+    300: #ffbb94,
+    400: #ffa472,
+    500: $accent-color,
+    600: $accent-dark-color,
+    700: $accent-dark-color,
+    800: #e65400,
+    900: #b24200,
+    A100: #ffebd8,
+    A200: #ffd3b6,
+    A400: #ffbb94,
+    A700: #ffa472,
+    contrast: (
+      default: $accent-contrast-color,
+    ),
+  )
+);
+
+$heading-font-family: "Poppins", sans-serif;
+$regular-font-family: "Inter", sans-serif;

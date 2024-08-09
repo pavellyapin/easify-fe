@@ -1,0 +1,147 @@
+@use "@angular/material" as mat;
+@use "variables" as var;
+
+// Define custom typography
+$custom-typography: mat.m2-define-typography-config(
+  $font-family: var.$regular-font-family,
+  $headline-1:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 96px,
+      $line-height: 112px,
+      $font-weight: 300,
+      $letter-spacing: -0.05em,
+    ),
+  $headline-2:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 60px,
+      $line-height: 72px,
+      $font-weight: 300,
+      $letter-spacing: -0.05em,
+    ),
+  $headline-3:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 48px,
+      $line-height: 56px,
+      $font-weight: 400,
+    ),
+  $headline-4:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 34px,
+      $line-height: 40px,
+      $font-weight: 400,
+    ),
+  $headline-5:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 24px,
+      $line-height: 32px,
+      $font-weight: 400,
+    ),
+  $headline-6:
+    mat.m2-define-typography-level(
+      $font-family: var.$heading-font-family,
+      $font-size: 20px,
+      $line-height: 32px,
+      $font-weight: 500,
+    ),
+  $subtitle-1:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 16px,
+      $line-height: 24px,
+      $font-weight: 400,
+    ),
+  $subtitle-2:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 14px,
+      $line-height: 21px,
+      $font-weight: 500,
+    ),
+  $body-1:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 16px,
+      $line-height: 24px,
+      $font-weight: 400,
+    ),
+  $body-2:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 14px,
+      $line-height: 20px,
+      $font-weight: 400,
+    ),
+  $button:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 14px,
+      $line-height: 14px,
+      $font-weight: 500,
+    ),
+  $caption:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 12px,
+      $line-height: 16px,
+      $font-weight: 400,
+    ),
+  $overline:
+    mat.m2-define-typography-level(
+      $font-family: var.$regular-font-family,
+      $font-size: 10px,
+      $line-height: 16px,
+      $font-weight: 400,
+    ),
+);
+
+// Apply typography to non-Material elements
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+button {
+  font-family: var.$regular-font-family;
+}
+
+h1 {
+  @include mat.m2-typography-level($custom-typography, headline-1);
+}
+
+h2 {
+  @include mat.m2-typography-level($custom-typography, headline-2);
+}
+
+h3 {
+  @include mat.m2-typography-level($custom-typography, headline-3);
+}
+
+h4 {
+  @include mat.m2-typography-level($custom-typography, headline-4);
+}
+
+h5 {
+  @include mat.m2-typography-level($custom-typography, headline-5);
+}
+
+h6 {
+  @include mat.m2-typography-level($custom-typography, headline-6);
+}
+
+p {
+  @include mat.m2-typography-level($custom-typography, body-1);
+}
+
+button {
+  @include mat.m2-typography-level($custom-typography, button);
+}

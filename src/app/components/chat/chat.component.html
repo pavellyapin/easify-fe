@@ -1,0 +1,51 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/i18n -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/attributes-order -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- chat.component.html -->
+<!-- chat.component.html -->
+<mat-card class="chat-container" [ngClass]="{ 'is-open': isChatOpen }">
+  <div class="chat-bubble" *ngIf="!isChatOpen" (click)="toggleChat()">
+    <div class="chat-bubble-text">Chat</div>
+    <div class="chat-bubble-tail"></div>
+  </div>
+  <div class="chat-window" *ngIf="isChatOpen">
+    <mat-card-content class="chat-messages" #messageContainer>
+      <div
+        *ngFor="let msg of messages$ | async"
+        class="chat-message"
+        [class.user]="msg.user === 'You'"
+        [class.gpt]="msg.user === 'GPT'"
+      >
+        <div class="message-bubble">
+          <strong>{{ msg.user }}:</strong>
+          <span [innerHTML]="msg.message"></span>
+        </div>
+      </div>
+      <div *ngIf="isTyping" class="chat-message gpt">
+        <div class="message-bubble typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="chat-input">
+      <mat-form-field class="message-input" appearance="outline">
+        <input
+          matInput
+          [(ngModel)]="userMessage"
+          (keyup.enter)="sendMessage()"
+          placeholder="Type a message..."
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Send
+      </button>
+    </mat-card-actions>
+    <button class="close-icon" (click)="toggleChat()">&#10005;</button>
+  </div>
+</mat-card>

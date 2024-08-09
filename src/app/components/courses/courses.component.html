@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="courses-grid">
+  <mat-card *ngFor="let course of courses$ | async" class="course-card">
+    <mat-card-title>{{ course.name }}</mat-card-title>
+    <mat-card-subtitle i18n>Level: {{ course.level }}</mat-card-subtitle>
+    <mat-card-content>
+      <p>{{ course.overview }}</p>
+      <div class="tags">
+        <div class="chip-list">
+          <mat-chip *ngFor="let tag of course.tags">{{ tag }}</mat-chip>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button i18n mat-button (click)="startCourse(course.id)">
+        Start Course
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

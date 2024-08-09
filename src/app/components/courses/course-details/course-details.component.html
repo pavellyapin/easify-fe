@@ -1,0 +1,52 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div *ngIf="course">
+  <mat-card class="course-card">
+    <mat-card-title>{{ course.name }}</mat-card-title>
+    <mat-card-subtitle i18n>Level: {{ course.level }}</mat-card-subtitle>
+    <mat-card-content>
+      <p>{{ course.overview }}</p>
+      <div class="chapters">
+        <div *ngFor="let chapter of course.chapters; let i = index">
+          <div>{{ chapter.title }}</div>
+          <p>{{ chapter.subtitle }}</p>
+          <p>{{ chapter.overview }}</p>
+          <div *ngIf="currentChapterIndex >= i">
+            <p>{{ chapter.overview }}</p>
+            <div *ngFor="let topic of chapter.topics" class="topics">
+              <h5>{{ topic.title }} - {{ topic.subtitle }}</h5>
+              <p>{{ topic.overview }}</p>
+              <div *ngFor="let point of topic.points" class="points">
+                <h6>{{ point.title }}</h6>
+                <p>{{ point.desc }}</p>
+                <p>{{ point.content }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let chapter of course.chapters; let i = index">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ chapter.title }}</mat-panel-title>
+      <mat-panel-description>{{ chapter.subtitle }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="chapter-content">
+      <p>{{ chapter.overview }}</p>
+      <div *ngFor="let topic of chapter.topics" class="topics">
+        <h5>{{ topic.title }} - {{ topic.subtitle }}</h5>
+        <p>{{ topic.overview }}</p>
+        <div *ngFor="let point of topic.points" class="points">
+          <h6>{{ point.title }}</h6>
+          <p>{{ point.desc }}</p>
+          <p>{{ point.content }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

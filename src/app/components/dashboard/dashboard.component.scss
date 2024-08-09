@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidenav-container {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.mat-sidenav {
+  width: 200px;
+}
+
+.mat-sidenav-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  background: #f0f0f0;
+  padding: 20px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

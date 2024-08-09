@@ -1,0 +1,31 @@
+.question-container {
+  margin: 20px 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  height: 100px;
+  text-align: center;
+}
+
+.card.selected {
+  border-color: #00acc1;
+  background-color: #e0f7fa;
+  color: #007c91;
+}

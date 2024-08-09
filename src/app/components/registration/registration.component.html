@@ -1,0 +1,67 @@
+<!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="registration-container">
+  <h2 i18n class="registration-header">Create Your Account</h2>
+  <div class="stepper-navigation">
+    <button
+      mat-icon-button
+      aria-label="Previous step"
+      i18n-aria-label
+      [disabled]="stepper.selectedIndex === 0"
+      (click)="navigateToPreviousStep()"
+    >
+      <mat-icon i18n>chevron_left</mat-icon>
+    </button>
+    <mat-horizontal-stepper #stepper class="hidden-stepper-headers">
+      <mat-step>
+        <button
+          i18n
+          *ngIf="stepper.selectedIndex === 0"
+          mat-button
+          color="primary"
+          (click)="registerWithEmail()"
+        >
+          Register with Email
+        </button>
+        <button
+          i18n
+          *ngIf="stepper.selectedIndex === 0"
+          mat-button
+          color="accent"
+          (click)="registerWithGoogle()"
+        >
+          Register with Google
+        </button>
+      </mat-step>
+      <ng-container *ngFor="let question of questions; let i = index">
+        <mat-step [stepControl]="formGroups[i]!">
+          <form [formGroup]="formGroups[i]!">
+            <ng-template i18n matStepLabel>Step {{ i + 1 }}</ng-template>
+            <app-question
+              [question]="question"
+              (optionSelected)="onOptionSelected($event, question)"
+            ></app-question>
+          </form>
+        </mat-step>
+      </ng-container>
+    </mat-horizontal-stepper>
+    <button
+      mat-icon-button
+      aria-label="Next step"
+      i18n-aria-label
+      [disabled]="stepper.selectedIndex === stepper.steps.length - 1"
+      (click)="navigateToNextStep()"
+    >
+      <mat-icon i18n>chevron_right</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="stepper.selectedIndex === stepper.steps.length - 1">
+    <button i18n mat-button color="primary" (click)="onSubmit()">Finish</button>
+  </div>
+  <div *ngIf="loading" class="loader-container">
+    <mat-progress-spinner mode="indeterminate" i18n-mode></mat-progress-spinner>
+  </div>
+</div>
