@@ -33,7 +33,17 @@
           >
             <mat-card-header>
               <mat-card-title>{{ item.time_range }}</mat-card-title>
-              <mat-card-subtitle>{{ item.activity }}</mat-card-subtitle>
+              <mat-card-subtitle>
+                {{ item.activity }}
+                <button
+                  *ngIf="item.type === 'meal'"
+                  mat-icon-button
+                  aria-label="Meal"
+                  i18n-aria-label
+                >
+                  <mat-icon i18n>restaurant</mat-icon>
+                </button>
+              </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               <p *ngIf="item.recommendations">{{ item.recommendations }}</p>
