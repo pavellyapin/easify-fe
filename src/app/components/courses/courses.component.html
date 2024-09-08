@@ -1,22 +1,83 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<div class="courses-grid">
-  <mat-card *ngFor="let course of courses$ | async" class="course-card">
-    <mat-card-title>{{ course.name }}</mat-card-title>
-    <mat-card-subtitle i18n>Level: {{ course.level }}</mat-card-subtitle>
-    <mat-card-content>
-      <p>{{ course.overview }}</p>
-      <div class="tags">
-        <div class="chip-list">
-          <mat-chip *ngFor="let tag of course.tags">{{ tag }}</mat-chip>
+<div class="courses-section">
+  <h2 i18n>Started Courses</h2>
+  <div *ngIf="startedCourses$ | async as startedCourses">
+    <div *ngIf="startedCourses.length > 0; else noStartedCourses">
+      <div class="courses-grid">
+        <app-course-tile
+          *ngFor="let course of startedCourses"
+          class="course-card"
+          [course]="course.course"
+        />
+      </div>
+    </div>
+    <ng-template #noStartedCourses>
+      <p i18n>No started courses found.</p>
+    </ng-template>
+  </div>
+</div>
+
+<div class="courses-section">
+  <h2 i18n>Recommended Courses</h2>
+  <div *ngIf="isLoadingRecommended">
+    <p i18n>Loading recommended courses...</p>
+  </div>
+  <div *ngIf="recommendedCourses$ | async as recommendedCourses">
+    <div *ngIf="!isLoadingRecommended">
+      <div *ngIf="recommendedCourses.length > 0; else noRecommendedCourses">
+        <div class="courses-grid">
+          <app-course-tile
+            *ngFor="let course of recommendedCourses"
+            class="course-card"
+            [course]="course"
+          />
         </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button i18n mat-button (click)="startCourse(course.id)">
-        Start Course
-      </button>
-    </mat-card-actions>
-  </mat-card>
+      <ng-template #noRecommendedCourses>
+        <p i18n>No recommended courses found.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<div class="courses-section">
+  <h2 i18n>All Courses</h2>
+  <!-- Tag Selection Section -->
+  <div class="tag-selection">
+    <mat-form-field appearance="fill" i18n-appearance>
+      <mat-label i18n>Select a tag</mat-label>
+      <mat-select (selectionChange)="onTagSelected($event.value)">
+        <mat-option *ngFor="let tag of allTags$ | async" [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+        {{ tag }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </div>
+  </div>
+  <div *ngIf="isLoadingAll">
+    <p i18n>Loading recommended courses...</p>
+  </div>
+  <div *ngIf="allCourses$ | async as allCourses">
+    <div *ngIf="allCourses.length > 0; else noAllCourses">
+      <div class="courses-grid">
+        <app-course-tile
+          *ngFor="let course of allCourses"
+          class="course-card"
+          [course]="course"
+        />
+      </div>
+    </div>
+    <ng-template #noAllCourses>
+      <p i18n>No courses found.</p>
+    </ng-template>
+  </div>
 </div>

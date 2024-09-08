@@ -32,7 +32,7 @@ export const scheduleGuard: CanActivateFn = () => {
         return scheduleService.getTodaySchedule().pipe(
           switchMap((schedules) => {
             if (schedules.length > 0) {
-              store.dispatch(loadScheduleSuccess({ schedule: schedules[0] }));
+              store.dispatch(loadScheduleSuccess(schedules[0]));
               store.dispatch(setLoading(false));
               return of(true);
             } else {

@@ -7,8 +7,16 @@ import { CourseDetailsComponent } from './components/courses/course-details/cour
 import { CoursesComponent } from './components/courses/courses.component';
 import { DailyLookComponent } from './components/daily-look/daily-look.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { WorkoutsComponent } from './components/fitness/fitness.component';
+import { WorkoutDetailsComponent } from './components/fitness/workout-details/workout-details.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { PersonalGrowthComponent } from './components/personal-growth/personal-growth.component';
+import { ResumeUploadComponent } from './components/personal-growth/resume-upload/resume-upload.component';
+import { RecipeByIngredientsComponent } from './components/recipes/recipe-by-ingredients/recipe-by-ingredients.component';
+import { RecipeDetailsComponent } from './components/recipes/recipe-details/recipe-details.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { ShoppingListComponent } from './components/recipes/shopping-list/shopping-list.component';
 import { QUESTIONS } from './components/registration/question-config';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { guestUser, loggedIn } from './guards/auth.guard';
@@ -54,8 +62,35 @@ export const routes: Routes = [
         component: CourseDetailsComponent,
       },
       {
+        path: 'recipe/:id',
+        component: RecipeDetailsComponent,
+      },
+      {
+        path: 'workout/:id',
+        component: WorkoutDetailsComponent,
+      },
+      {
+        path: 'newRecipe',
+        component: RecipeDetailsComponent,
+      },
+      { path: 'personal-growth', component: PersonalGrowthComponent },
+      { path: 'resume-upload', component: ResumeUploadComponent },
+      {
         path: 'courses',
         component: CoursesComponent,
+      },
+      {
+        path: 'recipes',
+        component: RecipesComponent,
+      },
+      {
+        path: 'recipe-by-ingredients',
+        component: RecipeByIngredientsComponent,
+      },
+      { path: 'shopping/:id', component: ShoppingListComponent },
+      {
+        path: 'fitness',
+        component: WorkoutsComponent,
       },
 
       { path: '**', redirectTo: 'dailylook' }, // Fallback route

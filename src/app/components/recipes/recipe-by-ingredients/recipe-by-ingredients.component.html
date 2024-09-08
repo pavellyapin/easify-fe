@@ -1,0 +1,50 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- Autocomplete to add ingredients -->
+<app-ingredients-autocomplete (ingredientAdded)="addIngredient($event)" />
+
+<div>
+  <div>
+    <mat-chip
+      *ngFor="let ingredient of selectedIngredients"
+      [removable]="true"
+      (removed)="removeIngredient(ingredient)"
+    >
+      {{ ingredient }}
+      <mat-icon i18n matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="action-buttons">
+  <button i18n mat-raised-button color="primary" (click)="findRecipes()">
+    Find Recipes
+  </button>
+  <button i18n mat-raised-button color="accent" (click)="addNewRecipe()">
+    New Recipe
+  </button>
+</div>
+
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="loading-spinner">
+  <mat-spinner />
+</div>
+
+<!-- Recipes Section -->
+<div *ngIf="!isLoading && recipes.length > 0" class="recipes-section">
+  <h2 i18n>Found Recipes</h2>
+  <div class="recipes-grid">
+    <app-recipe-tile *ngFor="let recipe of recipes" [recipe]="recipe" />
+  </div>
+</div>
+
+<!-- No recipes found -->
+<div
+  *ngIf="!isLoading && recipes.length === 0 && searchPerformed"
+  class="no-recipes"
+>
+  <p i18n>No recipes found with the selected ingredients.</p>
+</div>

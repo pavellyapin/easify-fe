@@ -1,0 +1,31 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<mat-card class="recipe-card">
+  <!-- Display the image above the recipe name -->
+  <img
+    *ngIf="recipe.image"
+    mat-card-image
+    [src]="recipe.image"
+    alt="{{ recipe.name }} image"
+  />
+  <mat-card-title>{{ recipe.name }}</mat-card-title>
+  <mat-card-subtitle i18n>
+    Difficulty: {{ recipe.difficulty }}
+  </mat-card-subtitle>
+  <mat-card-content>
+    <p>{{ recipe.description }}</p>
+    <div class="tags">
+      <div class="chip-list">
+        <mat-chip *ngFor="let tag of recipe.tags">{{ tag }}</mat-chip>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button i18n mat-button (click)="startRecipe(recipe.id)">
+      View Recipe
+    </button>
+  </mat-card-actions>
+</mat-card>

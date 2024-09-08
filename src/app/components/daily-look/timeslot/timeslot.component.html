@@ -1,0 +1,60 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<mat-card
+  class="schedule-item"
+  [ngClass]="{ 'current-time': timeUtils.isCurrentTime(item.time_range) }"
+>
+  <mat-card-header>
+    <mat-card-title>{{ item.time_range }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ item.activity }}
+      <button
+        *ngIf="item.type === 'meal'"
+        mat-icon-button
+        aria-label="Meal"
+        i18n-aria-label
+        (click)="startNewRecipe(item)"
+      >
+        <mat-icon i18n>restaurant</mat-icon>
+      </button>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="item.recommendations">{{ item.recommendations }}</p>
+    <p *ngIf="item.recipe">
+      <strong i18n>Recipe:</strong>
+      {{ item.recipe }}
+    </p>
+    <div *ngIf="isLoading">
+      <mat-spinner />
+      <p i18n>Loading recommendations...</p>
+    </div>
+    <div *ngIf="!isLoading">
+      <div *ngIf="localRecommendedRecipes.length > 0">
+        <p i18n>More Recipes:</p>
+
+        <mat-chip
+          *ngFor="let recipe of localRecommendedRecipes"
+          clickable
+          (click)="viewRecipe(recipe.id)"
+        >
+          {{ recipe.name }}
+        </mat-chip>
+      </div>
+      <div *ngIf="localRecommendedCourses.length > 0">
+        <p i18n>More Courses:</p>
+
+        <mat-chip
+          *ngFor="let course of localRecommendedCourses"
+          clickable
+          (click)="viewRecipe(course.id)"
+        >
+          {{ course.name }}
+        </mat-chip>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

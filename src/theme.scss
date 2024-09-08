@@ -2,6 +2,9 @@
 @use "variables" as var;
 @use "typography" as typo;
 
+// Include the core styles
+@include mat.core();
+
 // Define a dark theme
 $dark-theme: mat.m2-define-dark-theme(
   (

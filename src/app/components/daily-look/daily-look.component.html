@@ -4,94 +4,57 @@
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
-<div *ngIf="dailySchedule$ | async as dailySchedule" class="daily-schedule">
+<div
+  *ngIf="dailySchedule$ | async as dailySchedule; else noSchedule"
+  class="daily-schedule"
+>
   <mat-card class="schedule-header">
     <mat-card-title>
-      {{ dailySchedule.schedule.schedule.day }},
-      {{ dailySchedule.schedule.schedule.date }}
+      {{ day }},
+      {{ date }}
     </mat-card-title>
   </mat-card>
-
-  <div class="schedule-cards-wrapper">
-    <ng-container
-      *ngFor="let item of visibleSchedule; let i = index; trackBy: trackByFn"
-    >
-      <!-- Full View Card -->
-      <ng-container
-        *ngIf="
-          !(i === 0 && currentIndex !== 0) &&
-          !(
-            i === 4 &&
-            currentIndex + 4 < dailySchedule.schedule.schedule.schedule.length
-          )
-        "
-      >
-        <div class="schedule-card-container" [@fadeAnimation]>
-          <mat-card
-            class="schedule-item"
-            [ngClass]="{ 'current-time': isCurrentTime(item.time_range) }"
-          >
-            <mat-card-header>
-              <mat-card-title>{{ item.time_range }}</mat-card-title>
-              <mat-card-subtitle>
-                {{ item.activity }}
-                <button
-                  *ngIf="item.type === 'meal'"
-                  mat-icon-button
-                  aria-label="Meal"
-                  i18n-aria-label
-                >
-                  <mat-icon i18n>restaurant</mat-icon>
-                </button>
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <p *ngIf="item.recommendations">{{ item.recommendations }}</p>
-              <p *ngIf="item.recipe">
-                <strong i18n>Recipe:</strong>
-                {{ item.recipe }}
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </ng-container>
-
-      <!-- Button View Card for Previous -->
-      <ng-container *ngIf="i === 0 && currentIndex !== 0">
-        <div class="schedule-card-container" [@fadeAnimation]>
-          <mat-card
-            mat-button
-            class="schedule-item previous-button"
-            (click)="previous()"
-          >
-            <mat-card-header class="centered-text">
-              <mat-card-title>{{ item.time_range }}</mat-card-title>
-              <mat-card-subtitle>{{ item.activity }}</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </div>
-      </ng-container>
-
-      <!-- Button View Card for Next -->
-      <ng-container
-        *ngIf="
-          i === 4 &&
-          currentIndex + 4 < dailySchedule.schedule.schedule.schedule.length
-        "
-      >
-        <div class="schedule-card-container" [@fadeAnimation]>
-          <mat-card
-            mat-button
-            class="schedule-item next-button"
-            (click)="next()"
-          >
-            <mat-card-header class="centered-text">
-              <mat-card-title>{{ item.time_range }}</mat-card-title>
-              <mat-card-subtitle>{{ item.activity }}</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </div>
-      </ng-container>
-    </ng-container>
+  <!-- Previous Time Slot Container -->
+  <div *ngIf="currentIndex > 0" class="previous-slot-container">
+    <mat-card class="previous-slot-card" (click)="goToPreviousSlide()">
+      <mat-card-title>
+        {{ dailySchedule[currentIndex - 1]?.time_range }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ dailySchedule[currentIndex - 1]?.activity }}
+      </mat-card-subtitle>
+    </mat-card>
+  </div>
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-timeslot
+      *ngFor="let item of dailySchedule; let i = index"
+      ngxSlickItem
+      [item]="item"
+      [itemIndex]="i"
+      [currentIndex]="currentIndex"
+    />
+  </ngx-slick-carousel>
+  <!-- Next Time Slot Container -->
+  <div
+    *ngIf="currentIndex < dailySchedule.length - 1"
+    class="next-slot-container"
+  >
+    <mat-card class="next-slot-card" (click)="goToNextSlide()">
+      <mat-card-title>
+        {{ dailySchedule[currentIndex + 1]?.time_range }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ dailySchedule[currentIndex + 1]?.activity }}
+      </mat-card-subtitle>
+    </mat-card>
   </div>
 </div>
+
+<ng-template #noSchedule>
+  <!-- Optional: Content to show if there is no schedule -->
+  <p i18n>No schedule available.</p>
+</ng-template>

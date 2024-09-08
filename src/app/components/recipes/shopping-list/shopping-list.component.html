@@ -1,0 +1,20 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div *ngIf="ingredients.length > 0; else noIngredients">
+  <h2 i18n>Shopping List</h2>
+  <div *ngFor="let ingredient of ingredients">
+    <mat-checkbox [(ngModel)]="ingredient.checked">
+      {{ ingredient.name }} - {{ ingredient.quantity }}
+    </mat-checkbox>
+  </div>
+</div>
+
+<!-- Autocomplete to add ingredients -->
+<app-ingredients-autocomplete (ingredientAdded)="addIngredient($event)" />
+<button i18n mat-raised-button color="primary" (click)="sendShoppingList()">
+  Send Shopping List
+</button>
+<ng-template #noIngredients>
+  <p i18n>No ingredients found.</p>
+</ng-template>

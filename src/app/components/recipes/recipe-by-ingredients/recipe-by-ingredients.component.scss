@@ -1,0 +1,48 @@
+/* stylelint-disable no-descending-specificity */
+.recipe-by-ingredients {
+  input {
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .selected-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ingredient-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 16px;
+    background-color: #e0e0e0;
+    padding: 8px;
+
+    button {
+      cursor: pointer;
+      margin-left: 8px;
+      border: none;
+      background: none;
+      color: red;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+button {
+  margin: 0 8px;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}

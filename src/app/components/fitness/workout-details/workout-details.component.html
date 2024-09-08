@@ -1,0 +1,89 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div *ngIf="workout$ | async as workout" class="workout-detail-container">
+  <!-- Workout Details Section -->
+  <h1>{{ workout.name }}</h1>
+  <img class="workout-image" [src]="workout.image" alt="{{ workout.name }}" />
+
+  <p>
+    <strong i18n>Description:</strong>
+    {{ workout.description }}
+  </p>
+  <p>
+    <strong i18n>Difficulty:</strong>
+    {{ workout.difficulty }}
+  </p>
+  <p>
+    <strong i18n>Duration:</strong>
+    {{ workout.totalTime }}
+  </p>
+
+  <!-- Equipment Section -->
+  <h2 i18n>Equipment</h2>
+  <ul>
+    {{
+      workout.equipmentNeeded
+    }}
+    <li *ngFor="let equipment of workout.equipmentNeeded">
+      {{ equipment }}
+    </li>
+  </ul>
+
+  <!-- Steps Section -->
+  <h2 i18n>Warm-up</h2>
+  <ol>
+    <li *ngFor="let step of workout['warm-up']">
+      {{ step.name + "-" + step.duration }}
+    </li>
+  </ol>
+  <h2 i18n>Exercise</h2>
+  <ol>
+    <li *ngFor="let exercise of workout.exercises">
+      <p>
+        <strong i18n>Name:</strong>
+        {{ exercise.name }}
+      </p>
+      <p>
+        <strong i18n>Instructions:</strong>
+        {{ exercise.instructions }}
+      </p>
+      <p>
+        <strong i18n>Duration:</strong>
+        {{ exercise.duration }}
+      </p>
+      <p>
+        <strong i18n>Reps:</strong>
+        {{ exercise.reps }}
+      </p>
+      <p>
+        <strong i18n>sets:</strong>
+        {{ exercise.sets }}
+      </p>
+    </li>
+  </ol>
+
+  <!-- Tags Section -->
+  <h2 i18n>Tags</h2>
+  <p>{{ workout.tags.join(", ") }}</p>
+
+  <!-- Related Workouts Carousel -->
+  <h2 i18n>Related Workouts</h2>
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <div
+      *ngFor="let relatedWorkout of relatedWorkouts"
+      ngxSlickItem
+      class="slide"
+    >
+      <img [src]="relatedWorkout.image" alt="{{ relatedWorkout.name }}" />
+      <h3>{{ relatedWorkout.name }}</h3>
+      <p>{{ relatedWorkout.overview }}</p>
+    </div>
+  </ngx-slick-carousel>
+</div>

@@ -1,0 +1,25 @@
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recipe-card img {
+  margin-bottom: 16px; /* Adds some spacing below the image */
+  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
+  height: auto; /* Maintains the aspect ratio */
+  object-fit: contain; /* Ensures the image fits within its container without cropping */
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-chip {
+  margin: 4px;
+}

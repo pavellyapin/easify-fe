@@ -1,0 +1,31 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<h2 mat-dialog-title i18n>Meal Details</h2>
+<mat-dialog-content>
+  <form [formGroup]="mealForm">
+    <!-- Level of Difficulty -->
+    <h3 i18n>Level of Difficulty</h3>
+    <mat-radio-group formControlName="difficulty">
+      <mat-radio-button value="easy" i18n>Easy</mat-radio-button>
+      <mat-radio-button value="some_effort" i18n>Some effort</mat-radio-button>
+      <mat-radio-button value="all_in" i18n>All in</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Number of Servings -->
+    <mat-form-field appearance="fill" i18n-appearance>
+      <mat-label i18n>Number of Servings</mat-label>
+      <input matInput type="number" min="1" formControlName="servings" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" i18n-align>
+  <button mat-button mat-dialog-close i18n>Cancel</button>
+  <button
+    mat-button
+    color="primary"
+    [disabled]="mealForm.invalid"
+    (click)="submit()"
+    i18n
+  >
+    Submit
+  </button>
+</mat-dialog-actions>

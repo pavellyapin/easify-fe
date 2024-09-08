@@ -1,31 +1,34 @@
-/* eslint-disable @angular-eslint/component-max-inline-declarations */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+/* eslint-disable @angular-eslint/component-max-inline-declarations */
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
+import {
+  SlickCarouselComponent,
+  SlickCarouselModule,
+} from 'ngx-slick-carousel';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { TimeUtils } from '../../services/time.utils';
 import { selectSchedule } from '../../store/schedule/schedule.selectors';
+import { MealPrepModelComponent } from './meal-prep-model/meal-prep-model.component';
+import { TimeslotComponent } from './timeslot/timeslot.component';
 
 @Component({
   selector: 'app-daily-look',
@@ -36,99 +39,98 @@ import { selectSchedule } from '../../store/schedule/schedule.selectors';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
-    MatIconModule,
     MatInputModule,
+    MealPrepModelComponent,
+    MatDialogModule,
+    SlickCarouselModule,
+    TimeslotComponent,
   ],
   templateUrl: './daily-look.component.html',
   styleUrl: './daily-look.component.scss',
-  animations: [
-    trigger('slideAnimation', [
-      state('in', style({ transform: 'translateY(0)' })),
-      transition(':enter', [
-        style({ transform: 'translateY(10%)' }),
-        animate('300ms ease-in'),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-out', style({ transform: 'translateY(-10%)' })),
-      ]),
-    ]),
-    trigger('fadeAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms ease-in', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [animate('300ms ease-out', style({ opacity: 0 }))]),
-    ]),
-  ],
 })
 export class DailyLookComponent implements OnInit, OnDestroy {
-  dailySchedule$!: Observable<any | null>;
-  visibleSchedule: any[] = [];
+  date!: string;
+  day!: string;
+  dailySchedule$!: Observable<any[]>;
   currentIndex = 0;
   private scheduleSubscription: Subscription = new Subscription();
+  slideConfig = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    vertical: true,
+    verticalSwiping: true,
+    infinite: false,
+  };
 
-  constructor(private store: Store) {}
+  @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
+  private schedule: any[] = [];
+
+  constructor(
+    private store: Store,
+    private timeUtils: TimeUtils,
+  ) {}
 
   ngOnInit(): void {
-    this.dailySchedule$ = this.store.select(selectSchedule);
-    this.scheduleSubscription = this.dailySchedule$.subscribe(
-      (dailySchedule) => {
-        const schedule = dailySchedule.schedule.schedule.schedule;
-        const currentIndex = schedule.findIndex((item: any) =>
-          this.isCurrentTime(item.time_range),
+    this.dailySchedule$ = this.store.select(selectSchedule).pipe(
+      map((scheduleState) => {
+        this.date = scheduleState?.schedule?.date || '';
+        this.day = scheduleState?.schedule?.day || '';
+        const schedule = scheduleState?.schedule?.schedule || [];
+
+        // Find the index of the current time slot
+        this.currentIndex = schedule.findIndex((item: any) =>
+          this.timeUtils.isCurrentTime(item.time_range),
         );
-        this.currentIndex = currentIndex === -1 ? 0 : currentIndex;
-        this.updateVisibleSchedule(schedule);
-      },
+
+        // If no current time range is found, find the next closest time slot
+        if (this.currentIndex === -1) {
+          const now = this.timeUtils.parseTime(
+            `${new Date().getHours()}:${new Date().getMinutes()}`,
+          );
+
+          this.currentIndex = schedule.findIndex((item: any) => {
+            const [start] = item.time_range
+              .split(' - ')
+              .map((time: string) => this.timeUtils.parseTime(time));
+            return start > now;
+          });
+
+          // If still not found, default to the first item
+          if (this.currentIndex === -1) {
+            this.currentIndex = 0;
+          }
+        }
+        this.schedule = schedule;
+
+        // Scroll to the current time item
+        setTimeout(() => {
+          if (this.slickModal) {
+            this.slickModal.slickGoTo(this.currentIndex);
+          }
+        }, 0);
+
+        return schedule;
+      }),
     );
+
+    this.scheduleSubscription = this.dailySchedule$.subscribe();
   }
 
   ngOnDestroy(): void {
     this.scheduleSubscription.unsubscribe();
   }
 
-  previous() {
+  goToPreviousSlide(): void {
     if (this.currentIndex > 0) {
-      this.currentIndex -= 1;
-      this.dailySchedule$.subscribe((dailySchedule) => {
-        this.updateVisibleSchedule(dailySchedule.schedule.schedule.schedule);
-      });
+      this.currentIndex--;
+      this.slickModal.slickPrev();
     }
   }
 
-  next() {
-    this.dailySchedule$.subscribe((dailySchedule) => {
-      if (
-        this.currentIndex + 3 <
-        dailySchedule.schedule.schedule.schedule.length
-      ) {
-        this.currentIndex += 1;
-        this.updateVisibleSchedule(dailySchedule.schedule.schedule.schedule);
-      }
-    });
-  }
-
-  private updateVisibleSchedule(schedule: any[]) {
-    this.visibleSchedule = schedule.slice(
-      this.currentIndex == 0 ? this.currentIndex : this.currentIndex - 1,
-      this.currentIndex == 0 ? this.currentIndex + 5 : this.currentIndex + 4,
-    );
-  }
-
-  isCurrentTime(timeRange: string): boolean {
-    const [start, end] = timeRange
-      .split('-')
-      .map((time) => this.parseTime(time));
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
-    return currentTime >= start! && currentTime <= end!;
-  }
-
-  private parseTime(time: string): number {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours! * 60 + minutes!;
-  }
-  trackByFn(index: number): number {
-    return index;
+  goToNextSlide(): void {
+    if (this.currentIndex < this.schedule.length - 1) {
+      this.currentIndex++;
+      this.slickModal.slickNext();
+    }
   }
 }

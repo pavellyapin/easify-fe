@@ -5,6 +5,8 @@ import { ApplicationConfig } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -16,6 +18,7 @@ import { routes } from './app.routes';
 import { chatReducer } from './store/chat/chat.reducer';
 import { loadingReducer } from './store/loader/loading.reducer';
 import { hydrationMetaReducer } from './store/meta-reducers/local-storage.reducer';
+import { recipeReducer } from './store/recipe/recipe.reducer';
 import { scheduleReducer } from './store/schedule/schedule.reducer';
 
 export const appConfig: ApplicationConfig = {
@@ -26,9 +29,16 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
+    provideStorage(() => getStorage()),
     provideAuth(() => getAuth()),
     provideStore(
-      { chat: chatReducer, dailyLook: scheduleReducer, loader: loadingReducer },
+      {
+        chat: chatReducer,
+        dailyLook: scheduleReducer,
+        loader: loadingReducer,
+        recipe: recipeReducer,
+      },
       { metaReducers: [hydrationMetaReducer] },
     ),
     provideEffects([]),

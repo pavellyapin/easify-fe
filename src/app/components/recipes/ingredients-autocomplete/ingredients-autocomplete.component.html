@@ -1,0 +1,32 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-form-field class="full-width" appearance="fill" i18n-appearance>
+  <mat-label i18n>Search and add ingredients</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="ingredientCtrl"
+    [matAutocomplete]="auto"
+  />
+  <button
+    mat-icon-button
+    matSuffix
+    aria-label="Add ingredient"
+    i18n-aria-label
+    (click)="addIngredientFromInput()"
+  >
+    <mat-icon i18n>add</mat-icon>
+  </button>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="addIngredient($event)"
+  >
+    <mat-option
+      *ngFor="let ingredient of filteredIngredients | async"
+      [value]="ingredient"
+    >
+      {{ ingredient }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

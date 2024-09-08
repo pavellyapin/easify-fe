@@ -1,0 +1,12 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-toolbar color="primary">
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="growthMenu">
+    <mat-icon i18n>favorite</mat-icon>
+  </button>
+  <mat-menu #growthMenu="matMenu">
+    <button i18n mat-menu-item [routerLink]="['/dashboard/resume-upload']">
+      Upload resume
+    </button>
+  </mat-menu>
+</mat-toolbar>
