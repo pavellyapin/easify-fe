@@ -1,0 +1,97 @@
+@use "variables" as var;
+
+.main-content {
+  .topic-header-container {
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+
+      .breadcrumb-button {
+        color: #666;
+      }
+
+      mat-icon {
+        display: flex;
+        align-items: center;
+        margin: 0 5px;
+        font-size: 12px;
+      }
+    }
+
+    .scrollable-breadcrumbs {
+      display: flex;
+      flex-wrap: nowrap; /* Prevent wrapping */
+      gap: 8px; /* Optional: add spacing between items */
+      overflow-x: auto; /* Allow horizontal scrolling */
+      white-space: nowrap; /* Prevent wrapping of individual items */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+    }
+
+    .scrollable-breadcrumbs::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for a cleaner look */
+    }
+  }
+
+  .topic-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 50px;
+    max-width: 700px;
+
+    .topic-header {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  .theme-carousel {
+    .nav-button-container {
+      background-color: var.$primary-light-color-2; /* Primary color for the slot container */
+    }
+
+    .slot-details {
+      h5 {
+        margin: 0;
+      }
+
+      span {
+        color: grey;
+      }
+    }
+
+    .opacity {
+      opacity: 0.5;
+    }
+
+    .point-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+      height: 270px;
+
+      @media screen and (width <= 768px) {
+        height: 420px;
+      }
+
+      .title {
+        margin: 0;
+      }
+
+      .action {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        color: grey;
+      }
+    }
+  }
+}

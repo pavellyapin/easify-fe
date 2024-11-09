@@ -1,0 +1,36 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="primary-search-box">
+  <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+    <input
+      type="text"
+      matInput
+      placeholder="Search workout categories"
+      i18n-placeholder
+      [formControl]="categoryCtrl"
+      [matAutocomplete]="autoCategory"
+    />
+    <button
+      class="add-button"
+      mat-icon-button
+      matSuffix
+      aria-label="Add category"
+      i18n-aria-label
+      (click)="addCategoryFromInput()"
+    >
+      <mat-icon i18n>add</mat-icon>
+    </button>
+    <mat-autocomplete
+      #autoCategory="matAutocomplete"
+      (optionSelected)="addCategory($event)"
+    >
+      <mat-option
+        *ngFor="let category of filteredCategories | async"
+        [value]="category"
+      >
+        {{ category | capitalize }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

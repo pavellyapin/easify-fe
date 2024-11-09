@@ -1,0 +1,151 @@
+import { Injectable } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class IconService {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+  ) {}
+
+  loadIcons(): void {
+    this.matIconRegistry.addSvgIcon(
+      'book',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/book.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'calendar',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/calendar.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'chef-hat',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/chef-hat.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'coin',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/coin.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'growth',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/growth.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'monitor',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/monitor.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'google',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/google.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'facebook',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/facebook.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'x',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/x.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'beginner',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/beginner.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'intermediate',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/intermediate.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'advanced',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/advanced.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'quiz',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/quiz.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'chapters',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/chapters.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'alarm',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/alarm.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'more-horiz',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/more_horiz.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'progress',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/progress.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'check',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/check_small.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'check-round',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/check_round.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'help',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/live_help.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'notification',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/notification.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'lock',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/lock.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'setting',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/setting.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'profile-circle',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/profile-circle.svg',
+      ),
+    );
+    // Register more icons if needed
+  }
+}

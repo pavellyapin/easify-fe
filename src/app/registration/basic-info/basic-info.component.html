@@ -1,0 +1,104 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+
+<!-- Headline -->
+<h5 i18n>Basic Information</h5>
+
+<!-- Sub-header -->
+<p class="sub-header" i18n>
+  We need this information to provide you with the best experience. Rest
+  assured, your data is safe with us.
+</p>
+
+<!-- Material Alert -->
+<app-alert-card
+  message="Your information is private and secure."
+  i18n-message
+  icon="info"
+  i18n-icon
+  color="primary"
+/>
+
+<!-- Form -->
+<form [formGroup]="basicInfoForm">
+  <!-- Name Input -->
+  <div>
+    <h6 i18n>What is your name?</h6>
+    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Enter your name"
+        i18n-placeholder
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- City Input -->
+  <div>
+    <h6 i18n>Where do you live?</h6>
+    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+      <input
+        matInput
+        id="city-input"
+        formControlName="city"
+        placeholder="Search for your city"
+        i18n-placeholder
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- Gender Question -->
+  <div>
+    <h6 i18n>What gender do you identify with?</h6>
+    <mat-radio-group formControlName="gender" color="primary">
+      <mat-radio-button i18n value="male">Male</mat-radio-button>
+      <mat-radio-button i18n value="female">Female</mat-radio-button>
+      <mat-radio-button i18n value="other">Other</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!-- Wake-up Time -->
+  <div>
+    <h6 i18n>When do you usually wake up?</h6>
+    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+      <input
+        matInput
+        formControlName="wakeUpTime"
+        placeholder="Select wake-up time"
+        readonly
+        [ngxMatTimepicker]="wakeUpPicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #wakeUpPicker dottedMinutesInGap />
+    </mat-form-field>
+  </div>
+
+  <!-- Sleep Time -->
+  <div>
+    <h6 i18n>When do you usually go to sleep?</h6>
+    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+      <input
+        matInput
+        formControlName="sleepTime"
+        placeholder="Select sleep time"
+        readonly
+        [ngxMatTimepicker]="sleepTimePicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #sleepTimePicker dottedMinutesInGap />
+    </mat-form-field>
+  </div>
+
+  <!-- Continue Button -->
+  <div class="button-container">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!basicInfoForm.valid"
+      i18n
+      (click)="onSubmit()"
+    >
+      Continue
+    </button>
+  </div>
+</form>

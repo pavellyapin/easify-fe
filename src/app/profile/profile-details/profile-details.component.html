@@ -1,0 +1,140 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div class="profile-container">
+  <!-- Avatar Section -->
+  <div class="avatar-section">
+    <img
+      *ngIf="avatarUrl$ | async as avatarUrl; else defaultAvatar"
+      alt="User Avatar"
+      i18n-alt
+      class="avatar-image"
+      [src]="avatarUrl"
+    />
+    <ng-template #defaultAvatar>
+      <div class="avatar-circle"></div>
+    </ng-template>
+
+    <button i18n mat-raised-button color="primary" (click)="generateAvatar()">
+      Generate Avatar
+    </button>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading$ | async; else profileContent">
+    <mat-spinner />
+  </div>
+
+  <!-- Profile Details -->
+  <ng-template #profileContent>
+    <mat-card *ngIf="basicInfo$ | async as basicInfo">
+      <div class="card-header">
+        <h6 i18n>Basic Information</h6>
+        <button mat-icon-button (click)="editSection('basic-info')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>
+        <strong i18n>Name:</strong>
+        {{ basicInfo.name }}
+      </p>
+      <p>
+        <strong i18n>City:</strong>
+        {{ basicInfo.city }}
+      </p>
+      <p>
+        <strong i18n>Gender:</strong>
+        {{ basicInfo.gender }}
+      </p>
+    </mat-card>
+
+    <mat-card *ngIf="dietNutrition$ | async as dietNutrition">
+      <div class="card-header">
+        <h6 i18n>Diet & Nutrition</h6>
+        <button mat-icon-button (click)="editSection('diet-nutrition')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>
+        <strong i18n>Favorite Cuisines:</strong>
+        {{ dietNutrition.nutritionCategories }}
+      </p>
+      <p>
+        <strong i18n>Recipe Tags:</strong>
+        {{ dietNutrition.recipeTags }}
+      </p>
+    </mat-card>
+
+    <mat-card *ngIf="financialPlanning$ | async as financialPlanning">
+      <div class="card-header">
+        <h6 i18n>Financial Planning</h6>
+        <button mat-icon-button (click)="editSection('financial-planning')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>
+        <strong i18n>Plan Categories:</strong>
+        {{ financialPlanning.planCategories }}
+      </p>
+      <p>
+        <strong i18n>Topics of Interest:</strong>
+        {{ financialPlanning.planTags }}
+      </p>
+    </mat-card>
+
+    <mat-card *ngIf="lifestyleHealth$ | async as lifestyleHealth">
+      <div class="card-header">
+        <h6 i18n>Lifestyle & Health</h6>
+        <button mat-icon-button (click)="editSection('lifestyle-health')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>
+        <strong i18n>Kids:</strong>
+        {{ lifestyleHealth.kids }}
+      </p>
+      <p>
+        <strong i18n>Workouts:</strong>
+        {{ lifestyleHealth.workoutCategories }}
+      </p>
+    </mat-card>
+
+    <mat-card *ngIf="moreInfo$ | async as moreInfo">
+      <div class="card-header">
+        <h6 i18n>More Information</h6>
+        <button mat-icon-button (click)="editSection('more-info')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>{{ moreInfo.additionalInfo }}</p>
+    </mat-card>
+
+    <mat-card *ngIf="resume$ | async as resume">
+      <div class="card-header">
+        <h6 i18n>Resume</h6>
+        <button mat-icon-button (click)="editSection('resume')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>{{ resume.details }}</p>
+    </mat-card>
+
+    <mat-card *ngIf="workSkills$ | async as workSkills">
+      <div class="card-header">
+        <h6 i18n>Work Skills</h6>
+        <button mat-icon-button (click)="editSection('work-skills')">
+          <mat-icon i18n>edit</mat-icon>
+        </button>
+      </div>
+      <p>
+        <strong i18n>Occupation:</strong>
+        {{ workSkills.occupation }}
+      </p>
+      <p>
+        <strong i18n>Industries:</strong>
+        {{ workSkills.industries }}
+      </p>
+    </mat-card>
+  </ng-template>
+</div>

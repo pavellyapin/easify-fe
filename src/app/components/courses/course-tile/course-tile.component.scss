@@ -1,40 +1,130 @@
+@use "variables" as var;
+
 .course-card {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: none;
   height: 100%;
-}
 
-mat-card-title,
-mat-card-subtitle {
-  margin: 0;
-}
+  .new-chip-container {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    z-index: 999;
+  }
 
-mat-card-content {
-  flex-grow: 1;
-}
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-.overview {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  margin-bottom: 16px;
-  max-height: 4.5em; /* Approximately 3 lines of text */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .image-cropper {
+    position: relative;
+    border-radius: 4px;
+    height: 120px; /* Set a fixed height for the image cropper */
+    overflow: hidden;
+  }
 
-.tags {
-  margin-top: auto;
-}
+  .course-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area without white space */
+  }
 
-.chip-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
+  .course-image.loaded {
+    opacity: 1;
+  }
 
-mat-card-actions {
-  display: flex;
-  justify-content: flex-end;
+  .skeleton-loader {
+    position: absolute; /* Position it over the image */
+    top: 0;
+    left: 0; /* Light gray for skeleton */
+    z-index: 10; /* Ensure it appears above the image */
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+    border-radius: 12px;
+    background-color: #e0e0e0;
+    width: 100%;
+    height: 200px; /* Match the height of the image */
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  mat-progress-bar {
+    margin-top: 8px;
+  }
+
+  mat-card-subtitle {
+    margin-top: 4px;
+
+    .level-icon {
+      width: 10px;
+      height: 12px;
+    }
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 48px;
+
+    .course-title {
+      display: -webkit-box;
+      flex-grow: 1;
+      margin: 0;
+      max-height: 3em; /* Enough for two lines of text */
+      overflow: hidden;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 1.5em; /* Set a line-height for consistent spacing */
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2; /* Limits to two lines */
+      -webkit-box-orient: vertical;
+      white-space: normal;
+    }
+
+    .icon-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  mat-card-content {
+    flex-grow: 1;
+    padding: 0;
+
+    .overview {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      margin-top: 10px;
+      max-height: 4.5em; /* Approximately 3 lines of text */
+      overflow: hidden;
+      color: #666;
+      text-align: start;
+      text-overflow: ellipsis;
+    }
+  }
+
+  mat-card-actions {
+    justify-content: center;
+  }
 }

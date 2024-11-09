@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
@@ -9,18 +11,19 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
-  Firestore,
-  addDoc,
   collection,
   collectionData,
   doc,
-  getDocs,
+  Firestore,
   query,
-  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as ScheduleActions from '@store/schedule/schedule.actions'; // Import actions
+import * as ScheduleSelectors from '@store/schedule/schedule.selectors'; // Select from schedule
+import { firstValueFrom, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,17 +33,17 @@ export class ScheduleService {
     private firestore: Firestore,
     private auth: Auth,
     private router: Router,
+    private store: Store,
   ) {}
 
-  getTodaySchedule(): Observable<any> {
+  getTodaySchedule(today: any): Observable<any> {
     if (!this.auth.currentUser) {
-      this.router.navigate(['/registration']);
+      this.router.navigate(['/signup']);
       throw new Error('User not authenticated');
     }
 
     const userRef = doc(this.firestore, 'users', this.auth.currentUser.uid);
     const schedulesCollectionRef = collection(userRef, 'schedules');
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
 
     // Query to find today's schedule
     const todayQuery = query(schedulesCollectionRef, where('id', '==', today));
@@ -48,43 +51,95 @@ export class ScheduleService {
     return collectionData(todayQuery, { idField: 'id' }) as Observable<any>;
   }
 
-  async saveScheduleToFirestore(schedule: any) {
-    try {
-      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-      const schedulesCollectionRef = collection(userRef, 'schedules');
-      const q = query(schedulesCollectionRef, where('id', '==', today));
-      const querySnapshot = await getDocs(q);
+  loadTomorrowSchedule(): void {
+    this.store
+      .select(ScheduleSelectors.selectTomorrow)
+      .pipe(
+        take(1),
+        switchMap((tomorrowSchedule) => {
+          if (tomorrowSchedule) {
+            // Tomorrow's schedule exists in the state
+            return of(tomorrowSchedule);
+          } else {
+            // Fetch tomorrow's schedule from Firestore
+            return this.getTomorrowScheduleFromDB();
+          }
+        }),
+      )
+      .subscribe({
+        next: (scheduleData) => {
+          if (scheduleData && scheduleData.schedule.length > 0) {
+            // Dispatch action to store tomorrow's schedule in state
+            this.store.dispatch(
+              ScheduleActions.loadTomorrowSuccess({
+                tomorrowData: scheduleData,
+              }),
+            );
+          } else {
+            // Navigate to custom day creation if no schedule found
+            this.router.navigate(['/dashboard/custom-day']);
+          }
+        },
+        error: (error) => {
+          console.error('Error loading tomorrow’s schedule:', error);
+          this.router.navigate(['/dashboard/custom-day']);
+        },
+      });
+  }
 
-      if (querySnapshot.empty) {
-        // If no existing document, create a new one
-        const scheduleData = {
-          id: today,
-          schedule,
-          createdAt: new Date(),
-        };
-        await addDoc(schedulesCollectionRef, scheduleData);
-        console.log('Schedule data saved to Firestore');
-      } else {
-        // If document exists, update it
-        const docRef = querySnapshot.docs[0]!.ref;
-        await updateDoc(docRef, {
-          schedule,
-          updatedAt: new Date(),
-        });
-        console.log('Schedule data updated in Firestore');
-      }
-    } catch (error: any) {
-      console.error('Error saving Schedule data to Firestore:', error);
-      if (error.code) {
-        console.error(`Error Code: ${error.code}`);
-      }
-      if (error.message) {
-        console.error(`Error Message: ${error.message}`);
-      }
-      if (error.details) {
-        console.error(`Error Details: ${error.details}`);
-      }
+  public getTomorrowScheduleFromDB(): Observable<any> {
+    if (!this.auth.currentUser) {
+      this.router.navigate(['/signup']);
+      throw new Error('User not authenticated');
+    }
+
+    const userRef = doc(this.firestore, 'users', this.auth.currentUser.uid);
+    const schedulesCollectionRef = collection(userRef, 'schedules');
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowId = tomorrow.toLocaleDateString('en-CA');
+
+    const tomorrowQuery = query(
+      schedulesCollectionRef,
+      where('id', '==', tomorrowId),
+    );
+
+    return collectionData(tomorrowQuery, { idField: 'id' }).pipe(
+      map((schedules) => schedules[0] || null), // Return only the first item or null if none found
+      catchError((error) => {
+        console.error(
+          'Error fetching tomorrow’s schedule from Firestore:',
+          error,
+        );
+        return of(null); // Return null if there's an error fetching from DB
+      }),
+    ) as Observable<any>;
+  }
+
+  // Function to retrieve and submit the custom day request
+  async submitCustomDayRequest(
+    type: 'basic' | 'full' | 'expanded' = 'full',
+  ): Promise<void> {
+    const customDayRequest = await firstValueFrom(
+      this.store.select(ScheduleSelectors.selectCustomDayRequest),
+    );
+
+    if (customDayRequest) {
+      const request = {
+        ...customDayRequest,
+        type,
+      };
+
+      this.store.dispatch(
+        ScheduleActions.submitCustomDayRequest({
+          customDayRequest: request,
+        }),
+      );
+
+      console.log('Submitted custom day request:', request);
+    } else {
+      console.log('No custom day request found to submit.');
     }
   }
 }

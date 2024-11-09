@@ -8,17 +8,48 @@ exports.courseOnCreate = functions.firestore
   .document("courses/{courseId}")
   .onCreate(async (snap) => {
     const courseData = snap.data();
-    const tags = courseData.tags || [];
+    let { tags = [], category = "", level = "intermediate" } = courseData;
+
+    // Normalize category and level fields
+    category = category.toLowerCase(); // Normalize category to lowercase
+
+    // Possible valid values for level field
+    const validLevels = ["beginner", "intermediate", "advanced"];
+    level = level.toLowerCase(); // Normalize level to lowercase
+
+    // If the level is not one of the valid values, set to "intermediate"
+    if (!validLevels.includes(level)) {
+      level = "intermediate";
+    }
+
+    // Update Firestore document with normalized fields
+    try {
+      await snap.ref.update({
+        category: category, // Store normalized category
+        level: level, // Store normalized level
+      });
+      console.log("Normalized category and level for the course.");
+    } catch (error) {
+      console.error(
+        "Error updating course fields with normalized data:",
+        error,
+      );
+    }
 
     try {
+      // References to the collections where tag and category counts are stored
       const tagCountsRef = firestore.collection("tagCounts").doc("courseTags");
+      const categoryCountsRef = firestore
+        .collection("tagCounts")
+        .doc("courseCategories");
 
+      // Fetch the current tag counts
       const tagCountsDoc = await tagCountsRef.get();
       let tagCounts = tagCountsDoc.exists ? tagCountsDoc.data().tags : [];
 
-      // Convert the array of objects into a map for easier manipulation
+      // Convert the array of objects into a map for easier manipulation (tags)
       const tagCountsMap = new Map(
-        tagCounts.map((item) => [item.tag, item.count]),
+        tagCounts.map((item) => [item.tag.toLowerCase(), item.count]),
       );
 
       // Update the tag counts in the map
@@ -31,17 +62,51 @@ exports.courseOnCreate = functions.firestore
         }
       });
 
-      // Convert the map back to an array of objects
+      // Convert the map back to an array of objects (tags)
       tagCounts = Array.from(tagCountsMap, ([tag, count]) => ({ tag, count }));
 
-      // Sort the array by count in descending order
+      // Sort the tags array by count in descending order
       tagCounts.sort((a, b) => b.count - a.count);
 
-      // Store the sorted array back in Firestore
+      // Store the sorted tag array back in Firestore
       await tagCountsRef.set({ tags: tagCounts });
 
       console.log("Tag counts updated and sorted successfully.");
+
+      // Fetch the current category counts
+      const categoryCountsDoc = await categoryCountsRef.get();
+      let categoryCounts = categoryCountsDoc.exists
+        ? categoryCountsDoc.data().categories
+        : [];
+
+      // Convert the array of objects into a map for easier manipulation (categories)
+      const categoryCountsMap = new Map(
+        categoryCounts.map((item) => [item.category.toLowerCase(), item.count]),
+      );
+
+      // Update the category count in the map
+      if (category) {
+        if (categoryCountsMap.has(category)) {
+          categoryCountsMap.set(category, categoryCountsMap.get(category) + 1);
+        } else {
+          categoryCountsMap.set(category, 1);
+        }
+      }
+
+      // Convert the map back to an array of objects (categories)
+      categoryCounts = Array.from(categoryCountsMap, ([category, count]) => ({
+        category,
+        count,
+      }));
+
+      // Sort the categories array by count in descending order
+      categoryCounts.sort((a, b) => b.count - a.count);
+
+      // Store the sorted category array back in Firestore
+      await categoryCountsRef.set({ categories: categoryCounts });
+
+      console.log("Category counts updated and sorted successfully.");
     } catch (error) {
-      console.error("Error updating tag counts:", error);
+      console.error("Error updating tag or category counts:", error);
     }
   });

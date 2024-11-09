@@ -1,0 +1,27 @@
+.course-overview-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .breadcrumb-button {
+      color: #666;
+    }
+  }
+
+  .side-content {
+    @media screen and (width <= 960px) {
+      order: 1; // Ensures this stays at the top
+    }
+  }
+
+  .main-content {
+    @media screen and (width <= 960px) {
+      order: 2; // Ensures this stays at the top
+    }
+  }
+}

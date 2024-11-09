@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { FitnessWorkoutsService } from '../../../services/fitness.service';
+import { FitnessWorkoutsService } from '@services/fitness.service';
 
 @Component({
   selector: 'app-workout-tile',

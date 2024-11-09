@@ -1,0 +1,11 @@
+.financial-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.financial-plan-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

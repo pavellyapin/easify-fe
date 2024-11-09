@@ -26,14 +26,6 @@ export const hydrationMetaReducer = (
       localStorage.setItem('state', JSON.stringify(nextState));
     }
 
-    if (
-      action.type === '[Chat] Clear Messages' &&
-      typeof window !== 'undefined' &&
-      window.localStorage
-    ) {
-      localStorage.removeItem('state');
-    }
-
     return nextState;
   };
 };

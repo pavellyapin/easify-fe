@@ -4,122 +4,133 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { Observable, of } from 'rxjs';
-import { catchError, finalize, map, switchMap } from 'rxjs/operators';
-import { CoursesService } from '../../services/courses.service';
-import { TimeUtils } from '../../services/time.utils';
-import { CourseTileComponent } from './course-tile/course-tile.component';
+import { MatInputModule } from '@angular/material/input';
+import { SuggestedActionComponent } from '@components/suggested-action/suggested-action.component';
+import { ChallengeService } from '@services/challenges.service';
+import { CoursesProgressService } from '@services/courses-progress.service';
+import { CoursesService } from '@services/courses.service';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { catchError, finalize, map, take } from 'rxjs/operators';
+import { AllCoursesComponent } from './all-courses/all-courses.component';
+import { CourseTrackerComponent } from './course-tracker/course-tracker.component';
+import { CoursesCarouselComponent } from './courses-carousel/courses-carousel.component';
+import { LoadingCarouselComponent } from './courses-carousel/loading-carousel/loading-carousel.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
   imports: [
     CommonModule,
-    CourseTileComponent,
     MatFormFieldModule,
-    MatSelectModule,
-    MatChipsModule,
     MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    CoursesCarouselComponent,
+    LoadingCarouselComponent,
+    AllCoursesComponent,
+    CourseTrackerComponent,
+    SuggestedActionComponent,
   ],
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss',
+  styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
   startedCourses$!: Observable<any[]>;
   recommendedCourses$!: Observable<any>;
-  allCourses$!: Observable<any>;
-  isLoadingRecommended = false;
-  isLoadingAll = false;
-  allTags$!: Observable<string[]>; // Observable for the dropdown
-  selectedTags: string[] = [];
+  combinedCourses: any[] = [];
+  isLoadingCombinedCourses = true; // Loading state for combined courses
+  firstIncompleteChallenge: any;
+  isMobile = false;
+  isTablet = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
+    private coursesProgressService: CoursesProgressService,
     private coursesService: CoursesService,
-    private timeUtils: TimeUtils,
+    private challengesService: ChallengeService,
+    private breakpointObserver: BreakpointObserver,
   ) {}
 
   ngOnInit(): void {
-    this.startedCourses$ = this.coursesService.getStartedCourses();
-    this.allTags$ = this.coursesService.getAllCourseTags();
-
-    this.isLoadingAll = true;
-
-    this.allTags$.subscribe((tags) => {
-      // Get the top 5 tags by count (assuming tags are sorted by count)
-      this.selectedTags = tags.slice(0, 6);
-      this.fetchCoursesBasedOnSelectedTags();
-    });
-
-    // Set loading state to true before starting to fetch recommended courses
-    this.isLoadingRecommended = true;
-
-    this.recommendedCourses$ = this.startedCourses$.pipe(
-      switchMap((startedCourses) => {
-        // Extract IDs and tags from started courses
-        const startedCourseIds = startedCourses.map(
-          (course) => course.course.id,
-        );
-        const tags = startedCourses.reduce((acc: string[], course: any) => {
-          return acc.concat(course.course.tags || []);
-        }, []);
-        return this.coursesService
-          .recommendCourses([...new Set(tags.slice(0, 30))], 5)
-          .pipe(
-            map((recommendedCourses) =>
-              // Filter out the courses that have already been started
-              recommendedCourses.data.filter(
-                (course: any) => !startedCourseIds.includes(course.id),
-              ),
-            ),
-            catchError((error) => {
-              console.error('Error fetching recommended courses:', error);
-              return of([]); // Return an empty array in case of error
-            }),
-            finalize(() => {
-              this.isLoadingRecommended = false; // Ensure the loading state is reset
-            }),
-          );
+    this.subscriptions.push(
+      this.breakpointObserver
+        .observe([Breakpoints.XSmall, Breakpoints.Small])
+        .subscribe((result) => {
+          const breakpoints = result.breakpoints;
+          this.isMobile = breakpoints[Breakpoints.XSmall] ? true : false;
+          this.isTablet = breakpoints[Breakpoints.Small] ? true : false;
+        }),
+    );
+    // Fetch and normalize started courses with progress added to each course object
+    this.startedCourses$ = this.coursesProgressService.getStartedCourses().pipe(
+      take(1), // Only take the first emission and complete
+      map((startedCourses: any[]) => {
+        return startedCourses.map((startedCourse) => ({
+          ...startedCourse.course, // Spread the course properties
+          progress: startedCourse.progress, // Add progress field
+        }));
+      }),
+      catchError((error) => {
+        console.error('Error fetching started courses:', error);
+        return of([]); // Return empty array on error
       }),
     );
+
+    // Fetch recommended courses and directly map the response
+    this.recommendedCourses$ = this.coursesService.recommendCourses([], 3).pipe(
+      take(1), // Only take the first emission and complete
+      map((courses) => courses.data || []),
+      catchError((error) => {
+        console.error('Error fetching recommended courses:', error);
+        return of([]); // Return empty array on error
+      }),
+    );
+
+    // Combine started and recommended courses
+    combineLatest([this.startedCourses$, this.recommendedCourses$])
+      .pipe(
+        map(([startedCourses, recommendedCourses]) => {
+          // Remove duplicates based on course name
+          this.isLoadingCombinedCourses = false;
+          return [...startedCourses, ...recommendedCourses];
+        }),
+        finalize(() => {
+          this.isLoadingCombinedCourses = false; // Set loading to false once courses are loaded
+        }),
+      )
+      .subscribe((combinedCourses) => {
+        this.combinedCourses = combinedCourses;
+      });
+
+    // Fetch first incomplete challenge of type "learn"
+    this.loadFirstIncompleteChallenge();
   }
 
-  fetchCoursesBasedOnSelectedTags(): void {
-    if (this.selectedTags.length > 0) {
-      this.allCourses$ = this.coursesService
-        .recommendCourses(this.selectedTags, 20)
-        .pipe(
-          map((courses) => courses.data.sort(this.timeUtils.sortByCreatedDate)), // Sort by createdDate
-          catchError((error) => {
-            console.error('Error fetching courses:', error);
-            return of([]); // Return an empty array in case of error
-          }),
-          finalize(() => {
-            this.isLoadingAll = false; // Ensure the loading state is reset
-          }),
-        );
-    } else {
-      this.allCourses$ = this.coursesService.getAllCourses();
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  private async loadFirstIncompleteChallenge() {
+    try {
+      this.firstIncompleteChallenge =
+        await this.challengesService.getFirstIncompleteChallengeByType('learn');
+    } catch (error) {
+      console.error('Error loading first incomplete challenge:', error);
     }
   }
 
-  onTagSelected(tag: string): void {
-    if (!this.selectedTags.includes(tag)) {
-      this.selectedTags.push(tag);
-      this.fetchCoursesBasedOnSelectedTags();
-    }
-  }
-
-  removeTag(tag: string): void {
-    const index = this.selectedTags.indexOf(tag);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-      this.fetchCoursesBasedOnSelectedTags();
-    }
+  // Function to complete a module
+  completeModule() {
+    console.log('Complete Module 1 action triggered');
+    // Add your logic here for completing the module
   }
 }

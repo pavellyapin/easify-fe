@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<mat-card class="financial-plan-card">
+  <mat-card-title>{{ financialPlan.name }}</mat-card-title>
+  <mat-card-subtitle i18n>
+    Category: {{ financialPlan.category }}
+  </mat-card-subtitle>
+  <mat-card-content>
+    <p class="overview">{{ financialPlan.description }}</p>
+    <div class="tags">
+      <div class="chip-list">
+        <mat-chip *ngFor="let tag of financialPlan.tags">{{ tag }}</mat-chip>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button i18n mat-button (click)="startFinancialPlan(financialPlan.id)">
+      Start Financial Plan
+    </button>
+  </mat-card-actions>
+</mat-card>

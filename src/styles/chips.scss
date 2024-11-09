@@ -1,0 +1,83 @@
+@use "variables" as var;
+
+.new-chip {
+  border: 2px solid var.$primary-color; /* Primary color border */
+  border-radius: 16px; /* Optional: to give the chip rounded corners */
+  background-color: white; /* White background */
+  padding: 4px 8px;
+  color: var.$primary-color; /* Primary color for the text */
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.chips-container {
+  position: relative;
+
+  .clear-button {
+    position: absolute;
+    top: 8px;
+    right: -10px;
+
+    mat-icon {
+      color: grey;
+      font-size: 16px;
+    }
+  }
+}
+
+.app-chips-primary {
+  border-radius: 5px;
+  background-color: var.$secondary-super-light-color;
+  padding: 16px;
+
+  mat-chip-set {
+    display: flex;
+    flex-wrap: wrap; /* Ensures the chips wrap to the next line */
+    //max-height: 64px; /* Adjust height based on chip height. This assumes each row of chips is 32px high */
+    overflow: hidden; /* Hide any content beyond 2 rows */
+  }
+
+  mat-chip {
+    display: inline-block; /* Ensure it behaves like an inline-block element */
+    border: none;
+    background-color: white !important;
+    white-space: nowrap; /* Prevent wrapping */
+
+    span {
+      color: var.$primary-color !important;
+    }
+  }
+
+  mat-chip.mat-chip-selected {
+    background-color: var(--primary-color) !important;
+    color: white !important; /* Change text color when selected */
+  }
+}
+
+.app-chips-secondary {
+  padding: 16px 0;
+
+  mat-chip-set {
+    display: flex;
+    flex-wrap: wrap; /* Ensures the chips wrap to the next line */
+    //max-height: 84px; /* Adjust height based on chip height. This assumes each row of chips is 32px high */
+    overflow: hidden; /* Hide any content beyond 2 rows */
+  }
+
+  mat-chip {
+    display: flex;
+    border: none;
+    background-color: var.$primary-light-color-2 !important;
+    padding: 4px;
+    white-space: nowrap; /* Prevent wrapping */
+
+    .mat-mdc-chip-action-label {
+      color: var.$primary-contrast-color;
+      font-size: 14px;
+    }
+
+    mat-icon {
+      color: var.$primary-color !important;
+    }
+  }
+}

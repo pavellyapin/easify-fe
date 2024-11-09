@@ -1,6 +1,12 @@
 @use "@angular/material" as mat;
 @use "variables" as var;
 @use "typography" as typo;
+@use "./styles/carousel.scss" as carousel;
+@use "./styles/containers.scss" as containers;
+@use "./styles/buttons.scss" as buttons;
+@use "./styles/textbox.scss" as textbox;
+@use "./styles/chips.scss" as chips;
+@use "./styles/accordion.scss" as accordion;
 
 // Include the core styles
 @include mat.core();

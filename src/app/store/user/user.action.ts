@@ -1,206 +1,134 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormGroup } from '@angular/forms';
 import { createAction, props } from '@ngrx/store';
-import User from './user.model';
 
-//User Login
+// Action to initiate profile loading, no input required
+export const setProfileInfo = createAction('[User] Set Profile Info');
 
-export const BeginUserLoginAction = createAction(
-  '[User] - Begin Login',
-  props<{ payload: any }>(),
+// Action to pass the profile data once successfully fetched
+export const setProfileInfoSuccess = createAction(
+  '[User] Set Profile Info Success',
+  props<{ profile: any }>(),
+);
+// Set Actions
+export const setBasicInfo = createAction(
+  '[User] Set Basic Info',
+  props<{ basicInfo: any }>(),
+);
+export const setDietNutrition = createAction(
+  '[User] Set Diet Nutrition',
+  props<{ dietNutrition: any }>(),
+);
+export const setFinancialPlanning = createAction(
+  '[User] Set Financial Planning',
+  props<{ financialPlanning: any }>(),
+);
+export const setLifestyleHealth = createAction(
+  '[User] Set Lifestyle Health',
+  props<{ lifestyleHealth: any }>(),
+);
+export const setMoreInfo = createAction(
+  '[User] Set More Info',
+  props<{ moreInfo: any }>(),
+);
+export const setResume = createAction(
+  '[User] Set Resume',
+  props<{ resume: any }>(),
+);
+export const setWorkSkills = createAction(
+  '[User] Set Work Skills',
+  props<{ workSkills: any }>(),
 );
 
-export const BeginPostLoginAction = createAction('[User] - Begin Post Login');
-
-export const BeginLoginWithRedirectAction = createAction(
-  '[User] - Begin Redirect Login',
-  props<{ payload: any }>(),
+// Update Actions
+export const updateBasicInfo = createAction(
+  '[User] Update Basic Info',
+  props<{ basicInfo: any }>(),
+);
+export const updateDietNutrition = createAction(
+  '[User] Update Diet Nutrition',
+  props<{ dietNutrition: any }>(),
+);
+export const updateFinancialPlanning = createAction(
+  '[User] Update Financial Planning',
+  props<{ financialPlanning: any }>(),
+);
+export const updateLifestyleHealth = createAction(
+  '[User] Update Lifestyle Health',
+  props<{ lifestyleHealth: any }>(),
+);
+export const updateMoreInfo = createAction(
+  '[User] Update More Info',
+  props<{ moreInfo: any }>(),
+);
+export const updateResume = createAction(
+  '[User] Update Resume',
+  props<{ resume: any }>(),
+);
+export const updateWorkSkills = createAction(
+  '[User] Update Work Skills',
+  props<{ workSkills: any }>(),
 );
 
-export const SuccessLoginWithRedirectAction = createAction(
-  '[User] - Success Redirect Login',
+// Set Success Actions
+export const setBasicInfoSuccess = createAction(
+  '[User] Set Basic Info Success',
+  props<{ basicInfo: any }>(),
+);
+export const setDietNutritionSuccess = createAction(
+  '[User] Set Diet Nutrition Success',
+  props<{ dietNutrition: any }>(),
+);
+export const setFinancialPlanningSuccess = createAction(
+  '[User] Set Financial Planning Success',
+  props<{ financialPlanning: any }>(),
+);
+export const setLifestyleHealthSuccess = createAction(
+  '[User] Set Lifestyle Health Success',
+  props<{ lifestyleHealth: any }>(),
+);
+export const setMoreInfoSuccess = createAction(
+  '[User] Set More Info Success',
+  props<{ moreInfo: any }>(),
+);
+export const setResumeSuccess = createAction(
+  '[User] Set Resume Success',
+  props<{ resume: any }>(),
+);
+export const setWorkSkillsSuccess = createAction(
+  '[User] Set Work Skills Success',
+  props<{ workSkills: any }>(),
 );
 
-export const BeginGoogleUserLoginAction = createAction(
-  '[User] - Begin Google Login',
+// Update Success Actions
+export const updateBasicInfoSuccess = createAction(
+  '[User] Update Basic Info Success',
+  props<{ basicInfo: any }>(),
 );
-
-export const BeginFacebookUserLoginAction = createAction(
-  '[User] - Begin Facebook Login',
+export const updateDietNutritionSuccess = createAction(
+  '[User] Update Diet Nutrition Success',
+  props<{ dietNutrition: any }>(),
 );
-
-export const BeginGetUserInfoAction = createAction(
-  '[User] - Begin Get User Info',
+export const updateFinancialPlanningSuccess = createAction(
+  '[User] Update Financial Planning Success',
+  props<{ financialPlanning: any }>(),
 );
-
-export const SuccessGetUserInfoAction = createAction(
-  '[User] - Success Login & Get User Info',
-  props<{ payload: any }>(),
+export const updateLifestyleHealthSuccess = createAction(
+  '[User] Update Lifestyle Health Success',
+  props<{ lifestyleHealth: any }>(),
 );
-
-export const BeginGetUserPermissionsAction = createAction(
-  '[User] - Begin Get User Permissions',
+export const updateMoreInfoSuccess = createAction(
+  '[User] Update More Info Success',
+  props<{ moreInfo: any }>(),
 );
-
-export const SuccessGetUserPermissionsAction = createAction(
-  '[User] - Success Get User permissions',
-  props<{ payload: any }>(),
+export const updateResumeSuccess = createAction(
+  '[User] Update Resume Success',
+  props<{ resume: any }>(),
 );
-
-export const SuccessSetCartUserAction = createAction(
-  '[User] - Success Set Cart User',
-  props<{ payload: any }>(),
+export const updateWorkSkillsSuccess = createAction(
+  '[User] Update Work Skills Success',
+  props<{ workSkills: any }>(),
 );
+export const clearUser = createAction('[User] Clear user');
 
-//User Logout
-
-export const BeginUserLogoutAction = createAction('[User] - Begin Logout');
-
-export const SuccessUserLogoutAction = createAction('[User] - Success Logout');
-
-//User Register
-
-export const BeginRegisterUserAction = createAction(
-  '[User] - Begin Register',
-  props<{ payload: any }>(),
-);
-
-export const SuccessRegisterUserAction = createAction(
-  '[User] - Success Register',
-  props<{ payload: User }>(),
-);
-
-//Update Personal Info
-
-export const BeginUpdatePerosnalInfoUserAction = createAction(
-  '[User] - Begin Update Personal Info',
-  props<{ payload: FormGroup }>(),
-);
-
-export const SuccessUpdatePerosnalInfoUserAction = createAction(
-  '[User] - Success Update Personal Info',
-);
-
-//Update Contact Info
-
-export const BeginUpdateUserEmailAction = createAction(
-  '[User] - Begin Update User Email',
-  props<{ payload: FormGroup }>(),
-);
-
-export const BeginUpdateUserContactInfoAction = createAction(
-  '[User] - Begin Update Contact Info',
-  props<{ payload: FormGroup }>(),
-);
-
-export const BeginSetUserIDAction = createAction(
-  '[User] - Begin Set user ID',
-  props<{ payload: any }>(),
-);
-
-// Password
-
-export const BeginUpdatePasswordAction = createAction(
-  '[User] - Begin Update User Password',
-  props<{ payload: FormGroup }>(),
-);
-
-export const SuccessUpdatePasswordAction = createAction(
-  '[User] - Success Update User Password',
-);
-
-export const BeginForgotPasswordAction = createAction(
-  '[User] - Begin forgot Password',
-  props<{ payload: any }>(),
-);
-
-export const SuccessForgotPasswordAction = createAction(
-  '[User] - Success forgot Password',
-);
-
-export const BeginVerifyResetPasswordCodeAction = createAction(
-  '[User] - Begin verify Password reset code',
-  props<{ payload: any }>(),
-);
-
-export const SuccessVerifyResetPasswordCodeAction = createAction(
-  '[User] - Success verify Password reset code',
-  props<{ payload: any }>(),
-);
-
-export const BeginConfirmPasswordResetAction = createAction(
-  '[User] - Begin Password reset',
-  props<{ payload: any }>(),
-);
-
-export const SuccessConfirmPasswordResetAction = createAction(
-  '[User] - Success Password reset',
-  props<{ payload: any }>(),
-);
-
-//Address information
-
-export const BeginUpdateUserAddressInfoAction = createAction(
-  '[User] - Begin Update Address Info',
-  props<{ payload: any }>(),
-);
-
-export const BeginGetUserAddressInfoAction = createAction(
-  '[User] - Begin Get Address Info',
-);
-
-export const SuccessGetUserAddressInfoAction = createAction(
-  '[User] - Success Get Address Info',
-  props<{ payload: any }>(),
-);
-
-// Favorites
-
-export const BeginAddToFavoritesAction = createAction(
-  '[User] - Begin Add to Favorites',
-  props<{ payload: any }>(),
-);
-
-export const SuccessAddToFavoritesAction = createAction(
-  '[User] - Success Add to Favs',
-);
-
-export const BeginRemoveFromFavoritesAction = createAction(
-  '[User] - Begin remove from Favorites',
-  props<{ payload: any }>(),
-);
-
-export const SuccessRemoveFromFavoritesAction = createAction(
-  '[User] - Success Remove from Favs',
-);
-
-export const BeginGetFavoritesAction = createAction(
-  '[User] - Begin Get Favorites',
-);
-
-export const SuccessGetFavoritesAction = createAction(
-  '[User] - Success Get Favorites',
-  props<{ payload: any }>(),
-);
-
-//Orders
-
-export const BeginGetOrdersAction = createAction('[User] - Begin Get Orders');
-
-export const SuccessGetOrdersAction = createAction(
-  '[User] - Success Get Orders',
-  props<{ payload: any }>(),
-);
-
-//Subscribe
-
-export const BeginSubscribeEmailAction = createAction(
-  '[User] - Begin Subscribe Email',
-  props<{ payload: any }>(),
-);
-
-export const SuccessSubscribeEmailAction = createAction(
-  '[User] - Success Subscribe Email',
-);
-
-export const ErrorUserAction = createAction('[User] - Error', props<Error>());
+// Error handling actions
+export const userError = createAction('[User] Error', props<{ error: any }>());

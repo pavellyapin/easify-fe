@@ -8,53 +8,220 @@
   [ngClass]="{ 'current-time': timeUtils.isCurrentTime(item.time_range) }"
 >
   <mat-card-header>
-    <mat-card-title>{{ item.time_range }}</mat-card-title>
+    <mat-card-title>
+      <span>{{ item.time_range }}</span>
+      <div>
+        <button mat-icon-button aria-label="menu" i18n-aria-label>
+          <mat-icon i18n>more_vert</mat-icon>
+        </button>
+      </div>
+    </mat-card-title>
     <mat-card-subtitle>
-      {{ item.activity }}
-      <button
-        *ngIf="item.type === 'meal'"
-        mat-icon-button
-        aria-label="Meal"
-        i18n-aria-label
-        (click)="startNewRecipe(item)"
-      >
-        <mat-icon i18n>restaurant</mat-icon>
-      </button>
+      <h5>{{ item.activity }}</h5>
     </mat-card-subtitle>
   </mat-card-header>
+
   <mat-card-content>
     <p *ngIf="item.recommendations">{{ item.recommendations }}</p>
-    <p *ngIf="item.recipe">
-      <strong i18n>Recipe:</strong>
-      {{ item.recipe }}
-    </p>
+
+    <!-- Loading state with ng-template for skeleton loaders -->
+    <ng-template #loadingState>
+      <app-loading-chips />
+    </ng-template>
+
     <div *ngIf="isLoading">
-      <mat-spinner />
-      <p i18n>Loading recommendations...</p>
+      <ng-container *ngTemplateOutlet="loadingState" />
     </div>
+
+    <!-- Content to be displayed once data is loaded -->
     <div *ngIf="!isLoading">
-      <div *ngIf="localRecommendedRecipes.length > 0">
-        <p i18n>More Recipes:</p>
+      <!-- Workouts Section (Physical) -->
+      <ng-container *ngIf="item.type === 'physical'">
+        <div class="app-chips-primary relative-container">
+          <mat-chip-set
+            *ngIf="localRecommendedWorkouts.length > 0; else noWorkouts"
+          >
+            <mat-chip
+              *ngFor="let workout of localRecommendedWorkouts"
+              clickable
+              (click)="viewWorkout(workout.id)"
+            >
+              {{ workout.name }}
+            </mat-chip>
+          </mat-chip-set>
+          <ng-template #noWorkouts>
+            <p i18n>No workouts found for this session.</p>
+          </ng-template>
 
-        <mat-chip
-          *ngFor="let recipe of localRecommendedRecipes"
-          clickable
-          (click)="viewRecipe(recipe.id)"
-        >
-          {{ recipe.name }}
-        </mat-chip>
-      </div>
-      <div *ngIf="localRecommendedCourses.length > 0">
-        <p i18n>More Courses:</p>
+          <!-- Floating action button -->
+          <button
+            mat-icon-button
+            class="fab-bottom-right"
+            aria-label="Add Workout"
+            i18n-aria-label
+            (click)="onFabClick('workout')"
+          >
+            <mat-icon svgIcon="monitor" />
+          </button>
+        </div>
+      </ng-container>
 
-        <mat-chip
-          *ngFor="let course of localRecommendedCourses"
-          clickable
-          (click)="viewRecipe(course.id)"
-        >
-          {{ course.name }}
-        </mat-chip>
-      </div>
+      <!-- Courses and Industries Section (Work) -->
+      <ng-container *ngIf="item.type === 'work'">
+        <div class="app-chips-primary relative-container">
+          <mat-chip-set
+            *ngIf="localRecommendedCourses.length > 0; else noCourses"
+          >
+            <mat-chip
+              *ngFor="let course of localRecommendedCourses"
+              clickable
+              (click)="viewCourse(course.id)"
+            >
+              {{ course.name }}
+            </mat-chip>
+          </mat-chip-set>
+          <mat-chip-set
+            *ngIf="localRecommendedIndustries.length > 0; else noIndustries"
+          >
+            <mat-chip
+              *ngFor="let industry of localRecommendedIndustries"
+              clickable
+              (click)="viewIndustry(industry.id)"
+            >
+              {{ industry.name }}
+            </mat-chip>
+          </mat-chip-set>
+
+          <ng-template #noCourses>
+            <p i18n>No courses found for this session.</p>
+          </ng-template>
+          <ng-template #noIndustries>
+            <p i18n>No industries found for this session.</p>
+          </ng-template>
+
+          <!-- Floating action button -->
+          <button
+            mat-icon-button
+            class="fab-bottom-right"
+            aria-label="Add Course"
+            i18n-aria-label
+            (click)="onFabClick('course')"
+          >
+            <mat-icon svgIcon="coin" />
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Courses Section (Learn) -->
+      <ng-container *ngIf="item.type === 'learn'">
+        <div class="app-chips-primary relative-container">
+          <mat-chip-set
+            *ngIf="localRecommendedCourses.length > 0; else noCourses"
+          >
+            <mat-chip
+              *ngFor="let course of localRecommendedCourses"
+              clickable
+              (click)="viewCourse(course.id)"
+            >
+              {{ course.name }}
+            </mat-chip>
+          </mat-chip-set>
+          <ng-template #noCourses>
+            <p i18n>No courses found for this session.</p>
+          </ng-template>
+
+          <!-- Floating action button -->
+          <button
+            mat-icon-button
+            class="fab-bottom-right"
+            aria-label="Add Learning"
+            i18n-aria-label
+            (click)="onFabClick('learn')"
+          >
+            <mat-icon svgIcon="book" />
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Recipes Section (Meal) -->
+      <ng-container *ngIf="item.type === 'meal'">
+        <div class="app-chips-primary relative-container">
+          <mat-chip-set
+            *ngIf="localRecommendedRecipes.length > 0; else noRecipes"
+          >
+            <mat-chip
+              *ngFor="let recipe of localRecommendedRecipes"
+              clickable
+              (click)="viewRecipe(recipe.id)"
+            >
+              {{ recipe.name }}
+            </mat-chip>
+          </mat-chip-set>
+          <ng-template #noRecipes>
+            <p i18n>No recipes found for this session.</p>
+          </ng-template>
+
+          <!-- Floating action button -->
+          <button
+            mat-icon-button
+            class="fab-bottom-right"
+            aria-label="Add Recipe"
+            i18n-aria-label
+            (click)="onFabClick('recipe')"
+          >
+            <mat-icon svgIcon="chef-hat" />
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Financial Plans and Industries Section (Plan) -->
+      <ng-container *ngIf="item.type === 'plan'">
+        <div class="app-chips-primary relative-container">
+          <mat-chip-set
+            *ngIf="
+              localRecommendedFinancialPlans.length > 0;
+              else noFinancialPlans
+            "
+          >
+            <mat-chip
+              *ngFor="let plan of localRecommendedFinancialPlans"
+              clickable
+              (click)="viewFinancialPlan(plan.id)"
+            >
+              {{ plan.name }}
+            </mat-chip>
+          </mat-chip-set>
+          <mat-chip-set
+            *ngIf="localRecommendedIndustries.length > 0; else noIndustries"
+          >
+            <mat-chip
+              *ngFor="let industry of localRecommendedIndustries"
+              clickable
+              (click)="viewIndustry(industry.id)"
+            >
+              {{ industry.name }}
+            </mat-chip>
+          </mat-chip-set>
+
+          <ng-template #noFinancialPlans>
+            <p i18n>No financial plans found for this session.</p>
+          </ng-template>
+          <ng-template #noIndustries>
+            <p i18n>No industries found for this session.</p>
+          </ng-template>
+
+          <!-- Floating action button -->
+          <button
+            mat-icon-button
+            class="fab-bottom-right"
+            aria-label="Add Plan"
+            i18n-aria-label
+            (click)="onFabClick('plan')"
+          >
+            <mat-icon svgIcon="growth" />
+          </button>
+        </div>
+      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>

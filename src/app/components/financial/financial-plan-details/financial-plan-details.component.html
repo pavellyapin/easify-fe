@@ -1,0 +1,142 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/i18n -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div
+  *ngIf="(financialPlan$ | async)?.financialPlan as financialPlan"
+  class="financial-plan-detail-container"
+>
+  <div *ngIf="financialPlan">
+    <!-- Financial Plan Overview -->
+    <h1>{{ financialPlan.name }}</h1>
+    <p>
+      <strong>Description:</strong>
+      {{ financialPlan.description }}
+    </p>
+    <p>
+      <strong>Category:</strong>
+      {{ financialPlan.category }}
+    </p>
+
+    <!-- Starting Position -->
+    <h2>Starting Position</h2>
+    <p>
+      <strong>Current Debt:</strong>
+      ${{ financialPlan.startingPosition.currentDebt.amount }}
+    </p>
+    <p>
+      <strong>Current Income:</strong>
+      ${{ financialPlan.startingPosition.currentIncome.amount }}
+    </p>
+    <p>
+      <strong>Current Savings:</strong>
+      ${{ financialPlan.startingPosition.currentSavings.amount }}
+    </p>
+    <p>
+      <strong>Monthly Expenses:</strong>
+      ${{ financialPlan.startingPosition.monthlyExpenses.amount }}
+    </p>
+
+    <h3>Debt Breakdown</h3>
+    <ul>
+      <li *ngFor="let debt of financialPlan.startingPosition.debtBreakdown">
+        {{ debt.name }} ({{ debt.type }}): ${{ debt.amount }}
+      </li>
+    </ul>
+
+    <h3>Investments</h3>
+    <ul>
+      <li *ngFor="let investment of financialPlan.startingPosition.investments">
+        {{ investment.name }} ({{ investment.type }}): ${{ investment.amount }}
+      </li>
+    </ul>
+
+    <!-- Steps -->
+    <h2>Plan Steps</h2>
+    <div *ngFor="let step of financialPlan.steps">
+      <h3>{{ step.title }} ({{ step.term }})</h3>
+      <p>
+        <strong>Goal:</strong>
+        {{ step.details.goal }}
+      </p>
+      <p>
+        <strong>Income:</strong>
+        ${{ step.details.income.amount }}
+      </p>
+      <p>
+        <strong>Fixed Expenses:</strong>
+        ${{ step.details.fixedExpenses.amount }}
+      </p>
+      <p>
+        <strong>Variable Expenses:</strong>
+        ${{ step.details.variableExpenses.amount }}
+      </p>
+      <p>
+        <strong>Debt Payments:</strong>
+        ${{ step.details.debtPayments.amount }}
+      </p>
+      <p>
+        <strong>Savings Allocation:</strong>
+        ${{ step.details.savingsAllocation.amount }}
+      </p>
+      <p>
+        <strong>Investments:</strong>
+        ${{ step.details.investments.amount }}
+      </p>
+
+      <h4>Financial Update After Step</h4>
+      <p><strong>Debt After Step:</strong></p>
+      <ul>
+        <li *ngFor="let debt of step.financialUpdate.debtAfterStep">
+          {{ debt.name }} ({{ debt.type }}): ${{ debt.amount }}
+        </li>
+      </ul>
+      <p>
+        <strong>Savings After Step:</strong>
+        ${{ step.financialUpdate.savingAfterStep }}
+      </p>
+      <p>
+        <strong>Investments After Step:</strong>
+        ${{ step.financialUpdate.investmentsAfterStep }}
+      </p>
+      <p>
+        <strong>Net Worth After Step:</strong>
+        ${{ step.financialUpdate.netWorthAfterStep }}
+      </p>
+
+      <h4>Action Steps</h4>
+      <ul>
+        <li *ngFor="let action of step.financialUpdate.actionSteps">
+          <strong>{{ action.title }}:</strong>
+          {{ action.description }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Goals -->
+    <h2>Goals</h2>
+    <div *ngFor="let goal of financialPlan.goals">
+      <h3>{{ goal.description }} ({{ goal.timeline }})</h3>
+      <ul>
+        <li *ngFor="let action of goal.actions">
+          <strong>{{ action.title }}:</strong>
+          {{ action.description }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Recommendations -->
+    <h2>Recommendations</h2>
+    <ul>
+      <li *ngFor="let recommendation of financialPlan.recommendations">
+        <strong>{{ recommendation.title }}:</strong>
+        {{ recommendation.description }}
+      </li>
+    </ul>
+
+    <!-- Tags -->
+    <h3>Tags</h3>
+    <p>{{ financialPlan.tags.join(", ") }}</p>
+  </div>
+</div>

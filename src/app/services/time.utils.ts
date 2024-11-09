@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
@@ -46,5 +47,38 @@ export class TimeUtils {
 
   sortByCreatedDate(a: any, b: any) {
     return a.createdDate < b.createdDate ? 1 : -1;
+  }
+  /**
+   * Converts a date string into a relative time (e.g., "1 min ago", "yesterday").
+   * @param dateString The date string in the format "October 15, 2024 at 10:10:34 AM UTC-4".
+   * @returns {string} A human-readable relative time string.
+   */
+  getRelativeTime(date: Date): string {
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    // Time constants
+    const minute = 60;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const month = 30 * day; // Approximation for a month
+
+    if (diffInSeconds < minute) {
+      return `${diffInSeconds} second${diffInSeconds === 1 ? '' : 's'} ago`;
+    } else if (diffInSeconds < hour) {
+      const minutes = Math.floor(diffInSeconds / minute);
+      return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+    } else if (diffInSeconds < day) {
+      const hours = Math.floor(diffInSeconds / hour);
+      return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    } else if (diffInSeconds < 2 * day) {
+      return `yesterday`;
+    } else if (diffInSeconds < month) {
+      const days = Math.floor(diffInSeconds / day);
+      return `${days} day${days === 1 ? '' : 's'} ago`;
+    } else {
+      const months = Math.floor(diffInSeconds / month);
+      return `${months} month${months === 1 ? '' : 's'} ago`;
+    }
   }
 }

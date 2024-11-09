@@ -1,0 +1,84 @@
+<!-- eslint-disable @angular-eslint/template/no-negated-async -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+
+<app-navbar (toggleSidenav)="toggleSidebar()"></app-navbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    class="sidenav"
+    [mode]="sidenavMode"
+    [opened]="!isMobile || (isMobile && !isMinimized)"
+    [disableClose]="isTablet || !isMobile"
+    [style.padding-top]="'70px'"
+    [style.width]="isMobile ? '100%' : isMinimized ? '70px' : '250px'"
+  >
+    <button
+      *ngIf="!isMobile"
+      mat-icon-button
+      class="toggle-button"
+      (click)="toggleSidebar()"
+    >
+      <mat-icon>
+        {{ !isMinimized ? "chevron_left" : "chevron_right" }}
+      </mat-icon>
+    </button>
+    <mat-nav-list>
+      <button mat-button (click)="navigateTo('/dashboard')">
+        <mat-icon svgIcon="calendar"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">
+          Daily Overview
+        </span>
+      </button>
+      <button mat-button (click)="navigateTo('/dashboard/courses')">
+        <mat-icon svgIcon="book"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">Learning Hub</span>
+      </button>
+      <button mat-button (click)="navigateTo('/dashboard/fitness')">
+        <mat-icon svgIcon="monitor"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">
+          Health & Fitness
+        </span>
+      </button>
+      <button mat-button (click)="navigateTo('/dashboard/recipes')">
+        <mat-icon svgIcon="chef-hat"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">
+          Recipes & Nutrition
+        </span>
+      </button>
+      <button mat-button (click)="navigateTo('/dashboard/financial')">
+        <mat-icon svgIcon="coin"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">
+          Financial Planning
+        </span>
+      </button>
+      <button mat-button (click)="navigateTo('/dashboard/personal-growth')">
+        <mat-icon svgIcon="growth"></mat-icon>
+        <span i18n *ngIf="!isMinimized" class="sidenav-text">
+          Personal Growth
+        </span>
+      </button>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content Section -->
+  <mat-sidenav-content
+    [ngClass]="{
+      'expanded-content': !isMinimized && !isTablet && !isMobile,
+      'collapsed-content': (!isMobile && isMinimized) || isTablet,
+    }"
+  >
+    <div>
+      <router-outlet *ngIf="!(loading$ | async)"></router-outlet>
+      <div *ngIf="loading$ | async" class="loader-container">
+        <mat-progress-spinner
+          mode="indeterminate"
+          i18n-mode
+        ></mat-progress-spinner>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

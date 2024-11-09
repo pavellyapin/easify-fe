@@ -1,0 +1,77 @@
+/* avatar-generator.component.scss */
+
+/* Container for the avatar generator form */
+.avatar-generator-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 30px;
+  max-width: 800px;
+}
+
+/* Header Styling */
+h2 {
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 600;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* Sub-header styling */
+.sub-header {
+  margin-bottom: 30px;
+  color: #757575;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Form field styling */
+mat-form-field {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Button container styling */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Button Styling */
+button {
+  border-radius: 25px;
+  padding: 12px 24px;
+  min-width: 160px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Responsive styling for small screens */
+@media (width <= 600px) {
+  .avatar-generator-container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .sub-header {
+    font-size: 13px;
+  }
+
+  mat-form-field {
+    margin-bottom: 16px;
+  }
+
+  button {
+    padding: 10px 20px;
+    min-width: 120px;
+  }
+}

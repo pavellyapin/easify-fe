@@ -1,0 +1,100 @@
+/* stylelint-disable no-descending-specificity */
+@use "variables" as var;
+
+.sidenav-container {
+  background-color: white;
+  padding-top: 70px;
+  height: 100vh;
+  overflow: hidden; /* Allow overflow to show toggle button */
+  overscroll-behavior: contain;
+
+  .sidenav {
+    transition: width 0.3s ease-in-out;
+    overflow: visible; /* Ensure toggle button is visible */
+
+    .toggle-button {
+      display: flex;
+      position: absolute;
+      top: 82px; /* Adjust this as needed */
+      right: -12px; /* Position over the right edge */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+      border-radius: 50%;
+      background-color: white;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+
+      mat-icon {
+        width: 14px; /* Set icon width */
+        height: 14px; /* Set icon height */
+        color: var.$secondary-dark-color;
+        font-size: 14px; /* Ensure icon scales properly */
+      }
+    }
+
+    mat-nav-list {
+      display: grid;
+      gap: 20px;
+      padding: 14px;
+
+      button {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        font-weight: 500; /* Set font weight */
+        font-size: 16px; /* Set font size */
+        line-height: 20px; /* Set line height */
+        text-align: left;
+
+        mat-icon {
+          width: 24px; /* Set icon width */
+          height: 24px; /* Set icon height */
+          font-size: 24px; /* Ensure icon scales properly */
+        }
+      }
+    }
+  }
+
+  mat-sidenav-content {
+    flex-grow: 1;
+    background-color: white;
+    padding: 20px;
+    overflow-y: auto; /* Ensure scrolling for the content */
+    overscroll-behavior: contain; /* Prevent bounce on desktop as well */
+  }
+
+  .expanded-content {
+    margin-left: 250px !important;
+  }
+
+  .collapsed-content {
+    margin-left: 80px !important;
+  }
+}
+
+/* Sticky navbar */
+app-navbar {
+  position: absolute;
+  top: 0;
+  z-index: 1001;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%); /* Optional shadow for the sticky navbar */
+  background-color: white; /* Ensure the background color covers content behind */
+  width: 100%;
+}
+
+.loader-container {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background: rgb(255 255 255 / 80%);
+  width: 100%;
+  height: 100%;
+}

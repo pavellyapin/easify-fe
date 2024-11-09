@@ -1,0 +1,30 @@
+.industry-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+mat-card-title,
+mat-card-subtitle {
+  margin: 0;
+}
+
+mat-card-content {
+  flex-grow: 1;
+}
+
+.tags {
+  margin-top: auto;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}

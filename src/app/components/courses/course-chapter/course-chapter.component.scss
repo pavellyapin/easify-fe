@@ -1,0 +1,32 @@
+.chapter-header-container {
+  margin-bottom: 20px;
+
+  .chapter-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .breadcrumb-button {
+      color: #666;
+    }
+
+    mat-icon {
+      display: flex;
+      align-items: center;
+      margin: 0 5px;
+      font-size: 12px;
+    }
+  }
+
+  .chapter-overview {
+    padding-bottom: 20px;
+    padding-left: 10px;
+    line-height: 1.5;
+  }
+}

@@ -67,10 +67,10 @@
     <p i18n>Loading recommended workouts...</p>
   </div>
   <div *ngIf="allWorkouts$ | async as allWorkouts">
-    <div *ngIf="allWorkouts.data.length > 0; else noAllWorkouts">
+    <div *ngIf="allWorkouts.length > 0; else noAllWorkouts">
       <div class="workouts-grid">
         <app-workout-tile
-          *ngFor="let workout of allWorkouts.data"
+          *ngFor="let workout of allWorkouts"
           class="workout-card"
           [workout]="workout"
         />

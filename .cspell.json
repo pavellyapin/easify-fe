@@ -5,9 +5,18 @@
   "language": "en",
   // words - list of words to be always considered correct
   "words": [
+    "ampm",
+    "dailylook",
     "Easify",
     "firestore",
+    "horiz",
     "ngrx",
+    "ngsrc",
+    "prepopulate",
+    "sidenav",
+    "signup",
+    "stylelint",
+    "textbox",
     "timeslot"
   ],
   // flagWords - list of words to be always considered incorrect

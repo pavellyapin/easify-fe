@@ -1,0 +1,34 @@
+@use "variables" as var;
+
+.sub-header {
+  margin-bottom: 16px;
+  color: var.$primary-contrast-color;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+
+  button {
+    padding: 24px;
+  }
+}
+
+button[mat-raised-button] {
+  min-width: 120px;
+}

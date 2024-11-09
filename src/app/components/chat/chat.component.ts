@@ -17,12 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
+import { EasifyService } from '@services/easify.service';
+import { AppState } from '@store/app.state';
+import { addMessage } from '@store/chat/chat.actions';
+import { selectAllMessages } from '@store/chat/chat.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { EasifyService } from '../../services/easify.service';
-import { AppState } from '../../store/app.state';
-import { addMessage } from '../../store/chat/chat.actions';
-import { selectAllMessages } from '../../store/chat/chat.selectors';
 
 interface ChatMessage {
   user: string;

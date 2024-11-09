@@ -1,0 +1,41 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="more-info-container">
+  <!-- Headline -->
+  <h5 i18n>More Information</h5>
+
+  <!-- Sub-header -->
+  <p class="sub-header" i18n>
+    If you'd like, provide any other details that you think are important or
+    helpful for us to know.
+  </p>
+
+  <!-- Form -->
+  <form class="more-info-form" [formGroup]="moreInfoForm">
+    <!-- Additional Info Textarea -->
+    <div>
+      <h6 i18n>Any other information you'd like to provide?</h6>
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="additionalInfo"
+          placeholder="Enter any additional information here"
+          rows="6"
+          i18n-placeholder
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="button-container">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!moreInfoForm.valid"
+        i18n
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

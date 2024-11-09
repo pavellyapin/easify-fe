@@ -1,12 +1,88 @@
-<!-- eslint-disable @angular-eslint/template/button-has-type -->
-<mat-toolbar color="primary">
-  <span class="spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="growthMenu">
-    <mat-icon i18n>favorite</mat-icon>
-  </button>
-  <mat-menu #growthMenu="matMenu">
-    <button i18n mat-menu-item [routerLink]="['/dashboard/resume-upload']">
-      Upload resume
-    </button>
-  </mat-menu>
-</mat-toolbar>
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- Started Industries Section -->
+
+<div class="industries-section">
+  <h2 i18n>Started Industries</h2>
+  <div *ngIf="startedIndustries$ | async as startedIndustries">
+    <div *ngIf="startedIndustries.length > 0; else noStartedIndustries">
+      <div class="industries-grid">
+        <app-industry-tile
+          *ngFor="let industry of startedIndustries"
+          class="industry-card"
+          [industry]="industry"
+        />
+      </div>
+    </div>
+    <ng-template #noStartedIndustries>
+      <p i18n>No started industries found.</p>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Recommended Industries Section -->
+<div class="industries-section">
+  <h2 i18n>Recommended Industries</h2>
+  <div *ngIf="isLoadingRecommended">
+    <p i18n>Loading recommended industries...</p>
+  </div>
+  <div *ngIf="recommendedIndustries$ | async as recommendedIndustries">
+    <div *ngIf="!isLoadingRecommended">
+      <div
+        *ngIf="recommendedIndustries.length > 0; else noRecommendedIndustries"
+      >
+        <div class="industries-grid">
+          <app-industry-tile
+            *ngFor="let industry of recommendedIndustries"
+            class="industry-card"
+            [industry]="industry"
+          />
+        </div>
+      </div>
+      <ng-template #noRecommendedIndustries>
+        <p i18n>No recommended industries found.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<!-- All Industries Section -->
+<div class="industries-section">
+  <h2 i18n>All Industries</h2>
+  <!-- Tag Selection Section -->
+  <div class="tag-selection">
+    <mat-form-field appearance="fill" i18n-appearance>
+      <mat-label i18n>Select a tag</mat-label>
+      <mat-select (selectionChange)="onTagSelected($event.value)">
+        <mat-option *ngFor="let tag of allTags$ | async" [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+        {{ tag }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </div>
+  </div>
+  <div *ngIf="isLoadingAll">
+    <p i18n>Loading industries...</p>
+  </div>
+  <div *ngIf="allIndustries$ | async as allIndustries">
+    <div *ngIf="allIndustries.length > 0; else noAllIndustries">
+      <div class="industries-grid">
+        <app-industry-tile
+          *ngFor="let industry of allIndustries"
+          class="industry-card"
+          [industry]="industry"
+        />
+      </div>
+    </div>
+    <ng-template #noAllIndustries>
+      <p i18n>No industries found.</p>
+    </ng-template>
+  </div>
+</div>

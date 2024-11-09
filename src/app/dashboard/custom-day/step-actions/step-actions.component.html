@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Submit Button -->
+<div class="step-actions" [class.center]="final">
+  <button
+    mat-flat-button
+    class="primary-stroked-md-button"
+    (click)="onPrimaryClick()"
+    i18n
+  >
+    {{ primaryLabel }}
+  </button>
+  <button
+    *ngIf="!final"
+    mat-flat-button
+    class="primary-full-md-button"
+    (click)="onSecondaryClick()"
+    i18n
+  >
+    {{ secondaryLabel }}
+  </button>
+</div>

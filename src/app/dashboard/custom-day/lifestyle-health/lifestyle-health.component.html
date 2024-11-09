@@ -1,0 +1,56 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<form [formGroup]="lifestyleHealthForm">
+  <!-- Headline -->
+  <h5 i18n>Lifestyle & Health</h5>
+
+  <!-- Sub-header -->
+  <p class="subtext" i18n>
+    Your health and lifestyle details help us deliver personalized tips and
+    advice for your wellness journey.
+  </p>
+  <fieldset>
+    <!-- Instruction Text for Health Tags -->
+    <h6 i18n>Which exercises are you into?</h6>
+    <!-- Health Autocomplete -->
+    <app-workout-category-autocomplete
+      (categoryAdded)="onCategoryAdded($event)"
+    />
+
+    <!-- Added Health Tags as Chips -->
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let tag of addedWorkoutCategories"
+            [removable]="true"
+            (removed)="removeCategory(tag)"
+          >
+            {{ tag | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
+  <!-- Text Area for Additional Information -->
+  <fieldset>
+    <h6 i18n>Additional Details</h6>
+    <mat-form-field appearance="outline" class="textarea" i18n-appearance>
+      <textarea
+        matInput
+        formControlName="additionalInfo"
+        placeholder="Enter any extra information about your special foods"
+        i18n-placeholder
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </fieldset>
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Diet & Nutrition'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
+  />
+</form>

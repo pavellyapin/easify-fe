@@ -1,11 +1,76 @@
-.courses-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+@use "variables" as var;
+
+.search-box-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 100%; /* Ensures full width */
 }
 
-.course-card {
+.courses-section {
+  min-height: 350px;
+}
+
+.tracker-and-actions {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+.hero-and-actions {
+  display: flex;
+
+  .hero-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 0;
+    border-radius: 12px;
+    background-color: #f5f5f5;
+    padding: 40px;
+    width: 100%;
+
+    @media (width <= 960px) {
+      flex-direction: column-reverse; /* Stack the content and image vertically */
+      padding: 20px; /* Reduce padding for smaller screens */
+
+      .hero-illustration {
+        max-width: 100%; /* Make the image full width */
+      }
+    }
+
+    .hero-content {
+      max-width: 70%;
+
+      @media (width <= 960px) {
+        margin-bottom: 20px; /* Add some space between the content and image */
+        max-width: 100%; /* Make the content full width */
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 16px;
+
+        @media (width <= 960px) {
+          justify-content: space-between;
+        }
+
+        .cta-primary {
+          padding: 12px 24px;
+        }
+
+        .cta-secondary {
+          padding: 12px 24px;
+        }
+      }
+    }
+
+    .hero-illustration {
+      max-width: 40%;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
 }

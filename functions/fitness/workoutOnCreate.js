@@ -9,16 +9,30 @@ exports.workoutOnCreate = functions.firestore
   .onCreate(async (snap) => {
     const workoutData = snap.data();
     const tags = workoutData.tags || [];
+    const category = workoutData.category || "uncategorized"; // Default to 'uncategorized' if no category provided
 
     try {
       const tagCountsRef = firestore.collection("tagCounts").doc("workoutTags");
+      const categoryCountsRef = firestore
+        .collection("tagCounts")
+        .doc("workoutCategory");
 
-      const tagCountsDoc = await tagCountsRef.get();
+      const [tagCountsDoc, categoryCountsDoc] = await Promise.all([
+        tagCountsRef.get(),
+        categoryCountsRef.get(),
+      ]);
+
       let tagCounts = tagCountsDoc.exists ? tagCountsDoc.data().tags : [];
+      let categoryCounts = categoryCountsDoc.exists
+        ? categoryCountsDoc.data().categories
+        : [];
 
-      // Convert the array of objects into a map for easier manipulation
+      // Convert the arrays of objects into maps for easier manipulation
       const tagCountsMap = new Map(
         tagCounts.map((item) => [item.tag, item.count]),
+      );
+      const categoryCountsMap = new Map(
+        categoryCounts.map((item) => [item.category, item.count]),
       );
 
       // Update the tag counts in the map
@@ -31,17 +45,36 @@ exports.workoutOnCreate = functions.firestore
         }
       });
 
-      // Convert the map back to an array of objects
+      // Update the category count in the map
+      const normalizedCategory = category.toLowerCase();
+      if (categoryCountsMap.has(normalizedCategory)) {
+        categoryCountsMap.set(
+          normalizedCategory,
+          categoryCountsMap.get(normalizedCategory) + 1,
+        );
+      } else {
+        categoryCountsMap.set(normalizedCategory, 1);
+      }
+
+      // Convert the maps back to arrays of objects
       tagCounts = Array.from(tagCountsMap, ([tag, count]) => ({ tag, count }));
+      categoryCounts = Array.from(categoryCountsMap, ([category, count]) => ({
+        category,
+        count,
+      }));
 
-      // Sort the array by count in descending order
+      // Sort the arrays by count in descending order
       tagCounts.sort((a, b) => b.count - a.count);
+      categoryCounts.sort((a, b) => b.count - a.count);
 
-      // Store the sorted array back in Firestore
-      await tagCountsRef.set({ tags: tagCounts });
+      // Store the sorted arrays back in Firestore
+      await Promise.all([
+        tagCountsRef.set({ tags: tagCounts }),
+        categoryCountsRef.set({ categories: categoryCounts }),
+      ]);
 
-      console.log("Tag counts updated and sorted successfully.");
+      console.log("Tag and category counts updated and sorted successfully.");
     } catch (error) {
-      console.error("Error updating tag counts:", error);
+      console.error("Error updating tag and category counts:", error);
     }
   });

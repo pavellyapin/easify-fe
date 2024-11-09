@@ -1,0 +1,66 @@
+.chapter-nav-container {
+  .chapter {
+    padding: 10px 0;
+
+    .toggle-icon {
+      width: 20px;
+      min-width: 20px;
+    }
+
+    .chapter-title {
+      display: flex;
+      align-items: flex-start;
+      cursor: pointer;
+      margin: 0;
+      font-weight: bold;
+
+      .chapter-count {
+        margin-right: 0.5em;
+        min-width: 2em; // Ensures the count stays aligned left
+        text-align: right;
+      }
+    }
+
+    .chapter-content {
+      padding-top: 20px;
+      padding-left: 20px;
+
+      .chapter-subtitle {
+        margin-bottom: 10px;
+      }
+
+      .topics-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .topic-item {
+          display: flex;
+          align-items: flex-start;
+          cursor: pointer;
+
+          .topic-count {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 0.5em;
+            min-width: 2.5em;
+            text-align: right;
+          }
+
+          .topic-text {
+            flex: 1;
+            text-align: start;
+          }
+
+          .topic-subtitle {
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+  }
+}

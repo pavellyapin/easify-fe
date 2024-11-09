@@ -1,10 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { EasifyService } from '../../../services/easify.service';
-import { GrowthService } from '../../../services/growth.service';
+import { EasifyService } from '@services/easify.service';
+import { GrowthService } from '@services/growth.service';
 
 @Component({
   selector: 'app-resume-upload',
@@ -14,6 +20,7 @@ import { GrowthService } from '../../../services/growth.service';
   styleUrl: './resume-upload.component.scss',
 })
 export class ResumeUploadComponent implements OnInit {
+  @Output() resumeUploaded = new EventEmitter<void>();
   uploadForm: FormGroup;
   uploadMessage = '';
   isDragOver = false;
@@ -49,6 +56,7 @@ export class ResumeUploadComponent implements OnInit {
   uploadResume() {
     const file = this.uploadForm.get('resume')!.value;
     this.growthService.uploadResume(file, this.uploadProgress);
+    this.resumeUploaded.emit();
   }
 
   // Download resume function

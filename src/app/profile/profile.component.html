@@ -1,0 +1,57 @@
+<!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- Profile Page Layout similar to Dashboard -->
+<app-navbar (toggleSidenav)="toggleSidebar()"></app-navbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidenav Section -->
+  <mat-sidenav
+    #sidenav
+    class="sidenav"
+    [mode]="sidenavMode"
+    [opened]="!isMobile || (isMobile && !isMinimized)"
+    [disableClose]="isTablet || !isMobile"
+    [style.padding-top]="'70px'"
+    [style.width]="isMobile ? '100%' : isMinimized ? '70px' : '250px'"
+  >
+    <mat-nav-list>
+      <!-- Navigate to Profile Details -->
+      <button mat-button (click)="navigateTo('profile/details')">
+        <mat-icon svgIcon="profile-circle"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Profile Details</span>
+      </button>
+
+      <!-- Navigate to Security Settings -->
+      <button mat-button (click)="navigateTo('profile/security')">
+        <mat-icon svgIcon="lock"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Security</span>
+      </button>
+
+      <!-- Navigate to Notifications Settings -->
+      <button mat-button (click)="navigateTo('profile/notifications')">
+        <mat-icon svgIcon="notification"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Notifications</span>
+      </button>
+
+      <!-- Navigate to General Settings -->
+      <button mat-button (click)="navigateTo('profile/general')">
+        <mat-icon svgIcon="setting"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>General</span>
+      </button>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content Section -->
+  <mat-sidenav-content
+    [ngClass]="{
+      'expanded-content': !isMinimized && !isTablet && !isMobile,
+      'collapsed-content': (!isMobile && isMinimized) || isTablet,
+    }"
+  >
+    <div class="content" style="min-height: 800px">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

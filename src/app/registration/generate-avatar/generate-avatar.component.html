@@ -1,0 +1,151 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="avatar-generator-container">
+  <!-- Header -->
+  <h2 i18n>Customize Your Avatar</h2>
+  <p class="sub-header" i18n>
+    Answer a few questions to create a unique avatar that represents you.
+  </p>
+
+  <!-- Form -->
+  <form [formGroup]="avatarForm">
+    <!-- Name (Optional) -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Name (Optional)</mat-label>
+      <input
+        matInput
+        placeholder="Enter your name"
+        i18n-placeholder
+        formControlName="name"
+      />
+    </mat-form-field>
+
+    <!-- Gender -->
+    <h6 i18n>Gender</h6>
+    <mat-radio-group formControlName="gender">
+      <mat-radio-button value="male" i18n>Male</mat-radio-button>
+      <mat-radio-button value="female" i18n>Female</mat-radio-button>
+      <mat-radio-button value="other" i18n>Other</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Age Range -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Age Range</mat-label>
+      <mat-select formControlName="ageRange">
+        <mat-option value="child" i18n>Child</mat-option>
+        <mat-option value="teen" i18n>Teenager</mat-option>
+        <mat-option value="adult" i18n>Adult</mat-option>
+        <mat-option value="senior" i18n>Senior</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Ethnicity -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Ethnicity</mat-label>
+      <mat-select formControlName="ethnicity">
+        <mat-optgroup label="European" i18n-label>
+          <mat-option value="northwesternEuropean" i18n>
+            Northwestern European
+          </mat-option>
+          <mat-option value="easternEuropean" i18n>Eastern European</mat-option>
+          <mat-option value="southernEuropean" i18n>
+            Southern European
+          </mat-option>
+          <mat-option value="scandinavian" i18n>Scandinavian</mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="Asian" i18n-label>
+          <mat-option value="eastAsian" i18n>East Asian</mat-option>
+          <mat-option value="southAsian" i18n>South Asian</mat-option>
+          <mat-option value="southeastAsian" i18n>Southeast Asian</mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="African" i18n-label>
+          <mat-option value="northAfrican" i18n>North African</mat-option>
+          <mat-option value="westAfrican" i18n>West African</mat-option>
+          <mat-option value="eastAfrican" i18n>East African</mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="Latin American" i18n-label>
+          <mat-option value="mexican" i18n>Mexican</mat-option>
+          <mat-option value="centralAmerican" i18n>Central American</mat-option>
+          <mat-option value="southAmerican" i18n>South American</mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="Mixed Ethnicities" i18n-label>
+          <mat-option value="mixedEuropean" i18n>Mixed European</mat-option>
+          <mat-option value="mixedAsian" i18n>Mixed Asian</mat-option>
+        </mat-optgroup>
+
+        <mat-option value="other" i18n>Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Hair Color -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Hair Color</mat-label>
+      <input
+        matInput
+        placeholder="e.g., Blond, Brown, Black"
+        i18n-placeholder
+        formControlName="hairColor"
+      />
+    </mat-form-field>
+
+    <!-- Eye Color -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Eye Color</mat-label>
+      <input
+        matInput
+        placeholder="e.g., Blue, Green, Brown"
+        i18n-placeholder
+        formControlName="eyeColor"
+      />
+    </mat-form-field>
+
+    <!-- Clothing Style -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Clothing Style</mat-label>
+      <input
+        matInput
+        placeholder="e.g., Casual, Formal, Sporty"
+        i18n-placeholder
+        formControlName="clothingStyle"
+      />
+    </mat-form-field>
+
+    <!-- Accessories -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Accessories</mat-label>
+      <input
+        matInput
+        placeholder="e.g., Glasses, Hat, Scarf"
+        i18n-placeholder
+        formControlName="accessories"
+      />
+    </mat-form-field>
+
+    <!-- Other Info -->
+    <mat-form-field appearance="outline" i18n-appearance>
+      <mat-label i18n>Other Info</mat-label>
+      <input
+        matInput
+        placeholder="e.g., freckles, beard"
+        i18n-placeholder
+        formControlName="otherInfo"
+      />
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <div class="button-container">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!avatarForm.valid"
+        (click)="onSubmit()"
+        i18n
+      >
+        Generate Avatar
+      </button>
+    </div>
+  </form>
+</div>

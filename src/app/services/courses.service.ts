@@ -11,22 +11,18 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import {
-  addDoc,
   collection,
   collectionData,
   doc,
   DocumentData,
   Firestore,
   getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
 } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
-import { from, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectWorkSkills } from '@store/user/user.selector';
+import { from, map, Observable, of, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +31,7 @@ export class CoursesService {
   constructor(
     private firestore: Firestore,
     private functions: Functions,
-    private auth: Auth,
+    private store: Store,
   ) {}
 
   getAllCourses(): Observable<any> {
@@ -65,6 +61,32 @@ export class CoursesService {
     }
   }
 
+  // New method to call the filterCourses function
+  filterCourses(
+    filters: {
+      categories?: string[];
+      levels?: string[];
+      isNew?: boolean;
+      sortBy?: string;
+    },
+    count: number,
+    lastCourse: any = null, // Pass the last course for pagination (batch loading)
+  ): Observable<any> {
+    const filterCoursesFunction = httpsCallable(
+      this.functions,
+      'filterCourses',
+    );
+
+    const requestPayload = {
+      ...filters,
+      count,
+      lastCourse,
+    };
+
+    const resultPromise = filterCoursesFunction(requestPayload);
+    return from(resultPromise); // Convert the Promise to an Observable
+  }
+
   recommendCourses(courseTags: string[], count: any): Observable<any> {
     const recommendCoursesFunction = httpsCallable(
       this.functions,
@@ -72,61 +94,6 @@ export class CoursesService {
     );
     const resultPromise = recommendCoursesFunction({ courseTags, count });
     return from(resultPromise); // Convert the Promise to an Observable
-  }
-
-  async addCourseStart(course: any) {
-    try {
-      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-      const userCoursesCollectionRef = collection(userRef, 'courses');
-      const q = query(
-        userCoursesCollectionRef,
-        where('course.id', '==', course.id),
-      );
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        // If no existing document, create a new one
-        const userCourseData = {
-          course,
-          status: 'started',
-          createdAt: new Date(),
-        };
-        await addDoc(userCoursesCollectionRef, userCourseData);
-        console.log('User Course data saved to Firestore');
-      } else {
-        // If document exists, update it
-        const docRef = querySnapshot.docs[0]!.ref;
-        await updateDoc(docRef, {
-          updatedAt: new Date(),
-        });
-        console.log('User Course data updated in Firestore');
-      }
-    } catch (error: any) {
-      console.error('Error saving User Course data to Firestore:', error);
-      if (error.code) {
-        console.error(`Error Code: ${error.code}`);
-      }
-      if (error.message) {
-        console.error(`Error Message: ${error.message}`);
-      }
-      if (error.details) {
-        console.error(`Error Details: ${error.details}`);
-      }
-    }
-  }
-
-  getStartedCourses(): Observable<any[]> {
-    const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-    const userCoursesCollectionRef = collection(userRef, 'courses');
-
-    // Query to find courses with status 'started'
-    const startedCoursesQuery = query(
-      userCoursesCollectionRef,
-      where('status', '==', 'started'),
-    );
-
-    return collectionData(startedCoursesQuery, {
-      idField: 'id',
-    }) as Observable<any[]>;
   }
 
   getAllCourseTags(): Observable<string[]> {
@@ -140,6 +107,66 @@ export class CoursesService {
         return tagData['tags'].map(
           (tagObj: { tag: string; count: number }) => tagObj.tag,
         );
+      }),
+    );
+  }
+  getCategoryFilters(): Observable<string[]> {
+    return this.store.select(selectWorkSkills).pipe(
+      take(1),
+      switchMap((workSkills) => {
+        const workSkillsCategories = workSkills?.courseTags;
+
+        // If categories exist in workSkills, return them as an Observable
+        if (workSkillsCategories && workSkillsCategories.length > 0) {
+          return of(workSkillsCategories);
+        }
+
+        // If no workSkills categories exist, return an Observable from the Promise
+        return from(this.getTopCategoriesFromTagCounts());
+      }),
+    );
+  }
+
+  private async getTopCategoriesFromTagCounts(): Promise<string[]> {
+    const tagCountsRef = doc(this.firestore, 'tagCounts/courseCategories');
+    const tagCountsDoc = await getDoc(tagCountsRef);
+
+    if (tagCountsDoc.exists()) {
+      const categoryData = tagCountsDoc.data()['categories'] || [];
+
+      // Sort categories by count in descending order
+      const sortedCategories = categoryData
+        .sort((a: any, b: any) => b.count - a.count)
+        .map((category: any) => category.category);
+
+      // Return a random selection of 3 categories from the top 20
+      const topCategories = sortedCategories.slice(0, 20);
+      return this.getRandomSelection(topCategories, 3);
+    }
+
+    return [];
+  }
+
+  // Helper function to select N random elements from an array
+  private getRandomSelection(array: string[], count: number): string[] {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  getAllCourseCategories(): Observable<string[]> {
+    const categoryRef = doc(this.firestore, 'tagCounts/courseCategories');
+
+    return from(getDoc(categoryRef)).pipe(
+      map((docSnapshot) => {
+        const categoryData = docSnapshot.data() || { categories: [] };
+
+        // Extract the cuisine names from the array of objects
+        const cuisineNames = categoryData['categories'].map(
+          (categoryObj: any) => categoryObj.category,
+        );
+
+        // Sort the category names alphabetically
+        return cuisineNames.sort((a: string, b: string) => a.localeCompare(b));
       }),
     );
   }

@@ -5,7 +5,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { catchError, from, Observable, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from '../../environment/environment';
 
 @Injectable({
@@ -17,6 +18,7 @@ export class EasifyService {
   constructor(
     private http: HttpClient,
     private auth: Auth,
+    private router: Router,
   ) {}
 
   getChatResponse(
@@ -34,7 +36,7 @@ export class EasifyService {
     );
   }
 
-  getDaily(conversation: any[]): Observable<any> {
+  getDaily(type: string = 'basic'): Observable<any> {
     return from(
       this.auth.currentUser?.getIdToken() ??
         Promise.reject('User not authenticated'),
@@ -47,14 +49,41 @@ export class EasifyService {
 
         return this.http.post<any>(
           `${this.baseUrl}/getDaily`,
-          { conversation },
+          { dailyRequest: { type } }, // Pass `type` in the request payload
           { headers },
         );
       }),
       catchError((error) => {
-        // Handle the error as needed
         console.error('Error occurred:', error);
+        this.router.navigate(['dashboard', 'error']);
         throw error;
+      }),
+    );
+  }
+
+  getCustomDay(request: any): Observable<any> {
+    return from(
+      this.auth.currentUser?.getIdToken() ??
+        Promise.reject('User not authenticated'),
+    ).pipe(
+      switchMap((token: string) => {
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        });
+
+        return this.http.post<any>(
+          `${this.baseUrl}/getCustomDay`,
+          { customRequest: request },
+          {
+            headers,
+          },
+        );
+      }),
+      catchError((error) => {
+        console.error('Error occurred while fetching custom day:', error);
+        this.router.navigate(['dashboard', 'error']);
+        return throwError(() => new Error('Error fetching custom day'));
       }),
     );
   }
@@ -134,6 +163,30 @@ export class EasifyService {
       {
         headers,
       },
+    );
+  }
+
+  // New function to generate avatar
+  generateAvatar(): Observable<any> {
+    return from(
+      this.auth.currentUser?.getIdToken() ??
+        Promise.reject('User not authenticated'),
+    ).pipe(
+      switchMap((token: string) => {
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        });
+        return this.http.post<any>(
+          `${this.baseUrl}/generateAvatar`,
+          {},
+          { headers },
+        );
+      }),
+      catchError((error) => {
+        console.error('Error occurred while generating avatar:', error);
+        throw error;
+      }),
     );
   }
 }

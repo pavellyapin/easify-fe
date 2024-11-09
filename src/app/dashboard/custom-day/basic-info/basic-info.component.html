@@ -1,0 +1,87 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+
+<!-- Headline -->
+<h5 i18n>Custom Day Information</h5>
+
+<!-- Sub-header -->
+<p class="subtext" i18n>
+  We need this information to provide you with the best experience for your
+  custom day. Rest assured, your data is safe with us.
+</p>
+
+<!-- Form -->
+<form [formGroup]="basicInfoForm">
+  <!-- Day Switch -->
+  <fieldset>
+    <div class="special-day-switch">
+      <h5 class="fixed-width-text" i18n>
+        {{ forTomorrowControl?.value ? "Tomorrow" : "Today" }}
+      </h5>
+      <mat-slide-toggle formControlName="forTomorrow" color="primary" i18n />
+    </div>
+    <p class="date-caption">
+      {{ getDate(!forTomorrowControl?.value) }}
+    </p>
+  </fieldset>
+  <!-- Wake-up Time -->
+  <fieldset class="primary-search-box">
+    <h6 i18n>
+      When do you plan to
+      <b>get up</b>
+      on this day?
+    </h6>
+    <mat-form-field appearance="outline" i18n-appearance>
+      <input
+        matInput
+        formControlName="wakeUpTime"
+        placeholder="Select wake-up time"
+        readonly
+        [ngxMatTimepicker]="wakeUpPicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #wakeUpPicker dottedMinutesInGap />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Sleep Time -->
+  <fieldset class="primary-search-box">
+    <h6 i18n>
+      When do you plan to
+      <b>wind down</b>
+      on this day?
+    </h6>
+    <mat-form-field appearance="outline" i18n-appearance>
+      <input
+        matInput
+        formControlName="sleepTime"
+        placeholder="Select sleep time"
+        readonly
+        [ngxMatTimepicker]="sleepTimePicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #sleepTimePicker dottedMinutesInGap />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Description Text Area -->
+  <fieldset>
+    <h6 i18n>Describe your special day</h6>
+    <mat-form-field appearance="outline" class="textarea" i18n-appearance>
+      <textarea
+        matInput
+        formControlName="details"
+        placeholder="Enter details about the special day"
+        i18n-placeholder
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </fieldset>
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Skills'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
+  />
+</form>

@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { RecipesService } from '../../../services/recipes.service';
+import { RecipesService } from '@services/recipes.service';
 
 @Component({
   selector: 'app-recipe-tile',

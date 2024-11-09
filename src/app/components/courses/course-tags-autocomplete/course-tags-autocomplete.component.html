@@ -1,0 +1,30 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-form-field class="full-width" appearance="outline" i18n-appearance>
+  <input
+    type="text"
+    matInput
+    placeholder="Search course tags"
+    i18n-placeholder
+    [formControl]="courseCtrl"
+    [matAutocomplete]="autoTag"
+  />
+  <button
+    mat-icon-button
+    matSuffix
+    aria-label="Add tag"
+    i18n-aria-label
+    (click)="addCourseFromInput()"
+  >
+    <mat-icon i18n>add</mat-icon>
+  </button>
+  <mat-autocomplete
+    #autoTag="matAutocomplete"
+    (optionSelected)="addCourse($event)"
+  >
+    <mat-option *ngFor="let tag of filteredCourses | async" [value]="tag">
+      {{ tag }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

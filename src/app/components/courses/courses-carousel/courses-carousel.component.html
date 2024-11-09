@@ -1,0 +1,23 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="courses?.length; else noCoursesTemplate">
+  <!-- Carousel for Courses -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-course-tile
+      *ngFor="let course of courses; let i = index"
+      ngxSlickItem
+      class="carousel-item"
+      [course]="course"
+      [manualLoad]="true"
+    />
+  </ngx-slick-carousel>
+</ng-container>
+
+<!-- No Courses Available Template -->
+<ng-template #noCoursesTemplate>
+  <p i18n>No courses available.</p>
+</ng-template>

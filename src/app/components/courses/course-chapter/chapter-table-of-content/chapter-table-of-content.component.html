@@ -1,0 +1,41 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<h5 i18n>Chapter contents</h5>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let topic of chapter.topics; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="
+      i + 1 === startedCourse?.progress?.topic &&
+      currentChapterIndex! + 1 === startedCourse?.progress?.chapter
+    "
+  >
+    <mat-expansion-panel-header>
+      <p>{{ currentChapterIndex! + 1 }}.{{ i + 1 }}.</p>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ topic.title }}</h6>
+        <p class="single-line-ellipsis">{{ topic.subtitle }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getTopicIcon(currentChapterIndex! + 1, i + 1)"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ topic.overview }}</p>
+      <button
+        mat-button
+        class="action-link"
+        (click)="navigateToTopic(currentChapterIndex! + 1, i + 1)"
+      >
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

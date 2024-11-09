@@ -1,0 +1,41 @@
+@use "variables" as var;
+
+.suggested-action-card {
+  display: flex;
+  box-shadow: none;
+}
+
+.suggested-action-title {
+  margin-bottom: 16px;
+  color: var.$primary-color;
+}
+
+.suggested-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.suggested-action {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: var.$primary-light-color-2;
+  padding: 15px;
+}
+
+.action-title {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.action-subtext {
+  margin: 0;
+  color: #757575;
+  text-align: start;
+}
+
+.action-link {
+  justify-content: end;
+}

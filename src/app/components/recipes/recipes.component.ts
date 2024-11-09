@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { getDoc } from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,10 +17,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { RecipesService } from '@services/recipes.service';
+import { TimeUtils } from '@services/time.utils';
+import { UserService } from '@services/user.service'; // Import the UserService
+import { combineLatest, from, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap } from 'rxjs/operators';
-import { RecipesService } from '../../services/recipes.service';
-import { TimeUtils } from '../../services/time.utils';
 import { RecipeTileComponent } from './recipe-tile/recipe-tile.component';
 
 @Component({
@@ -40,7 +42,7 @@ import { RecipeTileComponent } from './recipe-tile/recipe-tile.component';
     MatToolbarModule,
   ],
   templateUrl: './recipes.component.html',
-  styleUrl: './recipes.component.scss',
+  styleUrls: ['./recipes.component.scss'],
 })
 export class RecipesComponent implements OnInit {
   startedRecipes$!: Observable<any[]>;
@@ -54,6 +56,7 @@ export class RecipesComponent implements OnInit {
   constructor(
     private recipesService: RecipesService,
     private timeUtils: TimeUtils,
+    private userService: UserService, // Inject the user service
   ) {}
 
   ngOnInit(): void {
@@ -71,32 +74,51 @@ export class RecipesComponent implements OnInit {
     // Set loading state to true before starting to fetch recommended recipes
     this.isLoadingRecommended = true;
 
-    this.recommendedRecipes$ = this.startedRecipes$.pipe(
-      switchMap((startedRecipes) => {
-        // Extract IDs and keywords from started recipes
-        const startedRecipeIds = startedRecipes.map(
-          (recipe) => recipe.recipe.id,
-        );
-        const keywords = startedRecipes.reduce((acc: string[], recipe: any) => {
-          return acc.concat(recipe.recipe.tags || []);
-        }, []);
-        return this.recipesService
-          .recommendRecipes([...new Set(keywords.slice(0, 30))], 5)
-          .pipe(
-            map((recommendedRecipes) =>
-              // Filter out the recipes that have already been started
-              recommendedRecipes.data.filter(
-                (recipe: any) => !startedRecipeIds.includes(recipe.id),
-              ),
+    this.recommendedRecipes$ = combineLatest([
+      this.userService.getUserDocRefAsObs().pipe(
+        switchMap((userRef) =>
+          from(getDoc(userRef!)).pipe(
+            map((doc: any) => {
+              const dietNutrition = doc.exists()
+                ? doc.data().dietNutrition || {}
+                : {};
+              return [
+                ...(dietNutrition.nutritionCategories || []),
+                ...(dietNutrition.recipeTags || []),
+              ];
+            }),
+          ),
+        ),
+      ),
+      this.startedRecipes$.pipe(
+        map((startedRecipes) =>
+          startedRecipes.reduce(
+            (acc: string[], recipe: any) =>
+              acc.concat(recipe.recipe.tags || []),
+            [],
+          ),
+        ),
+      ),
+    ]).pipe(
+      switchMap(([userTags, startedRecipeTags]) => {
+        const combinedTags = [
+          ...new Set([...userTags, ...startedRecipeTags]),
+        ].slice(0, 30); // Limit to 30 tags
+
+        return this.recipesService.recommendRecipes(combinedTags, 5).pipe(
+          map((recommendedRecipes) =>
+            recommendedRecipes.data.filter(
+              (recipe: any) => !startedRecipeTags.includes(recipe.id),
             ),
-            catchError((error) => {
-              console.error('Error fetching recommended recipes:', error);
-              return of([]); // Return an empty array in case of error
-            }),
-            finalize(() => {
-              this.isLoadingRecommended = false; // Ensure the loading state is reset
-            }),
-          );
+          ),
+          catchError((error) => {
+            console.error('Error fetching recommended recipes:', error);
+            return of([]); // Return an empty array in case of error
+          }),
+          finalize(() => {
+            this.isLoadingRecommended = false; // Reset loading state
+          }),
+        );
       }),
     );
   }

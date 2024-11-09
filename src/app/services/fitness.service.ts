@@ -144,4 +144,20 @@ export class FitnessWorkoutsService {
       }),
     );
   }
+
+  getAllWorkoutCategories(): Observable<string[]> {
+    const categoryCountsRef = doc(this.firestore, 'tagCounts/workoutCategory');
+
+    return from(getDoc(categoryCountsRef)).pipe(
+      map((docSnapshot) => {
+        const categoryData = docSnapshot.data() || { categories: [] };
+
+        // Extract the category names from the array of objects
+        return categoryData['categories'].map(
+          (categoryObj: { category: string; count: number }) =>
+            categoryObj.category,
+        );
+      }),
+    );
+  }
 }

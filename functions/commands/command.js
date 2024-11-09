@@ -4,77 +4,65 @@ const admin = require("firebase-admin");
 
 const firestore = admin.firestore();
 
-exports.normalizeIngredientsAndAddToTagCounts = functions.firestore
+exports.normalizeCourseResources = functions.firestore
   .document("commands/{commandId}")
   .onCreate(async (snap) => {
     const commandData = snap.data();
 
-    // Only execute if the command name is "normalizeIngredients"
-    if (commandData.name !== "normalizeIngredients") {
+    // Only execute if the command name is "normalizeCourseResources"
+    if (commandData.name !== "normalizeCourseResources") {
       return null;
     }
 
     try {
-      const recipesRef = firestore.collection("recipes");
-      const allRecipesSnapshot = await recipesRef.get();
+      const coursesRef = firestore.collection("courses");
+      const allCoursesSnapshot = await coursesRef.get();
 
-      // Initialize an empty Set to store unique normalized ingredient names
-      const ingredientSet = new Set();
+      const updatePromises = [];
 
-      // Go through each recipe document and normalize the ingredients
-      const updatePromises = allRecipesSnapshot.docs.map(async (doc) => {
-        const docData = doc.data();
+      // Loop through all courses and normalize the additionalResources field
+      allCoursesSnapshot.docs.forEach((doc) => {
+        const courseData = doc.data();
+        let { additionalResources } = courseData;
 
-        if (docData.ingredients && Array.isArray(docData.ingredients)) {
-          const normalizedIngredients = docData.ingredients.map(
-            (ingredient) => {
-              const normalizedIngredientName = ingredient.name
-                .trim()
-                .toLowerCase();
-              // Add to Set for tagCounts
-              ingredientSet.add(normalizedIngredientName);
-              return {
-                ...ingredient,
-                name: normalizedIngredientName,
-              };
-            },
-          );
-
-          // Update the recipe with normalized ingredients
-          await doc.ref.update({
-            ingredients: normalizedIngredients,
+        // Normalize additionalResources to an array of strings
+        if (Array.isArray(additionalResources)) {
+          additionalResources = additionalResources.flatMap((resource) => {
+            // If resource is an object with a "title" attribute, use the title
+            if (typeof resource === "object" && resource.title) {
+              return resource.title;
+            }
+            // If resource is an object with a "titles" array, return each title
+            if (
+              typeof resource === "object" &&
+              Array.isArray(resource.titles)
+            ) {
+              return resource.titles;
+            }
+            // Otherwise, assume it's already a string and return it
+            return resource;
           });
+        } else {
+          // If additionalResources is not an array, make it an empty array
+          additionalResources = [];
         }
+
+        // Prepare the updated data with normalized additionalResources
+        const updatedData = {
+          additionalResources: additionalResources, // Normalized additional resources
+        };
+
+        // Add update promise to the array
+        updatePromises.push(doc.ref.update(updatedData));
       });
 
-      // Wait for all updates to complete
+      // Execute all update operations
       await Promise.all(updatePromises);
 
-      // Convert the Set to an array and prepare it for Firestore
-      const ingredientArray = Array.from(ingredientSet);
-
-      // Get the tagCounts document reference for recipe ingredients
-      const tagCountsRef = firestore
-        .collection("tagCounts")
-        .doc("recipeIngredients");
-
-      // Add the normalized ingredients to the tagCounts document
-      await tagCountsRef.set(
-        {
-          ingredients: admin.firestore.FieldValue.arrayUnion(
-            ...ingredientArray,
-          ),
-        },
-        { merge: true },
-      );
-
       console.log(
-        "Ingredients normalized and added to tagCounts successfully.",
+        `Normalized additionalResources for ${updatePromises.length} courses.`,
       );
     } catch (error) {
-      console.error(
-        "Error normalizing ingredients and adding to tagCounts:",
-        error,
-      );
+      console.error("Error normalizing additionalResources:", error);
     }
   });

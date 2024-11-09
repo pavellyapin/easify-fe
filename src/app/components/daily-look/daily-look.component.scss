@@ -1,24 +1,47 @@
-.daily-schedule {
-  .schedule-header {
-    margin-bottom: 20px;
-    text-align: center;
-  }
+/* stylelint-disable declaration-block-no-redundant-longhand-properties */
+.grid-container {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr; /* Adjust rows to content height */
+  grid-template-columns: repeat(3, 1fr) 1fr; /* 3 columns for schedule + 1 column for right */
+  grid-template-areas:
+    "schedule schedule schedule tracker"
+    "schedule schedule schedule actions"
+    "schedule schedule schedule actions"
+    "recent recent recent tips";
+  gap: 16px; /* Adjust gap between grid items */
+  padding: 16px;
+}
 
-  .carousel {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 600px;
-    overflow: hidden;
-  }
+/* Assign grid areas */
+.schedule-container {
+  grid-area: schedule;
+}
 
-  .slick-list {
-    margin: 0;
-    padding: 0;
-  }
+.recent-items {
+  grid-area: recent;
+}
 
-  .slick-track {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Adjust the gap between items */
+.tracker {
+  grid-area: tracker;
+}
+
+.actions {
+  grid-area: actions;
+}
+
+.tips {
+  grid-area: tips;
+}
+
+@media (width <= 768px) {
+  .grid-container {
+    grid-template-rows: auto; /* Let rows adjust to content height */
+    grid-template-columns: 1fr; /* Stack items in single column */
+    grid-template-areas:
+      "schedule"
+      "tracker"
+      "actions"
+      "tips"
+      "recent";
   }
 }

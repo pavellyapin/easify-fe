@@ -1,0 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="error-page">
+  <h1 i18n>Oops! Something went wrong.</h1>
+  <p i18n>
+    An unexpected error occurred. Please try again or go back to the dashboard.
+  </p>
+
+  <button
+    i18n
+    mat-button
+    class="primary-full-lg-button"
+    (click)="navigateToDashboard()"
+  >
+    Go to Daily Look
+  </button>
+</div>

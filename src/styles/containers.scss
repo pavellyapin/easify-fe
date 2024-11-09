@@ -1,0 +1,145 @@
+.main-with-side {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  overflow-y: auto; // Allows scrolling within the container
+
+  @media screen and (width <= 960px) {
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .main-content {
+    flex: 3;
+    padding-bottom: 20px; // Adds extra spacing at the bottom
+    max-width: 100%;
+    overflow: hidden;
+
+    @media screen and (width <= 960px) {
+      order: 1; // Ensures this stays at the top
+      padding-bottom: 0;
+    }
+  }
+
+  .side-content {
+    flex: 1;
+    padding-top: 20px; // Adds padding at the top for better spacing
+    max-width: 384px;
+    overflow-y: auto; // Enables scrolling within side content
+
+    @media screen and (width <= 960px) {
+      order: 2; // Moves it below the main content
+      max-width: 100%;
+    }
+  }
+}
+
+.scrollable-row {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 8px; /* Optional: add spacing between items */
+  overflow-x: auto; /* Allow horizontal scrolling */
+  white-space: nowrap; /* Prevent wrapping of individual items */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+}
+
+.scrollable-row::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for a cleaner look */
+}
+
+.flow-container {
+  margin: 0 auto;
+  padding: 16px;
+  max-width: 680px;
+
+  .router-outlet-wrapper {
+    /* Ensure router-outlet takes full width/height */
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Hide router-outlet by controlling visibility with CSS */
+  .router-outlet-wrapper.hidden {
+    visibility: hidden;
+  }
+
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    button {
+      min-width: 48px;
+    }
+
+    .skip-button {
+      color: var(--mat-primary-color); /* Adjust to your theme */
+    }
+  }
+
+  .progress-bar {
+    margin-bottom: 24px;
+  }
+
+  /* To ensure the loading container only covers the router outlet */
+  .stepper-navigation {
+    position: relative;
+    min-height: 800px; /* Ensure space for the loading container */
+  }
+
+  /* Define the container for loading animation */
+  .loading-container {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 40px;
+    z-index: 10;
+    background-color: rgb(255 255 255 / 100%); /* Semi-transparent background */
+    padding: 20px;
+    width: 100%;
+  }
+
+  .loading-rect {
+    animation: flash 1.5s infinite ease-in-out;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #e0e0e0; /* Lighter grey color */
+    width: 100%;
+    height: 50px; /* Thicker rectangles */
+  }
+
+  .loading-rect:nth-child(1) {
+    width: 50%; /* Simulating a larger input like name */
+  }
+
+  .loading-rect:nth-child(2) {
+    width: 75%; /* Simulating a medium input */
+  }
+
+  .loading-rect:nth-child(3) {
+    width: 30%; /* Simulating a full-width input */
+  }
+
+  .loading-rect:nth-child(4) {
+    width: 50%; /* Simulating a small input */
+  }
+
+  .loading-rect:nth-child(5) {
+    width: 15%; /* Another large input */
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+}

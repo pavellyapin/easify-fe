@@ -1,0 +1,77 @@
+.theme-carousel {
+  margin: 0 auto; /* Center the container horizontally */
+
+  /* Set max-width for all components within */
+  max-width: 680px;
+
+  .carousel {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%; /* Adjust width based on the max-width of daily-schedule */
+    overflow: hidden;
+  }
+
+  ::ng-deep .slick-list {
+    margin: 0;
+    padding: 0;
+  }
+
+  ::ng-deep .slick-track {
+    display: flex;
+    gap: 20px; /* Adjust the gap between items */
+  }
+
+  .nav-button-container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .slot-content {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+  }
+
+  .top-svg-container {
+    position: absolute;
+    top: -32px; /* Adjust to make the SVG stick out */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .bottom-svg-container {
+    position: absolute;
+    bottom: -32px; /* Adjust to make the SVG stick out */
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg); /* Flip the SVG upside down */
+    z-index: 1;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 0; /* Center the arrow inside the SVG */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Ensure the arrow is on top of the SVG */
+    color: white;
+    font-size: 24px;
+  }
+
+  .slot-details {
+    //padding-left: 35px;
+    width: 100%; /* Adjust margin to fit below the SVG */
+  }
+}

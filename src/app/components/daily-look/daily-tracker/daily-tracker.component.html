@@ -1,0 +1,41 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<mat-card *ngIf="challenge" class="tracker-card">
+  <!-- Main container for image, text, and arrow button -->
+  <div class="tracker-content">
+    <!-- Image on the left with dynamic source and rounded background -->
+    <div class="image-container">
+      <img
+        class="circle-background"
+        alt="Item Badge Circle"
+        i18n-alt
+        src="assets/badges/ellipsis.svg"
+      />
+      <img
+        alt="Item Badge"
+        i18n-alt
+        class="badge-image"
+        [src]="'assets/badges/badge_level_' + challenge.level + '.svg'"
+      />
+    </div>
+
+    <!-- Header and subtext in the middle -->
+    <div class="text-container">
+      <p class="header">{{ challenge.title }}</p>
+      <caption class="subtext" [matTooltip]="challenge.description">
+        {{ challenge.description }}
+      </caption>
+    </div>
+
+    <!-- Arrow icon button on the right -->
+    <div class="arrow-container">
+      <button mat-icon-button class="arrow-button" (click)="onArrowClick()">
+        <mat-icon i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress bar below everything -->
+  <mat-progress-bar mode="determinate" i18n-mode [value]="challenge.progress" />
+</mat-card>

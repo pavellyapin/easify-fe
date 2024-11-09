@@ -1,0 +1,66 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<form [formGroup]="financialPlanningForm" (ngSubmit)="onSubmit()">
+  <!-- Headline -->
+  <h5 i18n>Financial Planning</h5>
+
+  <!-- Sub-header -->
+  <p class="sub-header" i18n>
+    Your financial goals and plans help us provide personalized financial advice
+    and strategies.
+  </p>
+
+  <!-- Instruction Text for Categories -->
+  <h6 i18n>
+    Which financial tools and instruments would you like to learn more about?
+  </h6>
+
+  <!-- Categories Autocomplete -->
+  <app-plan-tags-autocomplete (tagAdded)="onPlanTagAdded($event)" />
+
+  <!-- Added Categories as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of addedPlanTags"
+        [removable]="true"
+        (removed)="removePlanTag(tag)"
+      >
+        {{ tag }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Instruction Text for Categories -->
+  <h6 i18n>What kidn of financial plans are you interested in?</h6>
+  <!-- Categories Autocomplete -->
+  <app-plan-categories-autocomplete (categoryAdded)="onCategoryAdded($event)" />
+
+  <!-- Added Categories as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let category of addedCategories"
+        [removable]="true"
+        (removed)="removeCategory(category)"
+      >
+        {{ category }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="submit-btn">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="financialPlanningForm.invalid"
+      i18n
+    >
+      Continue
+    </button>
+  </div>
+</form>

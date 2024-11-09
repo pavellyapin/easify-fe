@@ -208,6 +208,51 @@ export class RecipesService {
     );
   }
 
+  getAllRecipeCuisines(): Observable<string[]> {
+    const cuisinesRef = doc(this.firestore, 'tagCounts/recipeCuisines');
+
+    return from(getDoc(cuisinesRef)).pipe(
+      map((docSnapshot) => {
+        const cuisineData = docSnapshot.data() || { cuisines: [] };
+
+        // Extract the cuisine names from the array of objects
+        const cuisineNames = cuisineData['cuisines'].map(
+          (cuisineObj: any) => cuisineObj.cuisine,
+        );
+
+        // Sort the cuisine names alphabetically
+        return cuisineNames.sort((a: string, b: string) => a.localeCompare(b));
+      }),
+    );
+  }
+
+  getRandomRecipeCuisines(): Observable<string[]> {
+    const cuisinesRef = doc(this.firestore, 'tagCounts/recipeCuisines');
+
+    return from(getDoc(cuisinesRef)).pipe(
+      map((docSnapshot) => {
+        const cuisineData = docSnapshot.data() || { cuisines: [] };
+
+        // Extract the cuisine names from the array of objects and sort by count
+        const topCuisines = cuisineData['cuisines']
+          .sort(
+            (a: { count: number }, b: { count: number }) => b.count - a.count,
+          ) // Sort cuisines by count (descending)
+          .slice(0, 20) // Get the top 20 cuisines
+          .map((cuisineObj: { cuisine: string }) => cuisineObj.cuisine); // Extract the cuisine names
+
+        // Return a random sample of 3 cuisines from the top 20
+        return this.getRandomSample(topCuisines, 3);
+      }),
+    );
+  }
+
+  // Helper function to get a random sample from an array
+  private getRandomSample<T>(array: T[], sampleSize: number): T[] {
+    const shuffled = [...array].sort(() => 0.5 - Math.random()); // Shuffle the array
+    return shuffled.slice(0, sampleSize); // Return the first 'sampleSize' elements
+  }
+
   findRecipesByIngredients(ingredients: string[]): Observable<any> {
     const findRecipesFunction = httpsCallable(
       this.functions,

@@ -1,0 +1,61 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<mat-toolbar class="main-toolbar">
+  <!-- Left icon button (e.g., for sidenav toggle) -->
+  <button mat-icon-button (click)="onToggleSidenav()">
+    <mat-icon i18n>menu</mat-icon>
+  </button>
+
+  <!-- Logo navigates to dashboard -->
+  <div
+    class="logo"
+    style="font-weight: 600; cursor: pointer"
+    (click)="navigateTo('/dashboard')"
+    i18n
+  >
+    Easify
+  </div>
+  <span class="spacer"></span>
+
+  <!-- Notification Icon with Badge, navigates to notifications page -->
+  <button
+    mat-icon-button
+    matBadgeColor="primary"
+    i18n-matBadgeColor
+    matBadgePosition="above after"
+    i18n-matBadgePosition
+    aria-label="Notifications"
+    i18n-aria-label
+    [matBadge]="notificationCount"
+    [matBadgeHidden]="notificationCount === 0"
+    (click)="navigateTo('/profile/notifications')"
+  >
+    <mat-icon svgIcon="notification" i18n />
+  </button>
+
+  <!-- Avatar Circle with Dropdown Menu -->
+  <div class="user-profile" [matMenuTriggerFor]="profileMenu">
+    <ng-container *ngIf="avatarUrl; else showInitials">
+      <img alt="User Avatar" i18n-alt class="avatar-circle" [src]="avatarUrl" />
+    </ng-container>
+
+    <!-- Show initials if avatar doesn't exist -->
+    <ng-template #showInitials>
+      <div class="avatar-circle">
+        <span class="initials">{{ initials }}</span>
+      </div>
+    </ng-template>
+
+    <mat-icon i18n>keyboard_arrow_down</mat-icon>
+  </div>
+
+  <!-- Dropdown menu for profile actions -->
+  <mat-menu #profileMenu="matMenu">
+    <button i18n mat-menu-item (click)="navigateTo('/profile')">Profile</button>
+    <button i18n mat-menu-item (click)="logout()">Sign Out</button>
+  </mat-menu>
+</mat-toolbar>

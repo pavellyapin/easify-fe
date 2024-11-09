@@ -1,0 +1,32 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="notifications-container">
+  <h2 i18n>Notifications</h2>
+
+  <!-- Show loading state -->
+  <div *ngIf="isLoading" class="loading">
+    <mat-spinner />
+  </div>
+
+  <!-- Show notifications list -->
+  <div *ngIf="!isLoading && notifications.length > 0">
+    <mat-list>
+      <mat-list-item *ngFor="let notification of notifications">
+        <div class="notification-details">
+          <h6>{{ notification.title }}</h6>
+          <p>{{ notification.message }}</p>
+          <!-- Display how long ago the notification was created -->
+          <span class="date">
+            {{ notification.relativeTime }}
+          </span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <!-- Show message if no notifications -->
+  <div *ngIf="!isLoading && notifications.length === 0">
+    <p i18n>No notifications found.</p>
+  </div>
+</div>

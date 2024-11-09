@@ -7,7 +7,9 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  FacebookAuthProvider,
   GoogleAuthProvider,
+  TwitterAuthProvider,
   User,
   UserCredential,
   authState,
@@ -17,8 +19,11 @@ import {
   signOut,
 } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
+import { clearMessages } from '@store/chat/chat.actions';
+import { clearSchedule } from '@store/schedule/schedule.actions';
+import { clearStartedCourse } from '@store/started-course/started-course.actions';
+import { clearUser } from '@store/user/user.action';
 import { Observable, from, map, tap } from 'rxjs';
-import { clearMessages } from '../store/chat/chat.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -47,10 +52,25 @@ export class AuthService {
     );
   }
 
+  registerWithFacebook(): Observable<User | null> {
+    return from(signInWithPopup(this.auth, new FacebookAuthProvider())).pipe(
+      map((userCredential: UserCredential) => userCredential.user),
+    );
+  }
+
+  registerWithX(): Observable<User | null> {
+    return from(signInWithPopup(this.auth, new TwitterAuthProvider())).pipe(
+      map((userCredential: UserCredential) => userCredential.user),
+    );
+  }
+
   logout(): Observable<void> {
     return from(signOut(this.auth)).pipe(
       tap(() => {
         this.store.dispatch(clearMessages());
+        this.store.dispatch(clearSchedule());
+        this.store.dispatch(clearStartedCourse());
+        this.store.dispatch(clearUser());
       }),
     );
   }

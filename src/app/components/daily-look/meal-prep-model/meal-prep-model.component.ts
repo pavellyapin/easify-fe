@@ -20,14 +20,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { catchError, map, of } from 'rxjs';
-import { EasifyService } from '../../../services/easify.service';
-import { AppState } from '../../../store/app.state';
-import { setLoading } from '../../../store/loader/loading.actions';
+import { EasifyService } from '@services/easify.service';
+import { AppState } from '@store/app.state';
+import { setLoading } from '@store/loader/loading.actions';
 import {
   loadNewRecipeFailure,
   loadNewRecipeSuccess,
-} from '../../../store/recipe/recipe.actions';
+} from '@store/recipe/recipe.actions';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-meal-prep-model',

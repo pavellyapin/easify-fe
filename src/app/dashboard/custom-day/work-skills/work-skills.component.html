@@ -1,0 +1,59 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Headline -->
+
+<form [formGroup]="workSkillsForm">
+  <h5 i18n>Enhance Your Skills for a Productive Day</h5>
+
+  <!-- Sub-header -->
+  <p class="subtext" i18n>
+    Share the topics you’d like to focus on today. We’ll help you make the most
+    of your learning and development time.
+  </p>
+  <fieldset>
+    <!-- Instruction Text for Industries -->
+    <h6 i18n>What are some topics you might want to learn more about?</h6>
+    <!-- Industry Autocomplete -->
+    <app-course-category-autocomplete
+      (categoryAdded)="onCourseTagAdded($event)"
+    />
+
+    <!-- Added Industries as Chips with Refresh Button -->
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let course of addedCourseTags"
+            [removable]="true"
+            (removed)="removeCourseTag(course)"
+          >
+            {{ course | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Text Area for Additional Information -->
+  <fieldset>
+    <h6 i18n>Additional Details</h6>
+    <mat-form-field appearance="outline" class="textarea" i18n-appearance>
+      <textarea
+        matInput
+        formControlName="additionalInfo"
+        placeholder="E.g., Review for an interview, practice presentation, or learn a new skill."
+        i18n-placeholder
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </fieldset>
+
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Health & Lifestyle'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
+  />
+</form>

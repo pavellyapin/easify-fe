@@ -1,0 +1,49 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="!loading; else loadingCourseNavTemplate">
+  <div *ngIf="course?.chapters" class="chapter-nav-container">
+    <div
+      *ngFor="let chapter of course.chapters; let i = index"
+      class="chapter"
+      [ngClass]="{ expanded: i === currentChapterIndex }"
+    >
+      <!-- Chapter Title with Icon and Count -->
+      <p class="chapter-title" (click)="navigateToChapter(i + 1)">
+        <mat-icon
+          class="toggle-icon"
+          [svgIcon]="getChapterIcon(i + 1) || 'more-horiz'"
+        />
+        <span class="chapter-count">{{ i + 1 }}.</span>
+        <span class="chapter-text">{{ chapter.title }}</span>
+      </p>
+
+      <!-- Expanded Chapter View -->
+      <div *ngIf="i === currentChapterIndex" class="chapter-content">
+        <ul class="topics-list">
+          <li
+            *ngFor="let topic of chapter.topics; let j = index"
+            class="topic-item"
+            (click)="navigateToTopic(i + 1, j + 1)"
+          >
+            <caption class="topic-count">
+              <mat-icon
+                class="toggle-icon"
+                [svgIcon]="getTopicIcon(i + 1, j + 1) || 'more-horiz'"
+              />
+              {{ i + 1 }}.{{ j + 1 }}.
+            </caption>
+            <caption class="topic-text">
+              {{ topic.title }} - {{ topic.subtitle }}
+            </caption>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loadingCourseNavTemplate>
+  <app-loading-nav />
+</ng-template>

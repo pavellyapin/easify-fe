@@ -1,83 +1,121 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<div class="courses-section">
-  <h2 i18n>Started Courses</h2>
-  <div *ngIf="startedCourses$ | async as startedCourses">
-    <div *ngIf="startedCourses.length > 0; else noStartedCourses">
-      <div class="courses-grid">
-        <app-course-tile
-          *ngFor="let course of startedCourses"
-          class="course-card"
-          [course]="course.course"
+<!-- Main content and placeholder column container -->
+<!-- Main content and placeholder column container -->
+<!-- Main content and placeholder column container -->
+<!-- Main content and placeholder column container -->
+<div class="main-with-side">
+  <!-- Main content: courses and banners -->
+  <div class="main-content">
+    <!-- Search Box Section -->
+    <div class="search-box-container primary-search-box">
+      <mat-form-field appearance="outline" i18n-appearance>
+        <mat-icon i18n matPrefix>search</mat-icon>
+        <input
+          matInput
+          placeholder="What do you like to learn?"
+          aria-label="What do you like to learn?"
+          i18n-aria-label
+          i18n-placeholder
         />
-      </div>
+      </mat-form-field>
     </div>
-    <ng-template #noStartedCourses>
-      <p i18n>No started courses found.</p>
-    </ng-template>
-  </div>
-</div>
+    <!-- Started Courses Section -->
+    <div class="courses-section">
+      <h5 i18n>Started Courses</h5>
 
-<div class="courses-section">
-  <h2 i18n>Recommended Courses</h2>
-  <div *ngIf="isLoadingRecommended">
-    <p i18n>Loading recommended courses...</p>
-  </div>
-  <div *ngIf="recommendedCourses$ | async as recommendedCourses">
-    <div *ngIf="!isLoadingRecommended">
-      <div *ngIf="recommendedCourses.length > 0; else noRecommendedCourses">
-        <div class="courses-grid">
-          <app-course-tile
-            *ngFor="let course of recommendedCourses"
-            class="course-card"
-            [course]="course"
-          />
-        </div>
+      <!-- Loading state with card skeletons -->
+      <div *ngIf="isLoadingCombinedCourses; else startedCoursesContent">
+        <app-loading-carousel />
       </div>
-      <ng-template #noRecommendedCourses>
-        <p i18n>No recommended courses found.</p>
+
+      <!-- Courses content when loading is finished -->
+      <ng-template #startedCoursesContent>
+        <div *ngIf="combinedCourses as startedCourses">
+          <div *ngIf="startedCourses.length">
+            <!-- Use the app-courses-carousel component -->
+            <app-courses-carousel [courses]="startedCourses" />
+          </div>
+        </div>
       </ng-template>
     </div>
   </div>
-</div>
 
-<div class="courses-section">
-  <h2 i18n>All Courses</h2>
-  <!-- Tag Selection Section -->
-  <div class="tag-selection">
-    <mat-form-field appearance="fill" i18n-appearance>
-      <mat-label i18n>Select a tag</mat-label>
-      <mat-select (selectionChange)="onTagSelected($event.value)">
-        <mat-option *ngFor="let tag of allTags$ | async" [value]="tag">
-          {{ tag }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div>
-      <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
-        {{ tag }}
-        <mat-icon i18n matChipRemove>cancel</mat-icon>
-      </mat-chip>
+  <div *ngIf="!isTablet" class="side-content">
+    <div class="tracker-and-actions">
+      <app-course-tracker [challenge]="firstIncompleteChallenge" />
+      <app-suggested-action
+        *ngIf="!isTablet"
+        [title]="'Suggested Actions'"
+        [actions]="[
+          {
+            title: 'Complete Module 1',
+            subtext: 'Get started with basics',
+            buttonText: 'Start Now',
+            callback: completeModule,
+          },
+          {
+            title: 'Review Quiz Results',
+            subtext: 'Check where you went wrong',
+            buttonText: 'Review',
+            callback: completeModule,
+          },
+        ]"
+      />
     </div>
   </div>
-  <div *ngIf="isLoadingAll">
-    <p i18n>Loading recommended courses...</p>
-  </div>
-  <div *ngIf="allCourses$ | async as allCourses">
-    <div *ngIf="allCourses.length > 0; else noAllCourses">
-      <div class="courses-grid">
-        <app-course-tile
-          *ngFor="let course of allCourses"
-          class="course-card"
-          [course]="course"
-        />
+</div>
+<!-- Hero Banner Section -->
+<div class="hero-and-actions">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h5 i18n>Explore More Courses and Unlock New Skills</h5>
+      <p i18n>
+        Join our growing community and enhance your knowledge with personalized
+        learning paths.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <button mat-flat-button class="primary-stroked-md-button" i18n>
+          Get Started
+        </button>
+        <button mat-stroked-button class="primary-full-md-button" i18n>
+          Learn More
+        </button>
       </div>
     </div>
-    <ng-template #noAllCourses>
-      <p i18n>No courses found.</p>
-    </ng-template>
+
+    <!-- Illustration on the right -->
+    <div class="hero-illustration">
+      <img
+        src="assets/illustrations/courses-hero.svg"
+        alt="Illustration"
+        i18n-alt
+      />
+    </div>
+  </div>
+  <div *ngIf="isTablet">
+    <app-course-tracker [challenge]="firstIncompleteChallenge" />
+    <app-suggested-action
+      [actions]="[
+        {
+          title: 'Complete Module 1',
+          subtext: 'Get started with basics',
+          buttonText: 'Start Now',
+          callback: completeModule,
+        },
+        {
+          title: 'Review Quiz Results',
+          subtext: 'Check where you went wrong',
+          buttonText: 'Review',
+          callback: completeModule,
+        },
+      ]"
+    />
   </div>
 </div>
+<app-all-courses />

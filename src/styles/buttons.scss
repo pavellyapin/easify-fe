@@ -1,0 +1,58 @@
+@use "variables" as var;
+
+.action-link {
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  min-width: 0;
+  color: var.$primary-color !important; /* Primary color for the text */
+  font-size: 12px;
+
+  span {
+    text-decoration: underline;
+  }
+
+  mat-icon {
+    margin-left: 4px; /* Space between text and icon */
+    color: var.$primary-color; /* Icon color */
+    font-size: 16px;
+    text-decoration: none;
+  }
+}
+
+.primary-full-md-button {
+  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  background-color: var.$primary-color !important;
+  padding: 12px 0 !important; /* Increase the padding for a larger button */
+  width: 100% !important; /* Make the button span the full card width */
+  max-width: 180px;
+  color: white !important; /* Set the font color to white */
+  font-weight: bold !important; /* Optional: make the text bold */
+  font-size: 14px !important;
+}
+
+.primary-stroked-md-button {
+  border: solid 2px var.$primary-color !important;
+  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  background-color: white !important;
+  padding: 12px 0 !important; /* Increase the padding for a larger button */
+  width: 100% !important; /* Make the button span the full card width */
+  max-width: 180px;
+  color: var.$primary-color !important; /* Set the font color to white */
+  font-weight: bold !important; /* Optional: make the text bold */
+  font-size: 14px !important;
+}
+
+.primary-full-lg-button {
+  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  background-color: var.$primary-color !important;
+  padding: 24px 0 !important; /* Increase the padding for a larger button */
+  width: 100% !important; /* Make the button span the full card width */
+  max-width: 280px;
+  color: white !important; /* Set the font color to white */
+  font-weight: bold !important; /* Optional: make the text bold */
+  font-size: 18px !important;
+}

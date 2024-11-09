@@ -1,0 +1,93 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<form [formGroup]="lifestyleHealthForm" (ngSubmit)="onSubmit()">
+  <!-- Headline -->
+  <h5 i18n>Lifestyle & Health</h5>
+
+  <!-- Sub-header -->
+  <p class="sub-header" i18n>
+    Your health and lifestyle details help us deliver personalized tips and
+    advice for your wellness journey.
+  </p>
+
+  <!-- Lifestyle Choice Field -->
+  <!-- Instruction Text for Health Tags -->
+  <h6 i18n>What are some physical skills you'd like to work on?</h6>
+  <!-- Health Autocomplete -->
+  <app-workout-tag-autocomplete (tagAdded)="onWorkoutTagAdded($event)" />
+
+  <!-- Added Health Tags as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of addedWorkoutTags"
+        [removable]="true"
+        (removed)="removeWorkoutTag(tag)"
+      >
+        {{ tag }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Instruction Text for Health Tags -->
+  <h6 i18n>Which exercises are you into?</h6>
+  <!-- Health Autocomplete -->
+  <app-workout-category-autocomplete
+    (categoryAdded)="onCategoryAdded($event)"
+  />
+
+  <!-- Added Health Tags as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of addedWorkoutCategories"
+        [removable]="true"
+        (removed)="removeCategory(tag)"
+      >
+        {{ tag }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Health Status Radio Options -->
+  <div>
+    <h6 i18n>What is your martial status?</h6>
+    <mat-radio-group formControlName="martialStatus">
+      <mat-radio-button value="single" i18n>Single</mat-radio-button>
+      <mat-radio-button value="married" i18n>Married</mat-radio-button>
+      <mat-radio-button value="In a relationship" i18n>
+        In a relationship
+      </mat-radio-button>
+      <mat-radio-button value="Looking for a relationship" i18n>
+        Looking for a relationship
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div>
+    <h6 i18n>Do you have any kids? If yes, please share some details</h6>
+    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+      <input
+        matInput
+        formControlName="kids"
+        placeholder="Do you have any kids?"
+        i18n-placeholder
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="submit-btn">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="lifestyleHealthForm.invalid"
+      i18n
+    >
+      Continue
+    </button>
+  </div>
+</form>

@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActivatedRoute } from '@angular/router';
-import { EasifyService } from '../../../services/easify.service';
-import { RecipesService } from '../../../services/recipes.service';
+import { EasifyService } from '@services/easify.service';
+import { RecipesService } from '@services/recipes.service';
 import { IngredientsAutocompleteComponent } from '../ingredients-autocomplete/ingredients-autocomplete.component';
 
 @Component({
@@ -72,14 +72,16 @@ export class ShoppingListComponent implements OnInit {
       .map((ingredient) => `${ingredient.name} - ${ingredient.quantity}`);
 
     if (selectedIngredients.length > 0) {
-      this.easifyService.sendShoppingList(selectedIngredients , '+14168389409').subscribe({
-        next: (response) => {
-          console.log('Shopping list sent successfully:', response);
-        },
-        error: (error) => {
-          console.error('Error sending shopping list:', error);
-        },
-      });
+      this.easifyService
+        .sendShoppingList(selectedIngredients, '+14168389409')
+        .subscribe({
+          next: (response) => {
+            console.log('Shopping list sent successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error sending shopping list:', error);
+          },
+        });
     } else {
       console.log('No ingredients selected.');
     }

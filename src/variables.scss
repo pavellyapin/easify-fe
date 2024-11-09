@@ -5,11 +5,13 @@
 // Define color variables for use throughout the app
 $primary-color: #56c98a;
 $primary-light-color: #8cdcb7;
-$primary-dark-color: #36a468;
+$primary-light-color-2: #c1e8da;
+$primary-dark-color: #07b977;
 $primary-contrast-color: #333333;
 
 $secondary-color: #8cc9ee;
 $secondary-light-color: #b4dcf4;
+$secondary-super-light-color: #eefaf6;
 $secondary-dark-color: #64b6e7;
 $secondary-contrast-color: #333333;
 
@@ -86,4 +88,4 @@ $accent-palette: mat.m2-define-palette(
 );
 
 $heading-font-family: "Poppins", sans-serif;
-$regular-font-family: "Inter", sans-serif;
+$regular-font-family: "Poppins", sans-serif;

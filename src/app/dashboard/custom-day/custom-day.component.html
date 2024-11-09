@@ -1,0 +1,54 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="flow-container">
+  <!-- Navigation bar with back and skip buttons -->
+  <div class="nav-bar">
+    <button
+      mat-icon-button
+      aria-label="Go back"
+      i18n-aria-label
+      [disabled]="currentStep === 0"
+      (click)="navigateToPreviousStep()"
+    >
+      <mat-icon i18n>arrow_back</mat-icon>
+    </button>
+    <button
+      *ngIf="currentStep < totalSteps - 1"
+      i18n
+      mat-button
+      class="skip-button"
+      aria-label="Skip"
+      i18n-aria-label
+      (click)="navigateToNextStep()"
+    >
+      Skip
+    </button>
+  </div>
+
+  <!-- Progress bar -->
+  <mat-progress-bar
+    class="progress-bar"
+    mode="determinate"
+    i18n-mode
+    [value]="getProgressValue()"
+  ></mat-progress-bar>
+
+  <!-- Stepper navigation and router outlet -->
+  <div class="stepper-navigation" [@routeAnimation]="prepareRoute(outlet)">
+    <!-- Loading Overlay for router-outlet area -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="loading-rect"></div>
+      <div class="loading-rect"></div>
+      <div class="loading-rect"></div>
+      <div class="loading-rect"></div>
+      <div class="loading-rect"></div>
+    </div>
+    <div class="router-outlet-wrapper" [class.hidden]="loading">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Headline -->
+<h5 i18n>Work & Skills</h5>
+
+<!-- Sub-header -->
+<p class="sub-header" i18n>
+  Your industry and work details help us deliver tailored tips and advice for
+  your career growth.
+</p>
+
+<!-- Material Alert -->
+<app-alert-card
+  message="Your information is private and secure."
+  i18n-message
+  icon="info"
+  i18n-icon
+  color="primary"
+/>
+<form [formGroup]="workSkillsForm" (ngSubmit)="onSubmit()">
+  <!-- Occupation Field -->
+  <div>
+    <h6 i18n>What is your occupation?</h6>
+    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+      <input
+        matInput
+        formControlName="occupation"
+        placeholder="Enter your occupation"
+        i18n-placeholder
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- Instruction Text for Industries -->
+  <h6 i18n>Which industries are you involved in?</h6>
+  <!-- Industry Autocomplete -->
+  <app-industries-autocomplete (industryAdded)="onIndustryAdded($event)" />
+
+  <!-- Added Industries as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let industry of addedIndustries"
+        [removable]="true"
+        (removed)="removeIndustry(industry)"
+      >
+        {{ industry }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Instruction Text for Industries -->
+  <h6 i18n>What are some topics you might want to learn more about?</h6>
+  <!-- Industry Autocomplete -->
+  <app-course-category-autocomplete
+    (categoryAdded)="onCourseTagAdded($event)"
+  />
+
+  <!-- Added Industries as Chips -->
+  <div>
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let course of addedCourseTags"
+        [removable]="true"
+        (removed)="removeCourseTag(course)"
+      >
+        {{ course }}
+        <mat-icon i18n matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Work Status Radio Options -->
+  <div>
+    <h6 i18n>What is your current work status?</h6>
+    <mat-radio-group formControlName="workStatus">
+      <mat-radio-button value="full-time" i18n>
+        Full-time employed
+      </mat-radio-button>
+      <mat-radio-button value="part-time" i18n>
+        Part-time employed
+      </mat-radio-button>
+      <mat-radio-button value="looking-for-work" i18n>
+        Looking for work
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!-- Hybrid Status Radio Options (Conditional) -->
+  <div>
+    <h6 i18n>Do you work remotely, in-office, or hybrid?</h6>
+    <mat-radio-group formControlName="hybridStatus">
+      <mat-radio-button value="remote" i18n>Remote</mat-radio-button>
+      <mat-radio-button value="in-office" i18n>In-office</mat-radio-button>
+      <mat-radio-button value="hybrid" i18n>Hybrid</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="submit-btn">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="workSkillsForm.invalid"
+      i18n
+    >
+      Continue
+    </button>
+  </div>
+</form>

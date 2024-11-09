@@ -5,11 +5,11 @@
 html,
 body {
   margin: 0;
+  background-color: white;
   height: 100%;
+  scroll-behavior: auto;
 }
 
-.hidden-stepper-headers {
-  .mat-horizontal-stepper-header-container {
-    display: none !important;
-  }
+fieldset {
+  border: none;
 }

@@ -1,0 +1,45 @@
+@use "variables" as var;
+
+/* Loading rectangles mimicking mat-chips */
+.loading-rectangles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Spacing between rectangles */
+  margin-top: 10px;
+}
+
+.loading-rect {
+  animation: pulse 1.5s infinite ease-in-out; /* Pulsing animation */
+  border-radius: 16px; /* Rounded corners to look like chips */
+  background-color: var.$secondary-light-color;
+  width: 100px; /* Width of a typical chip */
+  height: 32px; /* Height of a typical chip */
+}
+
+.loading-rect:nth-child(1),
+.loading-rect:nth-child(2),
+.loading-rect:nth-child(3) {
+  /* First three loading chips in the top row */
+  flex: 1 1 30%; /* Flex to take up 30% of the width each */
+}
+
+.loading-rect:nth-child(4),
+.loading-rect:nth-child(5) {
+  /* Last two loading chips in the second row */
+  flex: 1 1 45%; /* Flex to take up 45% of the width each */
+}
+
+/* Pulsing animation to mimic loading */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

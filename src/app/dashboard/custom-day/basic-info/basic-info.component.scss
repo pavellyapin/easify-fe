@@ -1,0 +1,33 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .textarea {
+    width: 100%;
+  }
+
+  .special-day-switch {
+    display: flex;
+    align-items: center;
+
+    .fixed-width-text {
+      width: 150px; /* Adjust as needed to fit the longest text */
+      text-align: center; /* Center-aligns the text within the fixed width */
+    }
+  }
+
+  .primary-search-box {
+    flex-direction: column;
+
+    mat-form-field {
+      max-width: 130px;
+      font-size: 20px !important;
+    }
+  }
+
+  .subtext {
+    padding-bottom: 16px;
+    color: grey;
+  }
+}

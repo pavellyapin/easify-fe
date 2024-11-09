@@ -1,0 +1,39 @@
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 0 16px;
+  height: 64px;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.avatar-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-color: #a8e6cf; /* Primary color (Easify's soft green) */
+  width: 40px;
+  height: 40px;
+}
+
+.initials {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}

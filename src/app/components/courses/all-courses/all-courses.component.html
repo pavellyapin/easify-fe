@@ -1,0 +1,120 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- All Courses Section takes full width -->
+<!-- All Courses Section takes full width -->
+<div class="all-courses-container">
+  <div class="courses-grid-section">
+    <h2 i18n>All Courses</h2>
+
+    <!-- Loading state for all courses -->
+    <div *ngIf="isLoadingAll; else allCoursesContent">
+      <app-loading-carousel />
+    </div>
+
+    <!-- All Courses Content -->
+    <ng-template #allCoursesContent>
+      <div *ngIf="allCourses$ | async as allCourses">
+        <div *ngIf="allCourses.length > 0; else noAllCourses">
+          <div class="courses-grid">
+            <app-course-tile
+              *ngFor="let course of allCourses"
+              class="course-card"
+              [course]="course"
+            />
+          </div>
+        </div>
+        <ng-template #noAllCourses>
+          <p i18n>No courses found.</p>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Filters Section inside mat-expansion-panel -->
+  <mat-expansion-panel *ngIf="!isLoadingAll" [expanded]="isPanelOpen">
+    <mat-expansion-panel-header>
+      <mat-panel-title i18n>Filters</mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="filterForm">
+      <fieldset class="new-courses-switch">
+        <caption i18n class="new-chip">New</caption>
+        <mat-slide-toggle formControlName="isNew" color="primary" i18n />
+      </fieldset>
+      <!-- Level Selection Styled as Icons -->
+      <div class="level-selector custom-checkbox-container">
+        <mat-checkbox
+          class="icon-checkbox"
+          [checked]="filterForm.get('levels')?.value.includes('beginner')"
+          (change)="onLevelChange('beginner', $event.checked)"
+        >
+          <mat-icon svgIcon="beginner" />
+          <span i18n>Beginner</span>
+        </mat-checkbox>
+
+        <mat-checkbox
+          class="icon-checkbox"
+          [checked]="filterForm.get('levels')?.value.includes('intermediate')"
+          (change)="onLevelChange('intermediate', $event.checked)"
+        >
+          <mat-icon svgIcon="intermediate" />
+          <span i18n>Intermediate</span>
+        </mat-checkbox>
+
+        <mat-checkbox
+          class="icon-checkbox"
+          [checked]="filterForm.get('levels')?.value.includes('advanced')"
+          (change)="onLevelChange('advanced', $event.checked)"
+        >
+          <mat-icon svgIcon="advanced" />
+          <span i18n>Advanced</span>
+        </mat-checkbox>
+      </div>
+
+      <fieldset>
+        <!-- Category Autocomplete -->
+        <app-course-category-autocomplete
+          (categoryAdded)="onCategorySelected($event)"
+        />
+
+        <!-- Display Categories in Chip List -->
+        <div class="app-chips-secondary">
+          <mat-chip-set>
+            <mat-chip
+              *ngFor="let category of filterForm.get('categories')?.value"
+              (removed)="removeCategory(category)"
+            >
+              {{ category | capitalize }}
+              <mat-icon i18n matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Buttons to Apply or Reset Filters -->
+    <div class="filter-buttons">
+      <button
+        mat-flat-button
+        color="primary"
+        class="primary-stroked-md-button"
+        (click)="onFilterSubmit()"
+        i18n
+      >
+        Apply
+      </button>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        class="primary-full-md-button"
+        (click)="resetFilters()"
+        i18n
+      >
+        Reset
+      </button>
+    </div>
+  </mat-expansion-panel>
+</div>

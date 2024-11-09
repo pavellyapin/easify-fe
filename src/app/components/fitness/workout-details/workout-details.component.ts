@@ -6,10 +6,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FitnessWorkoutsService } from '@services/fitness.service';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import { FitnessWorkoutsService } from '../../../services/fitness.service';
 
 @Component({
   selector: 'app-workout-details',

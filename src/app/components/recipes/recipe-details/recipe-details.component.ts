@@ -11,11 +11,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { RecipesService } from '@services/recipes.service';
+import { selectNewRecipe } from '@store/recipe/recipe.selectors';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { RecipesService } from '../../../services/recipes.service';
-import { selectNewRecipe } from '../../../store/recipe/recipe.selectors';
 
 @Component({
   selector: 'app-recipe-details',

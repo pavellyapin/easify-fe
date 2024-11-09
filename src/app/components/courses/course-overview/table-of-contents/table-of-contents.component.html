@@ -1,0 +1,36 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<h5 i18n>Course contents</h5>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let chapter of course.chapters; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="
+      startedCourse.status !== 'completed' &&
+      i + 1 === startedCourse?.progress?.chapter
+    "
+  >
+    <mat-expansion-panel-header>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ chapter.title }}</h6>
+        <p class="single-line-ellipsis">{{ chapter.subtitle }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getChapterIcon(i + 1)"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ chapter.overview }}</p>
+      <button mat-button class="action-link" (click)="navigateToChapter(i + 1)">
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

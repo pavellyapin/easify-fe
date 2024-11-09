@@ -8,192 +8,1181 @@
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">5</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="2396619024115048718" datatype="html">
+        <source>All Courses</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">10,12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7542413431242667654" datatype="html">
-        <source>Level: <x id="INTERPOLATION" equiv-text="{{ course.level }}"/></source>
+      <trans-unit id="1865970144946390665" datatype="html">
+        <source>No courses found.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/courses/course-details/course-details.component.html</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4163272119298020373" datatype="html">
+        <source>Filters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5280218112746407598" datatype="html">
+        <source>New</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5754117841832798663" datatype="html">
+        <source>Beginner</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1311606986429558406" datatype="html">
+        <source>Intermediate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6201638315245239510" datatype="html">
+        <source>Advanced</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="503445309622982213" datatype="html">
+        <source>cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-by-ingredients/recipe-by-ingredients.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4517691647545108767" datatype="html">
+        <source> Apply </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">106,107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5478121364779850827" datatype="html">
+        <source> Reset </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/all-courses/all-courses.component.html</context>
+          <context context-type="linenumber">116,117</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="298437444019571474" datatype="html">
+        <source>outline</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-category-autocomplete/course-category-autocomplete.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-category-autocomplete/plan-category-autocomplete.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-category-autocomplete/workout-category-autocomplete.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/industries-autocomplete/industries-autocomplete.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/cuisine-autocomplete/cuisine-autocomplete.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6280770222099609576" datatype="html">
+        <source>Explore categories (e.g., Travel, Programming, Yoga)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-category-autocomplete/course-category-autocomplete.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1349547954574351547" datatype="html">
+        <source>Add category</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-category-autocomplete/course-category-autocomplete.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-category-autocomplete/workout-category-autocomplete.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1059784693423848532" datatype="html">
+        <source>add</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-category-autocomplete/course-category-autocomplete.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-category-autocomplete/plan-category-autocomplete.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-category-autocomplete/workout-category-autocomplete.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/industries-autocomplete/industries-autocomplete.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/cuisine-autocomplete/cuisine-autocomplete.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/ingredients-autocomplete/ingredients-autocomplete.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5900521475342845397" datatype="html">
+        <source>Chapter contents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/chapter-table-of-content/chapter-table-of-content.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6962699013778688473" datatype="html">
+        <source>Continue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/chapter-table-of-content/chapter-table-of-content.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/table-of-contents/table-of-contents.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7555772414906413360" datatype="html">
+        <source>arrow_forward</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/chapter-table-of-content/chapter-table-of-content.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/table-of-contents/table-of-contents.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tracker/course-tracker.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/daily-tracker/daily-tracker.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/suggested-action/suggested-action.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2821179408673282599" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-overview.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1142152047522001563" datatype="html">
+        <source>Learning Hub</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-overview.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8424575283863104959" datatype="html">
+        <source>Previous Chapter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6583560359114106393" datatype="html">
+        <source>arrow_backward</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8192680256063110394" datatype="html">
+        <source>Next Chapter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">56,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="277340012750408707" datatype="html">
+        <source>Chapter <x id="INTERPOLATION" equiv-text="{{ chapterIndex }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2857007776121508823" datatype="html">
+        <source> Keep learning </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-chapter/course-chapter.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7708270344948043036" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{
+      startedCourse.status === &quot;completed&quot;
+        ? &quot;Course complete!&quot;
+        : &quot;Keep up the great work!&quot;
+    }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">16,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">30,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="483145808951694766" datatype="html">
+        <source>determinate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tracker/course-tracker.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/daily-tracker/daily-tracker.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/custom-day.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7326958456036109763" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ getRemainingPercentage() }}"/>% remaining to complete this course </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="864067378550273777" datatype="html">
+        <source>Additional Resources</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8091788350539872088" datatype="html">
+        <source>Skills you&apos;ll gain</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-intro/course-intro.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6747199206368441112" datatype="html">
+        <source>Started Courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-overview.component.html</context>
+          <context context-type="linenumber">54,56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">28,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4711380804287800086" datatype="html">
+        <source> This course was crafted by our latest AI model, blending cutting-edge technology with expert insights. It delivers a tailored learning experience, ensuring each module is clear, engaging, and up-to-date with the latest trends and research. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-stats/course-stats.component.html</context>
+          <context context-type="linenumber">20,23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4840937066115536719" datatype="html">
         <source> Start Course </source>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-stats/course-stats.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">84,85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8775914144196565417" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ chaptersCount }}"/> chapters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-stats/course-stats.component.html</context>
+          <context context-type="linenumber">55,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1302352537058254827" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ quizzesCount }}"/> quizzes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-stats/course-stats.component.html</context>
+          <context context-type="linenumber">59,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2527158828532770961" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ estimatedTime }}"/> hours</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/course-stats/course-stats.component.html</context>
+          <context context-type="linenumber">63,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7715164289663727453" datatype="html">
+        <source>Course contents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-overview/table-of-contents/table-of-contents.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2151301699548201132" datatype="html">
+        <source>above</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8110367050267853536" datatype="html">
+        <source>More options</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="779385176666019473" datatype="html">
+        <source>more_vert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="187187500641108332" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ course.level }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tile/course-tile.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="734934965373819800" datatype="html">
+        <source>Go back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/custom-day.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4048502903311293919" datatype="html">
+        <source>M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">84,85</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">147,148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/schedule/schedule.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/schedule/schedule.component.html</context>
+          <context context-type="linenumber">84,85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4069917522708877525" datatype="html">
+        <source>keyboard_arrow_up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/schedule/schedule.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/schedule/schedule.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1339542484294927799" datatype="html">
+        <source>Easify AI</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">123,124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7806655202242224141" datatype="html">
+        <source>Easify AI action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">126,127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3885497195825665706" datatype="html">
+        <source>Next</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-topic/course-topic.component.html</context>
+          <context context-type="linenumber">155,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6421212107515728841" datatype="html">
+        <source>Challenge Badge Circle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tracker/course-tracker.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1731781076458810727" datatype="html">
+        <source>Challenge Badge</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/course-tracker/course-tracker.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="312514744634389207" datatype="html">
+        <source>No courses available.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/courses-carousel/courses-carousel.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7158592746571420879" datatype="html">
+        <source>search</source>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
-          <context context-type="linenumber">18,19</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8448712028961191972" datatype="html">
-        <source>Meal</source>
+      <trans-unit id="9084794087191019490" datatype="html">
+        <source>What do you like to learn?</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/daily-look.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">20,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2156253041157991081" datatype="html">
-        <source>restaurant</source>
+      <trans-unit id="8182410205583545842" datatype="html">
+        <source>Explore More Courses and Unlock New Skills</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/daily-look.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">75,76</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2405520779176589988" datatype="html">
-        <source>Recipe:</source>
+      <trans-unit id="5670540301789448306" datatype="html">
+        <source> Join our growing community and enhance your knowledge with personalized learning paths. </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/daily-look.component.html</context>
-          <context context-type="linenumber">49,50</context>
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">77,78</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4551003012209671246" datatype="html">
-        <source>Meal Details</source>
+      <trans-unit id="3265250603400790440" datatype="html">
+        <source> Get Started </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">2,3</context>
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">84,85</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6769665168666520068" datatype="html">
-        <source>Level of Difficulty</source>
+      <trans-unit id="251782094462603887" datatype="html">
+        <source> Learn More </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">87,88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3077679800511999705" datatype="html">
+        <source>Illustration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/courses/courses.component.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5500327479994919377" datatype="html">
+        <source>Item Badge Circle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/daily-tracker/daily-tracker.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1735056192952897604" datatype="html">
+        <source>Item Badge</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/daily-tracker/daily-tracker.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5120820546120845326" datatype="html">
+        <source>No schedule available.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/schedule/schedule.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="278590554940342755" datatype="html">
+        <source>menu</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8994778980842531354" datatype="html">
+        <source>refresh</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6010178522405132962" datatype="html">
+        <source>No workouts found for this session.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7761276915482049217" datatype="html">
+        <source>Add Workout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">68,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7399862007534192067" datatype="html">
+        <source>No courses found for this session.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">104,105</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">138,139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7683178663136265941" datatype="html">
+        <source>No industries found for this session.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">107,108</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">218,219</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4568526882955820641" datatype="html">
+        <source>Add Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">114,115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1690834588822161501" datatype="html">
+        <source>Add Learning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">145,146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4340440929779792424" datatype="html">
+        <source>No recipes found for this session.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">169,170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1518523854525357466" datatype="html">
+        <source>Add Recipe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">176,177</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1461433626263470702" datatype="html">
+        <source>No financial plans found for this session.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">215,216</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8349316614834794994" datatype="html">
+        <source>Add Plan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/daily-look/timeslot/timeslot.component.html</context>
+          <context context-type="linenumber">225,226</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8505649016659914154" datatype="html">
+        <source> Category: <x id="INTERPOLATION" equiv-text="{{ financialPlan.category }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial-plan-tile/financial-plan-tile.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3200649656083610247" datatype="html">
+        <source> Start Financial Plan </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial-plan-tile/financial-plan-tile.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7072906311891436252" datatype="html">
+        <source>Started Financial Plans</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
           <context context-type="linenumber">6,7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8037134183854795009" datatype="html">
-        <source>Easy</source>
+      <trans-unit id="6393420042212283607" datatype="html">
+        <source>No started financial plans found.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">18,19</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4215588132135948061" datatype="html">
-        <source>Some effort</source>
+      <trans-unit id="1795342605855347582" datatype="html">
+        <source>Recommended Financial Plans</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">24,25</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7361237065116488837" datatype="html">
-        <source>All in</source>
+      <trans-unit id="3755546116991329124" datatype="html">
+        <source>Loading recommended financial plans...</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7783176306103362607" datatype="html">
+        <source>No recommended financial plans found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6135009244262079495" datatype="html">
+        <source>All Financial Plans</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3787070571118971918" datatype="html">
+        <source>Loading financial plans...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1746451957171836553" datatype="html">
+        <source>No financial plans found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/financial.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3934416946431366727" datatype="html">
+        <source>Search financial plan tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-category-autocomplete/plan-category-autocomplete.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6560126119609945418" datatype="html">
+        <source>Add tag</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-category-autocomplete/plan-category-autocomplete.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5535214138662821169" datatype="html">
+        <source>Started Workouts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2790903203827997845" datatype="html">
+        <source>No started workouts found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2767963958298327145" datatype="html">
+        <source>Recommended Workouts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3420927623863809805" datatype="html">
+        <source>Loading recommended workouts...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4282253851148162615" datatype="html">
+        <source>No recommended workouts found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6401252027374720837" datatype="html">
+        <source>All Workouts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">47,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4999032921420836573" datatype="html">
         <source>fill</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/ingredients-autocomplete/ingredients-autocomplete.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="262890231096293956" datatype="html">
-        <source>Number of Servings</source>
+      <trans-unit id="9192210181188741000" datatype="html">
+        <source>Select a tag</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4949282191348659945" datatype="html">
-        <source>end</source>
+      <trans-unit id="7817366960101507929" datatype="html">
+        <source>No workouts found.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="sourcefile">src/app/components/fitness/fitness.component.html</context>
+          <context context-type="linenumber">80,81</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2159130950882492111" datatype="html">
-        <source>Cancel</source>
+      <trans-unit id="7426491393129080390" datatype="html">
+        <source>Search workout categories</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">21,22</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-category-autocomplete/workout-category-autocomplete.component.html</context>
+          <context context-type="linenumber">9,10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4943998242904350511" datatype="html">
-        <source> Submit </source>
+      <trans-unit id="6996799422725544865" datatype="html">
+        <source>Description:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/daily-look/meal-prep-model/meal-prep-model.component.html</context>
-          <context context-type="linenumber">29,30</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">12,13</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/question/question.component.html</context>
-          <context context-type="linenumber">40,41</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7776683768377554029" datatype="html">
-        <source>Welcome to Easify</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">7,8</context>
+          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">25,26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8753935980611565299" datatype="html">
-        <source>Your Personal Life Coach</source>
+      <trans-unit id="910255968468979564" datatype="html">
+        <source>Difficulty:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">8,9</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">37,38</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5786519060488028072" datatype="html">
-        <source> Easify helps you with financial tasks, family questions, relationship advice, health questions, nutrition, cooking, and more. Get personalized advice and take control of your life with Easify. </source>
+      <trans-unit id="4220765745195024064" datatype="html">
+        <source>Duration:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">10,12</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">20,21</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="887590585513582217" datatype="html">
-        <source>Join Us Today</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7038503489321588536" datatype="html">
-        <source> Get started with Easify and improve your life with personalized coaching. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">22,23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2907733796351584017" datatype="html">
-        <source> Register </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">34</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1485884630079398261" datatype="html">
-        <source>Why Choose Easify?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">43,44</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7471319737404383351" datatype="html">
-        <source> Easify is your go-to solution for personal coaching in various aspects of life. Our expert coaches are dedicated to providing personalized advice tailored to your specific needs, helping you achieve your goals and improve your overall well-being. Join us today and take the first step towards a better, more organized life. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">45,49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1376280323722293533" datatype="html">
-        <source>© 2024 Easify. All Rights Reserved.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
           <context context-type="linenumber">54,55</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8439955599488894226" datatype="html">
-        <source>Privacy Policy</source>
+      <trans-unit id="7595930936671323978" datatype="html">
+        <source>Equipment</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/home/home.component.html</context>
-          <context context-type="linenumber">55,56</context>
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9222663307598031013" datatype="html">
+        <source>Warm-up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9056543421332015840" datatype="html">
+        <source>Exercise</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7658402240953727096" datatype="html">
+        <source>Name:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4861275102331353638" datatype="html">
+        <source>Instructions:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1169707866270646998" datatype="html">
+        <source>Reps:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7312557742201883632" datatype="html">
+        <source>sets:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7886570921510760899" datatype="html">
+        <source>Tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">69,70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8991553411559321694" datatype="html">
+        <source>Related Workouts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-details/workout-details.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2638265261991303511" datatype="html">
+        <source>Search workout tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7542413431242667654" datatype="html">
+        <source>Level: <x id="INTERPOLATION" equiv-text="{{ workout.level }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tile/workout-tile.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1661116748701978406" datatype="html">
+        <source> Start Workout </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/fitness/workout-tile/workout-tile.component.html</context>
+          <context context-type="linenumber">17,18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2454050363478003966" datatype="html">
@@ -235,144 +1224,1724 @@
           <context context-type="linenumber">20,21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6996799422725544865" datatype="html">
-        <source>Description:</source>
+      <trans-unit id="6760507637530495835" datatype="html">
+        <source> Easify </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6966257120197587982" datatype="html">
+        <source>primary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="821022653905883685" datatype="html">
+        <source>above after</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5851560788527570644" datatype="html">
+        <source>Notifications</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/notifications/notifications.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1388903157408573617" datatype="html">
+        <source>User Avatar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8175442323929298586" datatype="html">
+        <source>keyboard_arrow_down</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4915431133669985304" datatype="html">
+        <source>Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="935790816200474922" datatype="html">
+        <source>Sign Out</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8236106846637102895" datatype="html">
+        <source>Search related industries</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/industries-autocomplete/industries-autocomplete.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8448148904283244251" datatype="html">
+        <source>Add industry</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/industries-autocomplete/industries-autocomplete.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1048532426465759070" datatype="html">
+        <source>Explore Industry</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/industry-tile/industry-tile.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8642973093797091552" datatype="html">
+        <source>Started Industries</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2184688830249436550" datatype="html">
+        <source>No started industries found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3490560873090691676" datatype="html">
+        <source>Recommended Industries</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7425896724233098610" datatype="html">
+        <source>Loading recommended industries...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6207184435308957818" datatype="html">
+        <source>No recommended industries found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1821727433970337529" datatype="html">
+        <source>All Industries</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5955842292679618409" datatype="html">
+        <source>Loading industries...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5230949516112696060" datatype="html">
+        <source>No industries found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/personal-growth.component.html</context>
+          <context context-type="linenumber">85,86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1171196167139068418" datatype="html">
+        <source> Drag &amp; drop your resume here </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/resume-upload/resume-upload.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8285962591870287785" datatype="html">
+        <source> Select File </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/resume-upload/resume-upload.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7249379020348780272" datatype="html">
+        <source> Upload Resume </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/resume-upload/resume-upload.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3623307758515704027" datatype="html">
+        <source> Analyze </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/resume-upload/resume-upload.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2256581797902573217" datatype="html">
+        <source> Download </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/personal-growth/resume-upload/resume-upload.component.html</context>
+          <context context-type="linenumber">68,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1725518735358825524" datatype="html">
+        <source>Search cuisines</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/cuisine-autocomplete/cuisine-autocomplete.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8976792843032868866" datatype="html">
+        <source>Add cuisine</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/cuisine-autocomplete/cuisine-autocomplete.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1707041385130728390" datatype="html">
+        <source>Search and add ingredients</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/ingredients-autocomplete/ingredients-autocomplete.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="391788318699725281" datatype="html">
+        <source>Add ingredient</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/ingredients-autocomplete/ingredients-autocomplete.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7022944077780912408" datatype="html">
+        <source> Find Recipes </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-by-ingredients/recipe-by-ingredients.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4707877305762392298" datatype="html">
+        <source> New Recipe </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-by-ingredients/recipe-by-ingredients.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6441288404703342055" datatype="html">
+        <source>Found Recipes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-by-ingredients/recipe-by-ingredients.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8746807030741804422" datatype="html">
+        <source>No recipes found with the selected ingredients.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-by-ingredients/recipe-by-ingredients.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6799485957303243139" datatype="html">
+        <source>favorite</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">11,12</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1211748462169290744" datatype="html">
+        <source>Send Shopping list</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2525368532943285941" datatype="html">
+        <source> Add to favorites </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6030153860824161173" datatype="html">
         <source>Cuisine:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">15,16</context>
+          <context context-type="linenumber">29,30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7501118874506324997" datatype="html">
         <source>Category:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">19,20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="910255968468979564" datatype="html">
-        <source>Difficulty:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">23,24</context>
+          <context context-type="linenumber">33,34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1444618881722585510" datatype="html">
         <source>Servings:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">27,28</context>
+          <context context-type="linenumber">41,42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3837504959415958510" datatype="html">
         <source>Prep Time:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">31,32</context>
+          <context context-type="linenumber">45,46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1099020435326361360" datatype="html">
         <source>Cook Time:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">35,36</context>
+          <context context-type="linenumber">49,50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4606835449044704543" datatype="html">
         <source>Total Time:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">39,40</context>
+          <context context-type="linenumber">53,54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9113906794544800679" datatype="html">
         <source>Ingredients</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">43,44</context>
+          <context context-type="linenumber">58,59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7290374659252540217" datatype="html">
         <source>Instructions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
-          <context context-type="linenumber">50,51</context>
+          <context context-type="linenumber">66,67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1604795977599078115" datatype="html">
         <source>Keywords</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2575039598606310168" datatype="html">
+        <source>Related Recipes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-details/recipe-details.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4112694415064031754" datatype="html">
+        <source>Search recipe tags</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="478990936252208569" datatype="html">
+        <source>Add recipe tag</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9127261974235074522" datatype="html">
+        <source> Difficulty: <x id="INTERPOLATION" equiv-text="{{ recipe.difficulty }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tile/recipe-tile.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="870458604984016685" datatype="html">
+        <source> View Recipe </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipe-tile/recipe-tile.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6689494719579811212" datatype="html">
+        <source> Recipes by Ingredients </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="441979109769647472" datatype="html">
+        <source>Started Recipes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7817340830723569666" datatype="html">
+        <source>No started recipes found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8307767301401694497" datatype="html">
+        <source>Recommended Recipes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1672360322684003626" datatype="html">
+        <source>Loading recommended recipes...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6371291395093257214" datatype="html">
+        <source>No recommended recipes found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7549922963867478857" datatype="html">
+        <source>All Recipes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
           <context context-type="linenumber">62,63</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7965872651694074594" datatype="html">
-        <source>Create Your Account</source>
+      <trans-unit id="1207097912092162418" datatype="html">
+        <source>Select a keyword</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">7,8</context>
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4786560771895410792" datatype="html">
-        <source>Previous step</source>
+      <trans-unit id="3334399382139539708" datatype="html">
+        <source>Loading all recipes...</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">11,12</context>
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">88,89</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2049248577957175465" datatype="html">
-        <source>chevron_left</source>
+      <trans-unit id="2656185828193458552" datatype="html">
+        <source>No recipes found.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="sourcefile">src/app/components/recipes/recipes.component.html</context>
+          <context context-type="linenumber">101,102</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7545690718522436177" datatype="html">
-        <source> Register with Email </source>
+      <trans-unit id="3716561241149069140" datatype="html">
+        <source>Shopping List</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="sourcefile">src/app/components/recipes/shopping-list/shopping-list.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6065821298331212480" datatype="html">
+        <source> Send Shopping List
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/shopping-list/shopping-list.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7293619330999951110" datatype="html">
+        <source>No ingredients found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/recipes/shopping-list/shopping-list.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5938132330177066574" datatype="html">
+        <source>Custom Day Information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8943854258043260759" datatype="html">
+        <source> We need this information to provide you with the best experience for your custom day. Rest assured, your data is safe with us.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">9,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7899041463297005588" datatype="html">
+        <source>Special Day</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6882479148342099446" datatype="html">
+        <source>When do you plan to wake up on this day?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7016237692970847757" datatype="html">
+        <source>Select wake-up time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4014129976979786252" datatype="html">
+        <source>When do you plan to go to sleep on this day?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2883649403297950417" datatype="html">
+        <source>Select sleep time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9023320713648697977" datatype="html">
+        <source>Describe your special day</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8979412636655389030" datatype="html">
+        <source>Enter details about the special day</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3600752762175245191" datatype="html">
+        <source>arrow_back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/custom-day.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4563965495368336177" datatype="html">
+        <source>Skip</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/custom-day.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4170719254013309689" datatype="html">
+        <source> Skip </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/custom-day.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
           <context context-type="linenumber">27,28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1604589436914217026" datatype="html">
-        <source> Register with Google </source>
+      <trans-unit id="678785195688888020" datatype="html">
+        <source>Special Foods for Your Custom Day</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">36,37</context>
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">6,8</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5990315732389421367" datatype="html">
-        <source>Step <x id="INTERPOLATION" equiv-text="{{ i + 1 }}"/></source>
+      <trans-unit id="3808462884542914807" datatype="html">
+        <source> Let us know what special foods you would like to enjoy on this day. </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2507590184496420938" datatype="html">
+        <source>Which special foods would you like to include?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2303489635985691360" datatype="html">
+        <source>Clear all</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7768495123558312657" datatype="html">
+        <source>Additional Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2293945489564940437" datatype="html">
+        <source>Enter any extra information about your special foods</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8955908065808909007" datatype="html">
+        <source>Lifestyle &amp; Health</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="439548371911787568" datatype="html">
+        <source> Your health and lifestyle details help us deliver personalized tips and advice for your wellness journey. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3428684105404498064" datatype="html">
+        <source>Which exercises are you into?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1464149227176693961" datatype="html">
+        <source> Generate </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/step-actions/step-actions.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1473204736121842662" datatype="html">
+        <source> More Info </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/step-actions/step-actions.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8460987151957240614" datatype="html">
+        <source>Enhance Your Skills for a Productive Day</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1675224321745552545" datatype="html">
+        <source> Share the topics you’d like to focus on today. We’ll help you make the most of your learning and development time. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">11,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45099794398867949" datatype="html">
+        <source>What are some topics you might want to learn more about?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="933255607230930789" datatype="html">
+        <source>E.g., Review for an interview, practice presentation, or learn a new skill.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/custom-day/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">56,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4615081414300416138" datatype="html">
+        <source> Daily Overview </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2787980759626578584" datatype="html">
+        <source> Health &amp; Fitness </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">42,43</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="168761137939271501" datatype="html">
-        <source>Next step</source>
+      <trans-unit id="7489250674548012999" datatype="html">
+        <source> Recipes &amp; Nutrition </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
-          <context context-type="linenumber">53,54</context>
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">48,49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9013646421217801621" datatype="html">
-        <source>chevron_right</source>
+      <trans-unit id="5197665465417527259" datatype="html">
+        <source> Financial Planning </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7404667063376433290" datatype="html">
+        <source> Personal Growth </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7776683768377554029" datatype="html">
+        <source>Welcome to Easify</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/register/register.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8753935980611565299" datatype="html">
+        <source>Your Personal Life Coach</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5786519060488028072" datatype="html">
+        <source> Easify helps you with financial tasks, family questions, relationship advice, health questions, nutrition, cooking, and more. Get personalized advice and take control of your life with Easify. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="887590585513582217" datatype="html">
+        <source>Join Us Today</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7038503489321588536" datatype="html">
+        <source> Get started with Easify and improve your life with personalized coaching. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2907733796351584017" datatype="html">
+        <source> Register </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1485884630079398261" datatype="html">
+        <source>Why Choose Easify?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7471319737404383351" datatype="html">
+        <source> Easify is your go-to solution for personal coaching in various aspects of life. Our expert coaches are dedicated to providing personalized advice tailored to your specific needs, helping you achieve your goals and improve your overall well-being. Join us today and take the first step towards a better, more organized life. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">45,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1376280323722293533" datatype="html">
+        <source>© 2024 Easify. All Rights Reserved.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8439955599488894226" datatype="html">
+        <source>Privacy Policy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7905777970129911144" datatype="html">
+        <source>No notifications found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/notifications/notifications.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8135331434120368401" datatype="html">
+        <source> Generate Avatar </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">147,148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8781767917622107949" datatype="html">
+        <source>Basic Information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9095134843628689709" datatype="html">
+        <source>edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8499614752066309224" datatype="html">
+        <source>City:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6283914624769804238" datatype="html">
+        <source>Gender:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5533327198566278429" datatype="html">
+        <source>Diet &amp; Nutrition</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1707091104070386477" datatype="html">
+        <source>Favorite Cuisines:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5376219268976542097" datatype="html">
+        <source>Recipe Tags:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8643034887919513109" datatype="html">
+        <source>Financial Planning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5951068285246912940" datatype="html">
+        <source>Plan Categories:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5094745287611517593" datatype="html">
+        <source>Topics of Interest:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2028478207769983023" datatype="html">
+        <source>Kids:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">94,95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5453736138651513023" datatype="html">
+        <source>Workouts:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="927015953957235009" datatype="html">
+        <source>More Information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">105,106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7182974689040833178" datatype="html">
+        <source>Resume</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">115,116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="674306654450359971" datatype="html">
+        <source>Work Skills</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">125,126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1658311170791450631" datatype="html">
+        <source>Occupation:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">131,132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4963410692842412731" datatype="html">
+        <source>Industries:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile-details/profile-details.component.html</context>
+          <context context-type="linenumber">135,136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3057037570306460052" datatype="html">
+        <source>Profile Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8878700331247603166" datatype="html">
+        <source>Security</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6439365426343089851" datatype="html">
+        <source>General</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/profile/profile.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2377813957469582103" datatype="html">
+        <source> We need this information to provide you with the best experience. Rest assured, your data is safe with us.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">8,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8129590806829715901" datatype="html">
+        <source>Your information is private and secure.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4279081882680795350" datatype="html">
+        <source>info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="783268276125471008" datatype="html">
+        <source>What is your name?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3264452655068017433" datatype="html">
+        <source>Enter your name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6826604425545195654" datatype="html">
+        <source>Where do you live?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5460870968690674341" datatype="html">
+        <source>Search for your city</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2148910397307504036" datatype="html">
+        <source>What gender do you identify with?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8012344910054029733" datatype="html">
+        <source>Male</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5667840900782067941" datatype="html">
+        <source>Female</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8693603235657020323" datatype="html">
+        <source>Other</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="253045556227866697" datatype="html">
+        <source>When do you usually wake up?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8730523823011474853" datatype="html">
+        <source>When do you usually go to sleep?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">78,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2917314929120683887" datatype="html">
+        <source> Continue </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/basic-info/basic-info.component.html</context>
+          <context context-type="linenumber">101,102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">90,91</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">109,110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="600531001550251822" datatype="html">
+        <source> Your diet and nutrition choices help us deliver personalized tips and advice to support your health goals. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2340087712006657151" datatype="html">
+        <source>Do you have any food restrictions?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1154260121129217049" datatype="html">
+        <source>Please select all that apply</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="791836343883095823" datatype="html">
+        <source>Vegetarian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8518686941512066717" datatype="html">
+        <source>Vegan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6540669656201883561" datatype="html">
+        <source> Lactose Intolerant </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7704184451926009010" datatype="html">
+        <source>Gluten Free</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7119605644085768080" datatype="html">
+        <source>What cuisines do you like?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4156226217041472859" datatype="html">
+        <source>What are some of your favorite things to eat?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/diet-nutrition/diet-nutrition.component.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1610658036098185955" datatype="html">
+        <source> Your financial goals and plans help us provide personalized financial advice and strategies. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7869925934118106739" datatype="html">
+        <source> Which financial tools and instruments would you like to learn more about? </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3126946932849426817" datatype="html">
+        <source>What kidn of financial plans are you interested in?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/financial-planning/financial-planning.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6166950357663378862" datatype="html">
+        <source>Customize Your Avatar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4095775681322432320" datatype="html">
+        <source> Answer a few questions to create a unique avatar that represents you. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1742204000550123105" datatype="html">
+        <source>Name (Optional)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3948439187870398089" datatype="html">
+        <source>Gender</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="493097071059516626" datatype="html">
+        <source>Age Range</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3933358723756013068" datatype="html">
+        <source>Child</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7759227455664744016" datatype="html">
+        <source>Teenager</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5028353865534552514" datatype="html">
+        <source>Adult</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5758834677297374259" datatype="html">
+        <source>Senior</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3713379554087660636" datatype="html">
+        <source>Ethnicity</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8673005996707033776" datatype="html">
+        <source>European</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2066832369095298206" datatype="html">
+        <source> Northwestern European </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8873689010174156423" datatype="html">
+        <source>Eastern European</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5135018637118585195" datatype="html">
+        <source> Southern European </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7749870957487552680" datatype="html">
+        <source>Scandinavian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8911706799797838631" datatype="html">
+        <source>Asian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2959170079336731696" datatype="html">
+        <source>East Asian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6094121523600253782" datatype="html">
+        <source>South Asian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
           <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="65984904390749158" datatype="html">
-        <source>Finish</source>
+      <trans-unit id="4302884866335930587" datatype="html">
+        <source>Southeast Asian</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3341401270913525797" datatype="html">
+        <source>African</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3267376250551852743" datatype="html">
+        <source>North African</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8387023056763618721" datatype="html">
+        <source>West African</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4574831281432878174" datatype="html">
+        <source>East African</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2924513485492595774" datatype="html">
+        <source>Latin American</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6690917636511264426" datatype="html">
+        <source>Mexican</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8238184890269208020" datatype="html">
+        <source>Central American</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3373738225374664685" datatype="html">
+        <source>South American</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6449989888038256830" datatype="html">
+        <source>Mixed Ethnicities</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1370055312104154680" datatype="html">
+        <source>Mixed European</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8577256519631898769" datatype="html">
+        <source>Mixed Asian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2106038118608212825" datatype="html">
+        <source>Hair Color</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6832568533225275537" datatype="html">
+        <source>e.g., Blond, Brown, Black</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6569414371732422720" datatype="html">
+        <source>Eye Color</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4229311149051648843" datatype="html">
+        <source>e.g., Blue, Green, Brown</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">99,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9107793859339731791" datatype="html">
+        <source>Clothing Style</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4222031243856196937" datatype="html">
+        <source>e.g., Casual, Formal, Sporty</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">110,111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7952985415207478530" datatype="html">
+        <source>Accessories</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="717926281000878761" datatype="html">
+        <source>e.g., Glasses, Hat, Scarf</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">121,122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6270785022170790416" datatype="html">
+        <source>Other Info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5717272073981262996" datatype="html">
+        <source>e.g., freckles, beard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/generate-avatar/generate-avatar.component.html</context>
+          <context context-type="linenumber">132,133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8647165426455355870" datatype="html">
+        <source>What are some physical skills you&apos;d like to work on?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3237471515139913168" datatype="html">
+        <source>What is your martial status?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3413004253239957216" datatype="html">
+        <source>Single</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1832809533651384093" datatype="html">
+        <source>Married</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="332621039495204350" datatype="html">
+        <source> In a relationship </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
           <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8905505983103235644" datatype="html">
+        <source> Looking for a relationship </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8410636614414296969" datatype="html">
+        <source>Do you have any kids? If yes, please share some details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="549941524732990154" datatype="html">
+        <source>Do you have any kids?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/lifestyle-health/lifestyle-health.component.html</context>
+          <context context-type="linenumber">76,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6371615100059853695" datatype="html">
+        <source> If you&apos;d like, provide any other details that you think are important or helpful for us to know. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">8,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7011005670224400018" datatype="html">
+        <source>Any other information you&apos;d like to provide?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2871081456246040229" datatype="html">
+        <source>Enter any additional information here</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4943998242904350511" datatype="html">
+        <source> Submit </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/more-info/more-info.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3853355840891125297" datatype="html">
+        <source>Signup with</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/register/register.component.html</context>
+          <context context-type="linenumber">105,106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8520023152129279437" datatype="html">
+        <source>Log In</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/register/register.component.html</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2737991421162757297" datatype="html">
+        <source>upload Resume</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/upload-resume/upload-resume.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4646368476500441450" datatype="html">
+        <source> Your resume helps us understand your professional background, allowing us to provide personalized advice and recommendations tailored to your career growth and goals.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/upload-resume/upload-resume.component.html</context>
+          <context context-type="linenumber">6,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4321065952570253940" datatype="html">
+        <source>Work &amp; Skills</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="678366115113341233" datatype="html">
+        <source> Your industry and work details help us deliver tailored tips and advice for your career growth.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">9,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2286409231368764796" datatype="html">
+        <source>What is your occupation?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="752947677601928445" datatype="html">
+        <source>Enter your occupation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2887996981915269842" datatype="html">
+        <source>Which industries are you involved in?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4491228221163159298" datatype="html">
+        <source>What is your current work status?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7335496821014197294" datatype="html">
+        <source> Full-time employed </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2126378322446043136" datatype="html">
+        <source> Part-time employed </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="733261349813910120" datatype="html">
+        <source> Looking for work </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">86,87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8401992716572936179" datatype="html">
+        <source>Do you work remotely, in-office, or hybrid?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5559612210462560518" datatype="html">
+        <source>Remote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6590976944102236928" datatype="html">
+        <source>In-office</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2590340397431371543" datatype="html">
+        <source>Hybrid</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/work-skills/work-skills.component.html</context>
+          <context context-type="linenumber">97</context>
         </context-group>
       </trans-unit>
     </body>

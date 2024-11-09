@@ -1,0 +1,17 @@
+@use "variables" as var;
+
+.alert {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 24px;
+  border-left: 4px solid var.$secondary-dark-color;
+  background-color: var.$secondary-light-color;
+  padding: 16px;
+  color: #333; /* Text color */
+}
+
+.alert mat-icon {
+  margin-right: 8px;
+  color: var.$secondary-dark-color;
+}

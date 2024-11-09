@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RecipesService } from '../../../services/recipes.service';
+import { RecipesService } from '@services/recipes.service';
 import { IngredientsAutocompleteComponent } from '../ingredients-autocomplete/ingredients-autocomplete.component';
 import { RecipeTileComponent } from '../recipe-tile/recipe-tile.component';
 
