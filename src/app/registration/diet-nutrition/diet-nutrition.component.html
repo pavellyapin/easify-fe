@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<form [formGroup]="dietNutritionForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="dietNutritionForm">
   <!-- Headline -->
   <h5 i18n>Diet & Nutrition</h5>
 
@@ -11,67 +11,56 @@
     to support your health goals.
   </p>
 
-  <!-- Food Restrictions Field -->
-  <div>
-    <h6 i18n>Do you have any food restrictions?</h6>
-    <p class="subtext" i18n>Please select all that apply</p>
+  <!-- Cuisines Section -->
+  <fieldset>
+    <legend i18n>Choose Cuisines</legend>
+    <!-- Nutrition Autocomplete -->
+    <app-cuisine-autocomplete (cuisineAdded)="onCategoryAdded($event)" />
 
-    <!-- Food Restriction Checkboxes -->
-    <mat-checkbox formControlName="vegetarian" i18n>Vegetarian</mat-checkbox>
-    <mat-checkbox formControlName="vegan" i18n>Vegan</mat-checkbox>
-    <mat-checkbox formControlName="lactoseIntolerant" i18n>
-      Lactose Intolerant
-    </mat-checkbox>
-    <mat-checkbox formControlName="glutenFree" i18n>Gluten Free</mat-checkbox>
-  </div>
+    <!-- Added Nutrition Tags as Chips -->
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let tag of addedNutritionCategories"
+            [removable]="true"
+            (removed)="removeCategory(tag)"
+          >
+            {{ tag | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
 
-  <!-- Instruction Text for Nutrition Tags -->
-  <h6 i18n>What cuisines do you like?</h6>
-  <!-- Nutrition Autocomplete -->
-  <app-cuisine-autocomplete (cuisineAdded)="onCategoryAdded($event)" />
+  <!-- Favorite Foods Section -->
+  <fieldset>
+    <legend i18n>Favorite Foods</legend>
+    <!-- Nutrition Autocomplete -->
+    <app-recipe-tag-autocomplete (tagAdded)="onRecipeTagAdded($event)" />
 
-  <!-- Added Nutrition Tags as Chips -->
-  <div>
-    <mat-chip-set>
-      <mat-chip
-        *ngFor="let tag of addedNutritionCategories"
-        [removable]="true"
-        (removed)="removeCategory(tag)"
-      >
-        {{ tag }}
-        <mat-icon i18n matChipRemove>cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-set>
-  </div>
+    <!-- Added Nutrition Tags as Chips -->
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let tag of addedRecipeTags"
+            [removable]="true"
+            (removed)="removeRecipeTag(tag)"
+          >
+            {{ tag | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
 
-  <!-- Instruction Text for Nutrition Tags -->
-  <h6 i18n>What are some of your favorite things to eat?</h6>
-  <!-- Nutrition Autocomplete -->
-  <app-recipe-tag-autocomplete (tagAdded)="onRecipeTagAdded($event)" />
-
-  <!-- Added Nutrition Tags as Chips -->
-  <div>
-    <mat-chip-set>
-      <mat-chip
-        *ngFor="let tag of addedRecipeTags"
-        [removable]="true"
-        (removed)="removeRecipeTag(tag)"
-      >
-        {{ tag }}
-        <mat-icon i18n matChipRemove>cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-set>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="submit-btn">
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="dietNutritionForm.invalid"
-      i18n
-    >
-      Continue
-    </button>
-  </div>
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Financial Planning'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
+  />
 </form>

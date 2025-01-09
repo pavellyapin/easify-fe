@@ -8,33 +8,7 @@ exports.courseOnCreate = functions.firestore
   .document("courses/{courseId}")
   .onCreate(async (snap) => {
     const courseData = snap.data();
-    let { tags = [], category = "", level = "intermediate" } = courseData;
-
-    // Normalize category and level fields
-    category = category.toLowerCase(); // Normalize category to lowercase
-
-    // Possible valid values for level field
-    const validLevels = ["beginner", "intermediate", "advanced"];
-    level = level.toLowerCase(); // Normalize level to lowercase
-
-    // If the level is not one of the valid values, set to "intermediate"
-    if (!validLevels.includes(level)) {
-      level = "intermediate";
-    }
-
-    // Update Firestore document with normalized fields
-    try {
-      await snap.ref.update({
-        category: category, // Store normalized category
-        level: level, // Store normalized level
-      });
-      console.log("Normalized category and level for the course.");
-    } catch (error) {
-      console.error(
-        "Error updating course fields with normalized data:",
-        error,
-      );
-    }
+    let { tags = [], category = "" } = courseData;
 
     try {
       // References to the collections where tag and category counts are stored

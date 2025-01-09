@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Routes } from '@angular/router';
-import { ErrorComponent } from 'app/dashboard/error/error.component';
+import { ErrorComponent } from '@components/error/error.component';
 import { CourseGuard } from 'app/guards/course.guard';
+import { GrowthGuard } from 'app/guards/growth.guard';
+import { RecipeGuard } from 'app/guards/recipe.guard';
 import { scheduleGuard } from 'app/guards/schedule.guard';
+import { WorkoutGuard } from 'app/guards/workout.guard';
 import { loggedIn } from '../guards/auth.guard';
 
 // Recipe-related routes
@@ -11,35 +14,67 @@ export const dashboardRecipeRoutes: Routes = [
   {
     path: 'recipes',
     loadComponent: () =>
-      import('@components/recipes/recipes.component').then(
+      import('@dashboard/recipes/recipes.component').then(
         (m) => m.RecipesComponent,
       ),
   },
   {
-    path: 'recipe/:id',
+    path: 'recipe-search-results',
     loadComponent: () =>
       import(
-        '@components/recipes/recipe-details/recipe-details.component'
-      ).then((m) => m.RecipeDetailsComponent),
+        '@dashboard/recipes/recipe-search-results/recipe-search-results.component'
+      ).then((m) => m.RecipeSearchResultsComponent),
   },
   {
-    path: 'newRecipe',
-    loadComponent: () =>
-      import(
-        '@components/recipes/recipe-details/recipe-details.component'
-      ).then((m) => m.RecipeDetailsComponent),
+    path: 'recipe/:id',
+    canActivate: [RecipeGuard],
+    children: [
+      {
+        path: 'overview',
+        loadComponent: () =>
+          import(
+            '@dashboard/recipes/recipe-overview/recipe-overview.component'
+          ).then((m) => m.RecipeOverviewComponent),
+      },
+      {
+        path: 'instructions',
+        loadComponent: () =>
+          import(
+            '@dashboard/recipes/recipe-instructions/recipe-instructions.component'
+          ).then((m) => m.RecipeInstructionsComponent),
+        children: [
+          {
+            path: ':stage/:point',
+            loadComponent: () =>
+              import(
+                '@dashboard/recipes/recipe-instructions/instructions-content/instructions-content.component'
+              ).then((m) => m.InstructionsContentComponent),
+          },
+          {
+            path: ':stage/:point/easify',
+            loadComponent: () =>
+              import(
+                '@dashboard/recipes/recipe-instructions/easify-instruction/easify-instruction.component'
+              ).then((m) => m.EasifyInstructionComponent),
+          },
+          { path: '', redirectTo: '1/1', pathMatch: 'full' },
+        ],
+      },
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: '**', redirectTo: 'overview' },
+    ],
   },
   {
     path: 'recipe-by-ingredients',
     loadComponent: () =>
       import(
-        '@components/recipes/recipe-by-ingredients/recipe-by-ingredients.component'
+        '@dashboard/recipes/recipe-by-ingredients/recipe-by-ingredients.component'
       ).then((m) => m.RecipeByIngredientsComponent),
   },
   {
     path: 'shopping/:id',
     loadComponent: () =>
-      import('@components/recipes/shopping-list/shopping-list.component').then(
+      import('@dashboard/recipes/shopping-list/shopping-list.component').then(
         (m) => m.ShoppingListComponent,
       ),
   },
@@ -50,16 +85,48 @@ export const dashboardWorkoutRoutes: Routes = [
   {
     path: 'fitness',
     loadComponent: () =>
-      import('@components/fitness/fitness.component').then(
+      import('@dashboard/fitness/fitness.component').then(
         (m) => m.WorkoutsComponent,
       ),
   },
   {
     path: 'workout/:id',
-    loadComponent: () =>
-      import(
-        '@components/fitness/workout-details/workout-details.component'
-      ).then((m) => m.WorkoutDetailsComponent),
+    canActivate: [WorkoutGuard],
+    children: [
+      {
+        path: 'overview',
+        loadComponent: () =>
+          import(
+            '@dashboard/fitness/workout-overview/workout-overview.component'
+          ).then((m) => m.WorkoutOverviewComponent),
+      },
+      {
+        path: 'routine',
+        loadComponent: () =>
+          import(
+            '@dashboard/fitness/workout-routine/workout-routine.component'
+          ).then((m) => m.WorkoutRoutineComponent),
+        children: [
+          {
+            path: ':stage/:point',
+            loadComponent: () =>
+              import(
+                '@dashboard/fitness/workout-routine/workout-instructions-content/workout-instructions-content.component'
+              ).then((m) => m.WorkoutInstructionsContentComponent),
+          },
+          {
+            path: ':stage/:point/easify',
+            loadComponent: () =>
+              import(
+                '@dashboard/fitness/workout-routine/easify-workout-instruction/easify-workout-instruction.component'
+              ).then((m) => m.EasifyWorkoutInstructionComponent),
+          },
+          { path: '', redirectTo: '1/1', pathMatch: 'full' },
+        ],
+      },
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: '**', redirectTo: 'overview' },
+    ],
   },
 ];
 
@@ -86,15 +153,16 @@ export const dashboardPersonalGrowthRoutes: Routes = [
   {
     path: 'personal-growth',
     loadComponent: () =>
-      import('@components/personal-growth/personal-growth.component').then(
+      import('@dashboard/personal-growth/personal-growth.component').then(
         (m) => m.PersonalGrowthComponent,
       ),
+    canActivate: [GrowthGuard],
   },
   {
     path: 'resume-upload',
     loadComponent: () =>
       import(
-        '@components/personal-growth/resume-upload/resume-upload.component'
+        '@dashboard/personal-growth/resume-upload/resume-upload.component'
       ).then((m) => m.ResumeUploadComponent),
   },
 ];
@@ -104,7 +172,7 @@ export const dashboardCourseRoutes: Routes = [
   {
     path: 'courses',
     loadComponent: () =>
-      import('@components/courses/courses.component').then(
+      import('@dashboard/courses/courses.component').then(
         (m) => m.CoursesComponent,
       ),
   },
@@ -116,22 +184,39 @@ export const dashboardCourseRoutes: Routes = [
         path: 'overview',
         loadComponent: () =>
           import(
-            '@components/courses/course-overview/course-overview.component'
+            '@dashboard/courses/course-overview/course-overview.component'
           ).then((m) => m.CourseOverviewComponent),
       },
       {
         path: 'chapter/:chapter',
         loadComponent: () =>
           import(
-            '@components/courses/course-chapter/course-chapter.component'
+            '@dashboard/courses/course-chapter/course-chapter.component'
           ).then((m) => m.CourseChapterComponent),
       },
       {
         path: 'chapter/:chapter/:topic',
         loadComponent: () =>
-          import(
-            '@components/courses/course-topic/course-topic.component'
-          ).then((m) => m.CourseTopicComponent),
+          import('@dashboard/courses/course-topic/course-topic.component').then(
+            (m) => m.CourseTopicComponent,
+          ),
+        children: [
+          {
+            path: ':point',
+            loadComponent: () =>
+              import(
+                '@dashboard/courses/course-topic/topic-content/topic-content.component'
+              ).then((m) => m.TopicContentComponent),
+          },
+          {
+            path: ':point/easify',
+            loadComponent: () =>
+              import(
+                '@dashboard/courses/course-topic/easify-topic/easify-topic.component'
+              ).then((m) => m.EasifyTopicComponent),
+          },
+          { path: '', redirectTo: '1', pathMatch: 'full' },
+        ],
       },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: '**', redirectTo: 'overview' },
@@ -194,10 +279,17 @@ export const dashboardRoutes: Routes = [
       {
         path: 'dailylook',
         loadComponent: () =>
-          import('@components/daily-look/daily-look.component').then(
+          import('../dashboard/daily-look/daily-look.component').then(
             (m) => m.DailyLookComponent,
           ),
         canActivate: [scheduleGuard],
+      },
+      {
+        path: 'refresh',
+        loadComponent: () =>
+          import('../dashboard/refresh-day/refresh-day.component').then(
+            (m) => m.RefreshDayComponent,
+          ),
       },
       ...dashboardCustomDayRoutes,
       ...dashboardCourseRoutes,

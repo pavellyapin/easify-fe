@@ -23,22 +23,50 @@ exports.resizeCourseImage = functions.storage
       return;
     }
 
-    // Temporary local file path to download the file to
-    const tempFilePath = path.join(os.tmpdir(), fileName);
-    await bucket.file(filePath).download({ destination: tempFilePath });
+    // Check if the file has already been processed
+    if (object.metadata && object.metadata.processed === "true") {
+      console.log("File has already been processed. Exiting.");
+      return;
+    }
 
-    // Resize the image (overwrite the original file name)
-    const resizedImagePath = path.join(os.tmpdir(), fileName); // No "resized_" prefix
-    await sharp(tempFilePath).resize(512, 512).toFile(resizedImagePath);
+    // Temporary local file paths
+    const tempOriginalPath = path.join(os.tmpdir(), fileName); // Original file
+    const tempResizedPath = path.join(os.tmpdir(), `resized_${fileName}`); // Resized file
 
-    // Upload the resized image back to Firebase Storage, overwriting the original image
-    await bucket.upload(resizedImagePath, {
-      destination: filePath, // Overwrite the original file
-    });
+    try {
+      console.log(`Processing file: ${filePath}`);
 
-    // Delete the temporary files
-    fs.unlinkSync(tempFilePath);
-    fs.unlinkSync(resizedImagePath);
+      // Download the original image to the temp directory
+      console.log("Downloading file to", tempOriginalPath);
+      await bucket.file(filePath).download({ destination: tempOriginalPath });
 
-    console.log("Resized image uploaded to", filePath);
+      // Resize the image
+      console.log("Resizing image to 512x512");
+      await sharp(tempOriginalPath).resize(512, 512).toFile(tempResizedPath);
+
+      // Replace the original file with the resized image
+      console.log("Uploading resized image to replace original");
+      await bucket.upload(tempResizedPath, {
+        destination: filePath,
+        metadata: {
+          metadata: {
+            processed: "true", // Add metadata to mark the file as processed
+          },
+        },
+      });
+
+      console.log(`Resized image uploaded successfully to ${filePath}`);
+    } catch (error) {
+      console.error("Error processing the image:", error);
+    } finally {
+      // Clean up temporary files
+      if (fs.existsSync(tempOriginalPath)) {
+        console.log("Deleting temp original file");
+        fs.unlinkSync(tempOriginalPath);
+      }
+      if (fs.existsSync(tempResizedPath)) {
+        console.log("Deleting temp resized file");
+        fs.unlinkSync(tempResizedPath);
+      }
+    }
   });

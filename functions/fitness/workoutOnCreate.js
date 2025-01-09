@@ -8,8 +8,7 @@ exports.workoutOnCreate = functions.firestore
   .document("workouts/{workoutId}")
   .onCreate(async (snap) => {
     const workoutData = snap.data();
-    const tags = workoutData.tags || [];
-    const category = workoutData.category || "uncategorized"; // Default to 'uncategorized' if no category provided
+    let { tags = [], category = "" } = workoutData;
 
     try {
       const tagCountsRef = firestore.collection("tagCounts").doc("workoutTags");

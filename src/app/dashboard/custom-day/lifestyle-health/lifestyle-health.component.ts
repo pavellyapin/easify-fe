@@ -17,14 +17,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { WorkoutCategoryAutocompleteComponent } from '@components/fitness/workout-category-autocomplete/workout-category-autocomplete.component';
+import { WorkoutCategoryAutocompleteComponent } from '@dashboard/fitness/workout-category-autocomplete/workout-category-autocomplete.component';
 import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
 import * as ScheduleActions from '@store/schedule/schedule.actions';
 import * as ScheduleSelectors from '@store/schedule/schedule.selectors';
 import * as UserSelectors from '@store/user/user.selector';
 import { combineLatest, Subscription, take } from 'rxjs';
-import { CustomDayStepActionsComponent } from '../step-actions/step-actions.component';
+import { CustomDayStepActionsComponent } from '../../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-custom-day-lifestyle-health',
@@ -127,8 +127,6 @@ export class CustomDayLifestyleHealthComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         ScheduleActions.updateCustomDayHealthLifestyle({ lifestyleHealth }),
       );
-
-      console.log('Form Submitted', lifestyleHealth);
     } else {
       console.log('Form is invalid');
     }

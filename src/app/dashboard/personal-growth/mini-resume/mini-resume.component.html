@@ -1,0 +1,132 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="mini-resume-container">
+  <!-- Left Column -->
+  <div class="left-column">
+    <!-- Overview Card -->
+    <mat-card class="overview-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="face" />
+          <h5 i18n>Overview</h5>
+        </div>
+        <p class="text-ellipsis">{{ miniResume.overview }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Related Roles Card -->
+    <mat-card class="roles-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="work" />
+          <h5 i18n>Related Roles</h5>
+        </div>
+        <div class="button-list">
+          <button
+            *ngFor="let role of miniResume.relatedRoles"
+            mat-button
+            class="action-link"
+          >
+            {{ role }}
+          </button>
+        </div>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-aria-label
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Related Industries Card -->
+    <mat-card class="industries-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="source_environment" />
+          <h5 i18n>Related Industries</h5>
+        </div>
+        <div class="button-list">
+          <button
+            *ngFor="let industry of miniResume.relatedIndustries"
+            mat-button
+            class="action-link"
+          >
+            {{ industry }}
+          </button>
+        </div>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-aria-label
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Right Column -->
+  <div class="right-column">
+    <!-- Education Section -->
+    <mat-card class="education-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="school" />
+          <h5 i18n>Education</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip *ngFor="let education of miniResume.education">
+            {{ education }}
+          </mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Technical Skills Section -->
+    <mat-card class="skills-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="build" />
+          <h5 i18n>Technical Skills</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip *ngFor="let skill of miniResume.technicalSkills">
+            {{ skill }}
+          </mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Soft Skills Section -->
+    <mat-card class="skills-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="psychology" />
+          <h5 i18n>Soft Skills</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip *ngFor="let skill of miniResume.softSkills">
+            {{ skill }}
+          </mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+    <div class="see-full-resume-link">
+      <button mat-button class="action-link">
+        <span i18n>See extended resume</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

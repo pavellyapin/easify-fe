@@ -1,10 +1,10 @@
 export enum ItemType {
   Physical = 'physical',
-  Social = 'social',
+  Financial = 'financial',
   Work = 'work',
   Learn = 'learn',
-  Meal = 'meal',
-  Plan = 'plan',
+  Food = 'food',
+  Chore = 'chore',
   Relax = 'relax',
-  WindDown = 'wind-down',
+  Hobby = 'hobby',
 }

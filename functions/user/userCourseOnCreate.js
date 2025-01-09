@@ -16,56 +16,107 @@ exports.onUserCourseCreateOrUpdate = functions.firestore
       return;
     }
 
-    try {
-      // Check if course progress is 100% but not marked as completed
-      if (
-        afterCourse.progress?.progress === 100 &&
-        afterCourse.status !== "completed"
-      ) {
-        // Update the course status to "completed"
-        await change.after.ref.update({ status: "completed" });
-        afterCourse.status = "completed"; // Ensure afterCourse reflects the updated status
-        console.log(`Course status updated to completed for user: ${userId}`);
-      }
+    console.log("User ID:", userId);
+    console.log("Before Course Data:", JSON.stringify(beforeCourse));
+    console.log("After Course Data:", JSON.stringify(afterCourse));
 
+    try {
       const userStatsRef = firestore
         .collection("users")
         .doc(userId)
         .collection("stats")
         .doc("courseStats");
       const userStatsDoc = await userStatsRef.get();
+      let courseStats = userStatsDoc.data() || {
+        totalStartedCourses: 0,
+        totalCompletedCourses: 0,
+        levelCounts: {},
+        categoryCounts: {},
+        inProgressLevelCounts: {},
+        inProgressCategoryCounts: {},
+      };
 
-      let courseStats = userStatsDoc.data();
+      console.log("Current Course Stats:", JSON.stringify(courseStats));
 
-      // Check if this is a new course creation or an update
+      const courseLevel = (
+        afterCourse.course.level || "intermediate"
+      ).toLowerCase();
+      const courseCategory = afterCourse.course.category || "uncategorized";
+
+      console.log("Course Level:", courseLevel);
+      console.log("Course Category:", courseCategory);
+
+      // Handle new course creation
       if (!beforeCourse) {
-        // New course creation (course was not previously started)
+        console.log("New course detected.");
         courseStats.totalStartedCourses += 1;
+
+        // Ensure the category exists in inProgressCategoryCounts with a default value of 0
+        if (!courseStats.inProgressCategoryCounts[courseCategory]) {
+          console.log(
+            `In-progress category ${courseCategory} not found. Initializing to 1.`,
+          );
+          courseStats.inProgressCategoryCounts[courseCategory] = 1;
+        } else {
+          courseStats.inProgressCategoryCounts[courseCategory] =
+            (courseStats.inProgressCategoryCounts[courseCategory] || 0) + 1;
+        }
+
+        // Increment in-progress counts
+        courseStats.inProgressLevelCounts[courseLevel] =
+          (courseStats.inProgressLevelCounts[courseLevel] || 0) + 1;
+
+        console.log(
+          `Updated in-progress counts: Level (${courseLevel}), Category (${courseCategory})`,
+        );
       }
 
-      // Only update if the course is completed
+      // Handle course completion
       if (
-        afterCourse.status === "completed" &&
-        (!beforeCourse || beforeCourse.status !== "completed")
+        afterCourse.progress.progress === 100 &&
+        afterCourse.status !== "completed"
       ) {
-        // Update completed course count
+        console.log("Course marked as completed.");
+        await change.after.ref.update({ status: "completed" });
+
         courseStats.totalCompletedCourses += 1;
 
-        // Update level counts based on course level
-        const courseLevel = (afterCourse.level || "intermediate").toLowerCase();
-        if (courseStats.levelCounts[courseLevel] !== undefined) {
-          courseStats.levelCounts[courseLevel] += 1;
+        // Ensure the category exists in categoryCounts with a default value of 0
+        if (!courseStats.categoryCounts[courseCategory]) {
+          console.log(
+            `Category ${courseCategory} not found. Initializing to 1.`,
+          );
+          courseStats.categoryCounts[courseCategory] = 1;
         } else {
-          courseStats.levelCounts[courseLevel] = 1; // Handle unexpected levels
+          courseStats.categoryCounts[courseCategory] =
+            (courseStats.categoryCounts[courseCategory] || 0) + 1;
         }
 
-        // Update category counts based on course category
-        const courseCategory = afterCourse.category || "uncategorized";
-        if (courseStats.categoryCounts[courseCategory]) {
-          courseStats.categoryCounts[courseCategory] += 1;
-        } else {
-          courseStats.categoryCounts[courseCategory] = 1;
+        // Increment completed counts
+        courseStats.levelCounts[courseLevel] =
+          (courseStats.levelCounts[courseLevel] || 0) + 1;
+
+        console.log(
+          `Incremented completed counts: Level (${courseLevel}), Category (${courseCategory})`,
+        );
+
+        // Decrement in-progress counts
+        if (courseStats.inProgressLevelCounts[courseLevel]) {
+          courseStats.inProgressLevelCounts[courseLevel] -= 1;
+          if (courseStats.inProgressLevelCounts[courseLevel] < 0) {
+            courseStats.inProgressLevelCounts[courseLevel] = 0; // Prevent negative counts
+          }
         }
+        if (courseStats.inProgressCategoryCounts[courseCategory]) {
+          courseStats.inProgressCategoryCounts[courseCategory] -= 1;
+          if (courseStats.inProgressCategoryCounts[courseCategory] < 0) {
+            courseStats.inProgressCategoryCounts[courseCategory] = 0; // Prevent negative counts
+          }
+        }
+
+        console.log(
+          `Decremented in-progress counts: Level (${courseLevel}), Category (${courseCategory})`,
+        );
 
         // Add a notification for course completion
         const notificationsRef = firestore
@@ -76,7 +127,7 @@ exports.onUserCourseCreateOrUpdate = functions.firestore
         const notification = {
           type: "learn",
           title: "Course Completed!",
-          message: `Congratulations on completing the course: ${afterCourse.name}!`,
+          message: `Congratulations on completing the course: ${afterCourse.course.name}!`,
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
           isRead: false, // Mark notification as unread
         };
@@ -88,6 +139,7 @@ exports.onUserCourseCreateOrUpdate = functions.firestore
       // Store the updated course stats back in Firestore
       await userStatsRef.set(courseStats, { merge: true });
 
+      console.log("Final Updated Course Stats:", JSON.stringify(courseStats));
       console.log(`Course stats updated for user ${userId}`);
     } catch (error) {
       console.error("Error updating user course stats:", error);

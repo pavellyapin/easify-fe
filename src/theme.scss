@@ -11,15 +11,15 @@
 // Include the core styles
 @include mat.core();
 
-// Define a dark theme
+// Dark theme
 $dark-theme: mat.m2-define-dark-theme(
   (
     color: (
-      primary: var.$primary-palette,
-      accent: var.$accent-palette,
+      primary: var.$dark-primary-palette,
+      accent: var.$dark-accent-palette,
+      background: var.$dark-theme-background-palette,
     ),
     typography: typo.$custom-typography,
-    density: -2,
   )
 );
 
@@ -29,6 +29,10 @@ $light-theme: mat.m2-define-light-theme(
     color: (
       primary: var.$primary-palette,
       accent: var.$accent-palette,
+      background: (
+        background: #fff,
+        surface: #f9f9f9,
+      ),
     ),
     typography: typo.$custom-typography,
   )

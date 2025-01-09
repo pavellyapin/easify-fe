@@ -18,3 +18,8 @@ export const loadStartedCourseFailure = createAction(
 export const clearStartedCourse = createAction(
   '[Started Course] Clear Started Course',
 );
+
+export const loadCourseEasifyResponsesSuccess = createAction(
+  '[Easify] Load Course Easify Responses Success',
+  props<{ responses: any[] }>(),
+);

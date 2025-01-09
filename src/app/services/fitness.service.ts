@@ -12,22 +12,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import {
-  addDoc,
   collection,
   collectionData,
   doc,
   DocumentData,
   Firestore,
   getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
 } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
-import { from, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectLifestyleHealth } from '@store/user/user.selector';
+import { from, map, Observable, of, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +32,7 @@ export class FitnessWorkoutsService {
   constructor(
     private firestore: Firestore,
     private functions: Functions,
-    private auth: Auth,
+    private store: Store,
   ) {}
 
   getAllWorkouts(): Observable<any> {
@@ -75,61 +71,6 @@ export class FitnessWorkoutsService {
     return from(resultPromise); // Convert the Promise to an Observable
   }
 
-  async addWorkoutStart(workout: any) {
-    try {
-      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-      const userWorkoutsCollectionRef = collection(userRef, 'workouts');
-      const q = query(
-        userWorkoutsCollectionRef,
-        where('workout.id', '==', workout.id),
-      );
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        // If no existing document, create a new one
-        const userWorkoutData = {
-          workout,
-          status: 'started',
-          createdAt: new Date(),
-        };
-        await addDoc(userWorkoutsCollectionRef, userWorkoutData);
-        console.log('User Workout data saved to Firestore');
-      } else {
-        // If document exists, update it
-        const docRef = querySnapshot.docs[0]!.ref;
-        await updateDoc(docRef, {
-          updatedAt: new Date(),
-        });
-        console.log('User Workout data updated in Firestore');
-      }
-    } catch (error: any) {
-      console.error('Error saving User Workout data to Firestore:', error);
-      if (error.code) {
-        console.error(`Error Code: ${error.code}`);
-      }
-      if (error.message) {
-        console.error(`Error Message: ${error.message}`);
-      }
-      if (error.details) {
-        console.error(`Error Details: ${error.details}`);
-      }
-    }
-  }
-
-  getStartedWorkouts(): Observable<any[]> {
-    const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-    const userWorkoutsCollectionRef = collection(userRef, 'workouts');
-
-    // Query to find workouts with status 'started'
-    const startedWorkoutsQuery = query(
-      userWorkoutsCollectionRef,
-      where('status', '==', 'started'),
-    );
-
-    return collectionData(startedWorkoutsQuery, {
-      idField: 'id',
-    }) as Observable<any[]>;
-  }
-
   getAllWorkoutTags(): Observable<string[]> {
     const tagCountsRef = doc(this.firestore, 'tagCounts/workoutTags');
 
@@ -159,5 +100,73 @@ export class FitnessWorkoutsService {
         );
       }),
     );
+  }
+
+  getCategoryFilters(): Observable<string[]> {
+    return this.store.select(selectLifestyleHealth).pipe(
+      take(1),
+      switchMap((lifestyleHealth) => {
+        const lifestyleCategories = lifestyleHealth?.workoutCategories;
+
+        // If categories exist in lifestyleHealth, return them as an Observable
+        if (lifestyleCategories && lifestyleCategories.length > 0) {
+          return of(lifestyleCategories);
+        }
+
+        // If no lifestyle categories exist, return an Observable from the Promise
+        return from(this.getTopCategoriesFromTagCounts());
+      }),
+    );
+  }
+
+  private async getTopCategoriesFromTagCounts(): Promise<string[]> {
+    const tagCountsRef = doc(this.firestore, 'tagCounts/workoutCategory');
+    const tagCountsDoc = await getDoc(tagCountsRef);
+
+    if (tagCountsDoc.exists()) {
+      const categoryData = tagCountsDoc.data()['categories'] || [];
+
+      // Sort categories by count in descending order
+      const sortedCategories = categoryData
+        .sort((a: any, b: any) => b.count - a.count)
+        .map((category: any) => category.category);
+
+      // Return a random selection of 3 categories from the top 20
+      const topCategories = sortedCategories.slice(0, 20);
+      return this.getRandomSelection(topCategories, 3);
+    }
+
+    return [];
+  }
+
+  // Helper function to select N random elements from an array
+  private getRandomSelection(array: string[], count: number): string[] {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+  // New method to call the filterWorkouts function
+  filterWorkouts(
+    filters: {
+      categories?: string[];
+      levels?: string[];
+      isNew?: boolean;
+      sortBy?: string;
+    },
+    count: number,
+    lastWorkout: any = null, // Pass the last workout for pagination (batch loading)
+  ): Observable<any> {
+    const filterWorkoutsFunction = httpsCallable(
+      this.functions,
+      'filterWorkouts',
+    );
+
+    const requestPayload = {
+      ...filters,
+      count,
+      lastWorkout,
+    };
+
+    const resultPromise = filterWorkoutsFunction(requestPayload);
+    return from(resultPromise); // Convert the Promise to an Observable
   }
 }

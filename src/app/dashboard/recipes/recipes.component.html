@@ -1,0 +1,127 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="main-with-side padded">
+  <!-- Main content: recipes and banners -->
+  <div class="main-content">
+    <!-- Search Box Section -->
+    <div class="search-box-container primary-search-box">
+      <mat-form-field appearance="outline" i18n-appearance>
+        <mat-icon
+          i18n
+          matPrefix
+          class="search-icon"
+          (click)="onSearchKeyword(searchInput.value)"
+        >
+          search
+        </mat-icon>
+        <input
+          #searchInput
+          matInput
+          placeholder="What do you want to cook today?"
+          aria-label="What do you want to cook today?"
+          i18n-aria-label
+          i18n-placeholder
+          (keydown.enter)="onSearchKeyword(searchInput.value)"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Started Recipes Section -->
+    <div class="recipes-section">
+      <h5 i18n>Started Recipes</h5>
+
+      <!-- Loading state with card skeletons -->
+      <div *ngIf="isLoadingCombinedRecipes; else startedRecipesContent">
+        <app-loading-carousel />
+      </div>
+
+      <!-- Recipes content when loading is finished -->
+      <ng-template #startedRecipesContent>
+        <div *ngIf="combinedRecipes as startedRecipes">
+          <div *ngIf="startedRecipes.length">
+            <!-- Use the app-recipes-carousel component -->
+            <app-recipes-carousel [recipes]="startedRecipes" />
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div *ngIf="!isTablet" class="side-content">
+    <div class="tracker-and-actions">
+      <app-suggested-action
+        *ngIf="!isTablet"
+        [title]="'Suggested Actions'"
+        [actions]="[
+          {
+            title: 'Cook Pasta',
+            subtext: 'Follow the step-by-step instructions',
+            buttonText: 'Start Cooking',
+            callback: completeRecipe,
+          },
+          {
+            title: 'Review Recipe Tips',
+            subtext: 'Enhance your cooking skills',
+            buttonText: 'Review',
+            callback: completeRecipe,
+          },
+        ]"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Hero Banner Section -->
+<div class="hero-and-actions padded">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h5 i18n>Discover New Recipes and Master Your Cooking</h5>
+      <p i18n>
+        Join our food-loving community and unlock personalized recipes to suit
+        your taste.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <button mat-flat-button class="primary-stroked-md-button" i18n>
+          Get Started
+        </button>
+        <button mat-stroked-button class="primary-full-md-button" i18n>
+          Explore Recipes
+        </button>
+      </div>
+    </div>
+
+    <!-- Illustration on the right -->
+    <div class="hero-illustration">
+      <img
+        src="assets/illustrations/recipes-hero.svg"
+        alt="Cooking Illustration"
+        i18n-alt
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isTablet">
+    <app-suggested-action
+      [actions]="[
+        {
+          title: 'Cook Pasta',
+          subtext: 'Follow the step-by-step instructions',
+          buttonText: 'Start Cooking',
+          callback: completeRecipe,
+        },
+        {
+          title: 'Review Recipe Tips',
+          subtext: 'Enhance your cooking skills',
+          buttonText: 'Review',
+          callback: completeRecipe,
+        },
+      ]"
+    />
+  </div>
+</div>
+<app-all-recipes />

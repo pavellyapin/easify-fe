@@ -10,20 +10,20 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AlertCardComponent } from '@components/alert-card/alert-card.component';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import * as ScheduleActions from '@store/schedule/schedule.actions'; // Import actions
 import * as ScheduleSelectors from '@store/schedule/schedule.selectors'; // Select from schedule
 import * as UserSelectors from '@store/user/user.selector'; // Select from user store
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { combineLatest, Subscription } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
-import { CustomDayStepActionsComponent } from '../step-actions/step-actions.component';
+import { CustomDayStepActionsComponent } from '../../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-custom-day-basic-info',
@@ -33,30 +33,37 @@ import { CustomDayStepActionsComponent } from '../step-actions/step-actions.comp
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatRadioModule,
     MatInputModule,
-    MatCardModule,
     MatIconModule,
     MatButtonModule,
+    MatSelectModule,
     NgxMatTimepickerModule,
-    AlertCardComponent,
     MatSlideToggleModule,
     CustomDayStepActionsComponent,
+    CapitalizePipe,
   ],
 })
 export class CustomDayBasicInfoComponent implements OnInit, OnDestroy {
   basicInfoForm!: FormGroup;
   basicInfo: any; // Local variable to store selected basic info
   subscriptions: Subscription[] = []; // Array to hold subscriptions
+  types: string[] = ['firstHalf', 'secondHalf', 'full', 'expanded', 'smart'];
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    this.basicInfoForm = new FormGroup({
-      wakeUpTime: new FormControl(''),
-      sleepTime: new FormControl(''),
-      forTomorrow: new FormControl(false),
-      details: new FormControl(''),
+    // Retrieve the query parameter
+    this.route.queryParams.subscribe((params) => {
+      this.basicInfoForm = new FormGroup({
+        wakeUpTime: new FormControl(''),
+        type: new FormControl('full'),
+        sleepTime: new FormControl(''),
+        forTomorrow: new FormControl(params['forTomorrow'] === 'true' || false),
+        details: new FormControl(''),
+      });
     });
 
     // Combine customDayRequest and basicInfo observables
@@ -114,6 +121,7 @@ export class CustomDayBasicInfoComponent implements OnInit, OnDestroy {
       sleepTime: this.basicInfo.sleepTime || '9:00 PM',
       forTomorrow: false, // Default value as defined in ngOnInit
       details: '',
+      type: 'full',
     });
   }
 

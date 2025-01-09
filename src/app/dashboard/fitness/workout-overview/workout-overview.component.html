@@ -1,0 +1,71 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div *ngIf="workout" class="workout-overview-container">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('fitnessHub')"
+      >
+        <span i18n>Fitness Hub</span>
+      </button>
+    </span>
+
+    <span class="breadcrumb-button">{{ workout.title }}</span>
+  </div>
+  <div class="main-with-side padded">
+    <div class="main-content">
+      <app-workout-intro
+        [workout]="workout"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedWorkout]="startedWorkout$ | async"
+      />
+
+      <section class="table-of-contents">
+        <app-workout-table-of-contents
+          [workout]="workout"
+          [startedWorkout]="startedWorkout$ | async"
+        />
+      </section>
+    </div>
+    <div class="side-content">
+      <app-workout-stats
+        [workout]="workout"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedWorkout]="startedWorkout$ | async"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Started Workouts Section -->
+<div class="workouts-section padded">
+  <h5 i18n>Started Workouts</h5>
+
+  <!-- Loading state with card skeletons -->
+  <div *ngIf="isLoadingRecommendedWorkouts; else startedWorkoutsContent">
+    <app-loading-carousel />
+  </div>
+
+  <!-- Workouts content when loading is finished -->
+  <ng-template #startedWorkoutsContent>
+    <div *ngIf="recommendedWorkouts">
+      <div *ngIf="recommendedWorkouts.length">
+        <!-- Use the app-workouts-carousel component -->
+        <app-workouts-carousel [workouts]="recommendedWorkouts" />
+      </div>
+    </div>
+  </ng-template>
+</div>

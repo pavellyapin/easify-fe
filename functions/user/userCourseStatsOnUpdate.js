@@ -47,6 +47,8 @@ exports.onCourseStatsUpdate = functions.firestore
         totalCompletedCourses,
         levelCounts,
         categoryCounts,
+        inProgressLevelCounts,
+        inProgressCategoryCounts,
       } = newStats;
       const challengeSteps = challengeData.steps;
 
@@ -62,9 +64,8 @@ exports.onCourseStatsUpdate = functions.firestore
         challengeData.completedSteps = []; // Initialize if it doesn't exist
       }
 
-      // If the challenge only has one step, calculate progress for that step
-      if (totalSteps === 1) {
-        const [key, requiredValue] = Object.entries(challengeSteps)[0]; // Get the key and required value for the single step
+      // Compare stats to the challenge steps (for multi-step challenges)
+      for (const [key, requiredValue] of Object.entries(challengeSteps)) {
         let currentValue = 0;
 
         if (key === "totalStartedCourses") {
@@ -75,65 +76,37 @@ exports.onCourseStatsUpdate = functions.firestore
           currentValue = levelCounts[key];
         } else if (key in categoryCounts) {
           currentValue = categoryCounts[key] || 0;
+        } else if (key in inProgressLevelCounts) {
+          currentValue = inProgressLevelCounts[key] || 0;
+        } else if (key in inProgressCategoryCounts) {
+          currentValue = inProgressCategoryCounts[key] || 0;
         }
 
-        // Calculate progress for the single step
-        const newProgress = (currentValue / requiredValue) * 100;
-        challengeData.progress = newProgress;
+        console.log(
+          `Checking step: ${key}, Required: ${requiredValue}, Current: ${currentValue}`,
+        );
 
-        // Check if the challenge is complete
-        if (newProgress >= 100) {
-          challengeData.status = "complete";
+        // Check if the stat meets or exceeds the challenge's required value
+        if (currentValue >= requiredValue) {
+          progressStepsCompleted += 1;
+          // Add the completed step to the array if not already present
           if (!challengeData.completedSteps.includes(key)) {
             challengeData.completedSteps.push(key);
           }
-          console.log(`Challenge ${challengeDoc.id} marked as complete.`);
-        } else {
-          console.log(
-            `Challenge ${challengeDoc.id} progress updated to ${newProgress}%.`,
-          );
         }
+      }
+
+      // Calculate the overall progress as a percentage
+      const newProgress = (progressStepsCompleted / totalSteps) * 100;
+      challengeData.progress = newProgress;
+
+      if (newProgress === 100) {
+        challengeData.status = "complete";
+        console.log(`Challenge ${challengeDoc.id} marked as complete.`);
       } else {
-        // Compare stats to the challenge steps (for multi-step challenges)
-        for (const [key, requiredValue] of Object.entries(challengeSteps)) {
-          let currentValue = 0;
-
-          if (key === "totalStartedCourses") {
-            currentValue = totalStartedCourses;
-          } else if (key === "totalCompletedCourses") {
-            currentValue = totalCompletedCourses;
-          } else if (key in levelCounts) {
-            currentValue = levelCounts[key];
-          } else if (key in categoryCounts) {
-            currentValue = categoryCounts[key] || 0;
-          }
-
-          console.log(
-            `Checking step: ${key}, Required: ${requiredValue}, Current: ${currentValue}`,
-          );
-
-          // Check if the stat meets or exceeds the challenge's required value
-          if (currentValue >= requiredValue) {
-            progressStepsCompleted += 1;
-            // Add the completed step to the array if not already present
-            if (!challengeData.completedSteps.includes(key)) {
-              challengeData.completedSteps.push(key);
-            }
-          }
-        }
-
-        // Calculate the overall progress as a percentage for multi-step challenges
-        const newProgress = (progressStepsCompleted / totalSteps) * 100;
-        challengeData.progress = newProgress;
-
-        if (newProgress === 100) {
-          challengeData.status = "complete";
-          console.log(`Challenge ${challengeDoc.id} marked as complete.`);
-        } else {
-          console.log(
-            `Challenge ${challengeDoc.id} progress updated to ${newProgress}%.`,
-          );
-        }
+        console.log(
+          `Challenge ${challengeDoc.id} progress updated to ${newProgress}%.`,
+        );
       }
 
       // Update the challenge document with new progress and status

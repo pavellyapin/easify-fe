@@ -1,0 +1,138 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- eslint-disable @angular-eslint/template/conditional-complexity -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- Loading Template -->
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <div class="loading-rect"></div>
+    <div class="loading-rect"></div>
+    <div class="loading-rect"></div>
+    <div class="loading-rect"></div>
+    <div class="loading-rect"></div>
+    <div class="loading-rect"></div>
+  </div>
+</ng-template>
+
+<!-- No Schedule Template -->
+<ng-template #noSchedule>
+  <p i18n>No schedule available.</p>
+</ng-template>
+
+<!-- Main Template -->
+<ng-container *ngIf="!isLoading; else loadingTemplate">
+  <ng-container *ngIf="currentSchedule as dailySchedule; else noSchedule">
+    <app-schedule-stats
+      [today]="today"
+      [tomorrow]="tomorrow"
+      [viewingTomorrow]="viewingTomorrow"
+      [isMobile]="isMobile"
+      [isTablet]="isTablet"
+      (daySelected)="handleDaySelected($event)"
+    />
+    <!-- Schedule Display -->
+    <div class="theme-carousel">
+      <!-- Previous Time Slot Button -->
+      <button class="nav-button-container" (click)="goToPreviousSlide()">
+        <div class="slot-content">
+          <div class="top-svg-container">
+            <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+              <path
+                d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                i18n-d
+                fill="#56c98a"
+              />
+            </svg>
+            <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+          </div>
+          <!-- Display "Today" if viewingTomorrow and currentIndex is 0, otherwise show slot details -->
+          <div class="slot-details">
+            <h5
+              i18n
+              *ngIf="viewingTomorrow && currentIndex === 0"
+              class="time-range"
+            >
+              Today
+            </h5>
+            <ng-container *ngIf="!(viewingTomorrow && currentIndex === 0)">
+              <p class="time-range">
+                {{ dailySchedule[currentIndex - 1]?.time_range }}
+              </p>
+              <h6 class="activity">
+                {{ dailySchedule[currentIndex - 1]?.activity }}
+              </h6>
+            </ng-container>
+          </div>
+        </div>
+      </button>
+
+      <!-- Carousel for the Schedule -->
+      <ngx-slick-carousel
+        #slickModal="slick-carousel"
+        class="carousel"
+        [config]="slideConfig"
+      >
+        <app-timeslot
+          *ngFor="
+            let item of dailySchedule;
+            let i = index;
+            trackBy: trackByIndex
+          "
+          ngxSlickItem
+          [item]="item"
+          [itemIndex]="i"
+          [scheduleId]="currentScheduleId"
+          [currentIndex]="currentIndex"
+          [viewingTomorrow]="viewingTomorrow"
+          [isScrolling]="isScrolling"
+        />
+      </ngx-slick-carousel>
+
+      <!-- Next Time Slot Button -->
+      <button class="nav-button-container" (click)="goToNextSlide()">
+        <div class="slot-content">
+          <div class="bottom-svg-container">
+            <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+              <path
+                d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                i18n-d
+                fill="#56c98a"
+              />
+            </svg>
+            <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+          </div>
+          <div class="slot-details">
+            <h5
+              i18n
+              *ngIf="
+                !viewingTomorrow &&
+                this.currentIndex === this.currentSchedule.length - 1
+              "
+              class="time-range"
+            >
+              Tomorrow
+            </h5>
+            <ng-container
+              *ngIf="
+                !(
+                  !viewingTomorrow &&
+                  this.currentIndex === this.currentSchedule.length - 1
+                )
+              "
+            >
+              <p class="time-range">
+                {{ dailySchedule[currentIndex + 1]?.time_range }}
+              </p>
+              <h6 class="activity">
+                {{ dailySchedule[currentIndex + 1]?.activity }}
+              </h6>
+            </ng-container>
+          </div>
+        </div>
+      </button>
+    </div>
+  </ng-container>
+</ng-container>

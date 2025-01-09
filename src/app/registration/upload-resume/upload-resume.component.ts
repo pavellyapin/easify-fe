@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ResumeUploadComponent } from '@components/personal-growth/resume-upload/resume-upload.component';
+import { ResumeUploadComponent } from '@dashboard/personal-growth/resume-upload/resume-upload.component';
 import { Store } from '@ngrx/store';
 import * as UserActions from '@store/user/user.action';
 @Component({

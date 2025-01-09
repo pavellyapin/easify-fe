@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-negated-async -->
 <!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
@@ -50,8 +52,9 @@
       'collapsed-content': (!isMobile && isMinimized) || isTablet,
     }"
   >
-    <div class="content" style="min-height: 800px">
+    <div>
       <router-outlet></router-outlet>
+      <div class="mini-footer"></div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

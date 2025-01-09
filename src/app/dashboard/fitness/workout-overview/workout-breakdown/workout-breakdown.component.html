@@ -1,0 +1,65 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<h5 i18n>{{ workout.warmUp.name }}</h5>
+<p>{{ workout.warmUp.description }}</p>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let section of workout.warmUp.exercises; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="!startedWorkout?.progress?.warmUpComplete && i === 0"
+  >
+    <mat-expansion-panel-header>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ section.name }}</h6>
+        <p class="single-line-ellipsis">{{ section.duration }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getWarmUpIcons()"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ section.description }}</p>
+      <button mat-button class="action-link" (click)="navigateToSection()">
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<h5 i18n>{{ workout.routine.name }}</h5>
+<p>{{ workout.routine.description }}</p>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let section of workout.routine.exercises; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="startedWorkout?.progress?.warmUpComplete && i === 0"
+  >
+    <mat-expansion-panel-header>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ section.name }}</h6>
+        <p class="single-line-ellipsis">{{ section.duration }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getSectionIcon()"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ section.description }}</p>
+      <button mat-button class="action-link" (click)="navigateToSection()">
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

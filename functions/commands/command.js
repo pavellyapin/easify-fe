@@ -4,65 +4,112 @@ const admin = require("firebase-admin");
 
 const firestore = admin.firestore();
 
-exports.normalizeCourseResources = functions.firestore
+exports.cleanUpRecipesWithoutImages = functions.firestore
   .document("commands/{commandId}")
   .onCreate(async (snap) => {
     const commandData = snap.data();
 
-    // Only execute if the command name is "normalizeCourseResources"
-    if (commandData.name !== "normalizeCourseResources") {
+    if (commandData.name !== "cleanupRecipesWithoutImages") {
+      console.log(
+        "Command name is not 'cleanupRecipesWithoutImages'. Exiting.",
+      );
       return null;
     }
 
+    console.log("Starting cleanup operation...");
+
     try {
-      const coursesRef = firestore.collection("courses");
-      const allCoursesSnapshot = await coursesRef.get();
+      const recipesRef = firestore.collection("recipes");
 
-      const updatePromises = [];
+      // References to the tagCounts documents
+      const tagsRef = firestore.collection("tagCounts").doc("recipeTags");
+      const cuisinesRef = firestore
+        .collection("tagCounts")
+        .doc("recipeCuisines");
+      const categoriesRef = firestore
+        .collection("tagCounts")
+        .doc("recipeCategories");
 
-      // Loop through all courses and normalize the additionalResources field
-      allCoursesSnapshot.docs.forEach((doc) => {
-        const courseData = doc.data();
-        let { additionalResources } = courseData;
+      // Fetch the current tagCounts data
+      const [tagsDoc, cuisinesDoc, categoriesDoc] = await Promise.all([
+        tagsRef.get(),
+        cuisinesRef.get(),
+        categoriesRef.get(),
+      ]);
 
-        // Normalize additionalResources to an array of strings
-        if (Array.isArray(additionalResources)) {
-          additionalResources = additionalResources.flatMap((resource) => {
-            // If resource is an object with a "title" attribute, use the title
-            if (typeof resource === "object" && resource.title) {
-              return resource.title;
-            }
-            // If resource is an object with a "titles" array, return each title
-            if (
-              typeof resource === "object" &&
-              Array.isArray(resource.titles)
-            ) {
-              return resource.titles;
-            }
-            // Otherwise, assume it's already a string and return it
-            return resource;
-          });
-        } else {
-          // If additionalResources is not an array, make it an empty array
-          additionalResources = [];
+      let tagsData = tagsDoc.exists ? tagsDoc.data()?.tags || {} : {};
+      let cuisinesData = cuisinesDoc.exists
+        ? cuisinesDoc.data()?.cuisines || {}
+        : {};
+      let categoriesData = categoriesDoc.exists
+        ? categoriesDoc.data()?.categories || {}
+        : {};
+
+      const recipesSnapshot = await recipesRef.get();
+
+      if (recipesSnapshot.empty) {
+        console.log("No recipes found. Exiting.");
+        return null;
+      }
+
+      const batch = firestore.batch();
+      let deleteCount = 0;
+
+      recipesSnapshot.forEach((doc) => {
+        const recipe = doc.data();
+
+        if (!recipe.image) {
+          console.log(`Deleting recipe: ${recipe.name} (ID: ${doc.id})`);
+
+          // Update category count
+          if (recipe.category && categoriesData[recipe.category]) {
+            categoriesData[recipe.category] = Math.max(
+              categoriesData[recipe.category] - 1,
+              0,
+            );
+          }
+
+          // Update cuisine count
+          if (recipe.cuisine && cuisinesData[recipe.cuisine]) {
+            cuisinesData[recipe.cuisine] = Math.max(
+              cuisinesData[recipe.cuisine] - 1,
+              0,
+            );
+          }
+
+          // Update tags count
+          if (recipe.tags && Array.isArray(recipe.tags)) {
+            recipe.tags.forEach((tag) => {
+              if (tagsData[tag]) {
+                tagsData[tag] = Math.max(tagsData[tag] - 1, 0);
+              }
+            });
+          }
+
+          // Add recipe deletion to the batch
+          batch.delete(doc.ref);
+          deleteCount++;
         }
-
-        // Prepare the updated data with normalized additionalResources
-        const updatedData = {
-          additionalResources: additionalResources, // Normalized additional resources
-        };
-
-        // Add update promise to the array
-        updatePromises.push(doc.ref.update(updatedData));
       });
 
-      // Execute all update operations
-      await Promise.all(updatePromises);
+      if (deleteCount > 0) {
+        console.log(`Deleting ${deleteCount} recipes without images...`);
+        await batch.commit();
 
-      console.log(
-        `Normalized additionalResources for ${updatePromises.length} courses.`,
-      );
+        console.log("Updating tag counts...");
+
+        // Save the updated tagCounts back to Firestore
+        await Promise.all([
+          tagsRef.set({ tags: tagsData }, { merge: true }),
+          cuisinesRef.set({ tags: cuisinesData }, { merge: true }),
+          categoriesRef.set({ tags: categoriesData }, { merge: true }),
+        ]);
+
+        console.log("Cleanup operation completed successfully.");
+      } else {
+        console.log("No recipes without images found.");
+      }
     } catch (error) {
-      console.error("Error normalizing additionalResources:", error);
+      console.error("Error during cleanup operation:", error);
     }
   });

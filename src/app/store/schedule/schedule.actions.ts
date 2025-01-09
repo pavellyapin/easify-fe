@@ -19,7 +19,10 @@ export const loadTomorrowFailure = createAction(
   '[Schedule] Load Tomorrow Failure',
   props<{ error: any }>(),
 );
-export const refreshSchedule = createAction('[Schedule] Refresh Schedule');
+export const refreshSchedule = createAction(
+  '[Schedule] Refresh Schedule',
+  props<{ request: any }>(), // Define the payload structure for the action
+);
 export const refreshScheduleSuccess = createAction(
   '[Schedule] Refresh Schedule Success',
   props<{ scheduleData: any }>(),
@@ -53,7 +56,23 @@ export const updateCustomDayDietNutrition = createAction(
 // Action to submit the entire custom day request
 export const submitCustomDayRequest = createAction(
   '[Custom Day] Submit Request',
-  props<{ customDayRequest: any }>(),
+);
+
+// Action to submit the entire custom day request
+export const submitCustomDayRequestFromAPI = createAction(
+  '[Custom Day] Submit Request from API',
+);
+
+// Update recommended items in today's schedule
+export const updateTodayRecommendations = createAction(
+  '[Schedule] Update Today Recommendations',
+  props<{ timeSlotIndex: number; recommendations: any[] }>(),
+);
+
+// Update recommended items in tomorrow's schedule
+export const updateTomorrowRecommendations = createAction(
+  '[Schedule] Update Tomorrow Recommendations',
+  props<{ timeSlotIndex: number; recommendations: any[] }>(),
 );
 
 // Action to clear the schedule state

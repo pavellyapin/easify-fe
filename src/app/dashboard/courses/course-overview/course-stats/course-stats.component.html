@@ -1,0 +1,76 @@
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="stats-container">
+  <!-- Course Image with Blurred Bottom Effect -->
+  <div class="item-img-container">
+    <img
+      *ngIf="course.image"
+      class="item-image"
+      [src]="course.image"
+      alt="{{ course.name }}"
+    />
+    <div class="img-blur-overlay"></div>
+  </div>
+  <ng-container *ngIf="!isMobile && !isTablet; else courseOverview">
+    <!-- Title and Subtext -->
+    <div class="details">
+      <p i18n>
+        This course was crafted by our latest AI model, blending cutting-edge
+        technology with expert insights. It delivers a tailored learning
+        experience, ensuring each module is clear, engaging, and up-to-date with
+        the latest trends and research.
+      </p>
+    </div>
+  </ng-container>
+  <ng-template #courseOverview>
+    <!-- Course Name -->
+    <h3>{{ course?.name }}</h3>
+
+    <!-- Course Overview -->
+    <p>{{ course?.overview }}</p>
+  </ng-template>
+
+  <!-- Start Button -->
+  <div class="button-container">
+    <button
+      mat-flat-button
+      class="primary-full-lg-button"
+      (click)="initializeOrUpdateProgress()"
+      i18n
+    >
+      Start Course
+    </button>
+  </div>
+
+  <!-- Column of 4 rows with icon and text -->
+  <div class="stats-rows scrollable-row">
+    <span class="stat-row">
+      <mat-icon [svgIcon]="course.level" />
+      <p>{{ course.level | capitalize }}</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>{{ chaptersCount }} chapters</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="quiz" />
+      <p i18n>{{ quizzesCount }} quizzes</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="alarm" />
+      <p i18n>{{ estimatedTime }} hours</p>
+    </span>
+  </div>
+  <app-suggested-action
+    [actions]="[
+      {
+        title: 'Not sure where to start?',
+        subtext: 'Get started with basics',
+        buttonText: 'Generate learning path',
+        callback: completeModule,
+      },
+    ]"
+  />
+</div>

@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EasifyService } from '@services/easify.service';
-import { ScheduleService } from '@services/schedule.service'; // Import ScheduleService to fetch the updated schedule
-import { setLoading } from '@store/loader/loading.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { setDashboardLoading } from '@store/loader/loading.actions';
+import * as ScheduleActions from '@store/schedule/schedule.actions'; // Import actions
+import * as ScheduleSelectors from '@store/schedule/schedule.selectors';
 import {
+  catchError,
+  firstValueFrom,
+  from,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
+import {
+  loadTomorrowSuccess,
   refreshSchedule,
   refreshScheduleFailure,
-  refreshScheduleSuccess,
-  submitCustomDayRequest,
 } from './schedule.actions';
 
 @Injectable()
@@ -17,39 +27,37 @@ export class ScheduleEffects {
   constructor(
     private actions$: Actions,
     private chatService: EasifyService,
-    private scheduleService: ScheduleService,
-    private store: Store,
+    private router: Router,
+    private store: Store<any>,
   ) {}
 
   refreshSchedule$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(refreshSchedule), // Listening for refreshSchedule action
-      switchMap(() => {
-        // Call getDaily to trigger schedule generation
-        return this.chatService.getDaily().pipe(
-          // Once getDaily succeeds, fetch the updated schedule from the database
-          switchMap(() => {
-            const today = new Date().toLocaleDateString('en-CA');
-            return this.scheduleService.getTodaySchedule(today).pipe(
-              map((schedules) => {
-                if (schedules.length > 0) {
-                  // On success, dispatch refreshScheduleSuccess and stop loading
-                  return refreshScheduleSuccess({ scheduleData: schedules[0] });
-                } else {
-                  // If no schedule is found, dispatch a failure action
-                  return refreshScheduleFailure({ error: 'No schedule found' });
-                }
-              }),
-              catchError((error) => {
-                console.error('Error fetching schedule from DB:', error);
-                // On failure, dispatch refreshScheduleFailure and stop loading
-                return of(refreshScheduleFailure({ error }));
-              }),
-            );
+      ofType(refreshSchedule), // Listen for the refreshSchedule action
+      switchMap((action) => {
+        // Dispatch loading actions
+
+        this.store.dispatch(setDashboardLoading(true));
+        if (action.request.forTomorrow) {
+          this.store.dispatch(ScheduleActions.loadTomorrow());
+        } else {
+          this.store.dispatch(ScheduleActions.loadSchedule());
+        }
+
+        // Trigger the WebSocket request via EasifyService
+        this.chatService.getDaily(action.request, 'getDaily');
+
+        // Listen for WebSocket response actions
+        return this.actions$.pipe(
+          ofType(ScheduleActions.refreshScheduleSuccess, loadTomorrowSuccess), // Respond to success actions
+          take(1), // Ensure we respond to the first success action only
+          map(() => {
+            this.router.navigate(['/dashboard']); // Navigate to the dashboard
+            return setDashboardLoading(false); // Pass the success action to the reducer
           }),
           catchError((error) => {
-            console.error('Error refreshing schedule:', error);
-            // On failure, dispatch refreshScheduleFailure and stop loading
+            console.error('Error handling schedule via WebSocket:', error);
+            this.store.dispatch(setDashboardLoading(false));
             return of(refreshScheduleFailure({ error }));
           }),
         );
@@ -57,43 +65,57 @@ export class ScheduleEffects {
     ),
   );
 
-  // Effect to handle custom day update and refresh the schedule
   updateCustomDay$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(submitCustomDayRequest), // Listening for the updateCustomDay action
-      switchMap((action) => {
-        //this.store.dispatch(setLoading(true));
-        const request = action.customDayRequest;
-        // Call getCustomDay to generate the custom day schedule
-        return this.chatService.getCustomDay(request).pipe(
-          // On success, trigger a refresh of the schedule
-          switchMap(() => {
-            const today = new Date().toLocaleDateString('en-CA');
-            return this.scheduleService.getTodaySchedule(today).pipe(
-              map((schedules) => {
-                if (schedules.length > 0) {
-                  // Dispatch success with the retrieved schedule
-                  this.store.dispatch(setLoading(false));
-                  return refreshScheduleSuccess({ scheduleData: schedules[0] });
-                } else {
-                  // Handle case where no schedule is found
-                  return refreshScheduleFailure({ error: 'No schedule found' });
-                }
+      ofType(ScheduleActions.submitCustomDayRequestFromAPI), // Listen for the submitCustomDayRequest action
+      mergeMap(() =>
+        from(
+          firstValueFrom(
+            this.store.select(ScheduleSelectors.selectCustomDayRequest),
+          ),
+        ).pipe(
+          mergeMap((customDayRequest) => {
+            if (!customDayRequest) {
+              console.log('No custom day request found to submit.');
+              return of(
+                refreshScheduleFailure({
+                  error: 'No custom day request found',
+                }),
+              );
+            }
+
+            // Prepare the request object with defaults
+            const request = {
+              ...customDayRequest,
+              type: customDayRequest.basicInfo?.type || 'full',
+            };
+            if (request.basicInfo.forTomorrow) {
+              this.store.dispatch(ScheduleActions.loadTomorrow());
+            } else {
+              this.store.dispatch(ScheduleActions.loadSchedule());
+            }
+
+            this.chatService.getDaily(request, 'getCustomDay');
+
+            return this.actions$.pipe(
+              ofType(
+                ScheduleActions.refreshScheduleSuccess,
+                loadTomorrowSuccess,
+              ), // Respond to success actions
+              take(1), // Ensure we respond to the first success action only
+              map(() => {
+                this.router.navigate(['/dashboard']); // Navigate to the dashboard
+                return setDashboardLoading(false); // Pass the success action to the reducer
               }),
               catchError((error) => {
-                console.error('Error fetching schedule from DB:', error);
-                // Dispatch failure if an error occurs when fetching the schedule
+                console.error('Error handling schedule via WebSocket:', error);
+                this.store.dispatch(setDashboardLoading(false));
                 return of(refreshScheduleFailure({ error }));
               }),
             );
           }),
-          catchError((error) => {
-            console.error('Error generating custom day:', error);
-            // Dispatch failure if an error occurs when generating the custom day
-            return of(refreshScheduleFailure({ error }));
-          }),
-        );
-      }),
+        ),
+      ),
     ),
   );
 }

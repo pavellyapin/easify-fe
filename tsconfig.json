@@ -5,6 +5,7 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["app/components/*"],
+      "@dashboard/*": ["app/dashboard/*"],
       "@services/*": ["app/services/*"],
       "@store/*": ["app/store/*"],
       "@animations/*": ["app/animations/*"]

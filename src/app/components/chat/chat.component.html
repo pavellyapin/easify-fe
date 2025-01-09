@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/i18n -->
@@ -7,45 +8,74 @@
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- chat.component.html -->
 <!-- chat.component.html -->
-<mat-card class="chat-container" [ngClass]="{ 'is-open': isChatOpen }">
-  <div class="chat-bubble" *ngIf="!isChatOpen" (click)="toggleChat()">
-    <div class="chat-bubble-text">Chat</div>
-    <div class="chat-bubble-tail"></div>
-  </div>
-  <div class="chat-window" *ngIf="isChatOpen">
-    <mat-card-content class="chat-messages" #messageContainer>
-      <div
-        *ngFor="let msg of messages$ | async"
-        class="chat-message"
-        [class.user]="msg.user === 'You'"
-        [class.gpt]="msg.user === 'GPT'"
-      >
-        <div class="message-bubble">
-          <strong>{{ msg.user }}:</strong>
-          <span [innerHTML]="msg.message"></span>
-        </div>
-      </div>
-      <div *ngIf="isTyping" class="chat-message gpt">
-        <div class="message-bubble typing-indicator">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions class="chat-input">
-      <mat-form-field class="message-input" appearance="outline">
-        <input
-          matInput
-          [(ngModel)]="userMessage"
-          (keyup.enter)="sendMessage()"
-          placeholder="Type a message..."
-        />
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="sendMessage()">
-        Send
+<div class="chat">
+  <div class="chat-header">
+    <h5 class="chat-title">Chat</h5>
+    <div class="chat-controls">
+      <button mat-icon-button class="minimize-icon" (click)="toggleChat()">
+        <mat-icon>remove</mat-icon>
       </button>
-    </mat-card-actions>
-    <button class="close-icon" (click)="toggleChat()">&#10005;</button>
+      <button mat-icon-button class="close-icon" (click)="toggleChat()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
-</mat-card>
+
+  <!-- Chat Messages -->
+  <div class="chat-messages" #messageContainer>
+    <!-- Centered Greeting -->
+    <div class="chat-greeting-container">
+      <div class="greeting-icon">
+        <div class="circle"></div>
+      </div>
+      <h6 class="greeting-title">Hello!</h6>
+      <caption class="greeting-caption">How can I assist you today?</caption>
+    </div>
+    <div
+      *ngFor="let msg of messages$ | async"
+      class="chat-message"
+      [class.user]="msg.user === 'You'"
+      [class.gpt]="msg.user === 'GPT'"
+      @easeIn
+    >
+      <div *ngIf="msg.user === 'GPT'" class="gpt-avatar">
+        <img src="assets/illustrations/ai.svg" alt="AI" class="ai-image" />
+      </div>
+      <div class="message-bubble">
+        <p [innerHTML]="msg.message"></p>
+      </div>
+    </div>
+    <div *ngIf="isTyping" class="chat-message gpt">
+      <div class="typing-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Input -->
+  <div class="chat-input">
+    <mat-form-field class="message-input" appearance="outline">
+      <textarea
+        matInput
+        [(ngModel)]="userMessage"
+        (keyup.enter)="sendMessage()"
+        placeholder="Type a message..."
+        rows="1"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+      ></textarea>
+      <button
+        mat-icon-button
+        color="primary"
+        class="send-icon"
+        (click)="sendMessage()"
+        *ngIf="userMessage"
+      >
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>

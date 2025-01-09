@@ -6,12 +6,14 @@ import * as StartedCourseActions from './started-course.actions';
 
 export interface StartedCourseState {
   startedCourse: any | null;
+  responses: any[];
   loading: boolean;
   error: any;
 }
 
 export const initialState: StartedCourseState = {
   startedCourse: null,
+  responses: [],
   loading: false,
   error: null,
 };
@@ -40,4 +42,11 @@ export const startedCourseReducer = createReducer(
     ...state,
     startedCourse: null,
   })),
+  on(
+    StartedCourseActions.loadCourseEasifyResponsesSuccess,
+    (state, { responses }) => ({
+      ...state,
+      responses,
+    }),
+  ),
 );

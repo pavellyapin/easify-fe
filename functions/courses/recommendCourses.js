@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const { getRandomSelection, hasPartialMatch } = require("../utils");
+const { getRandomSelection } = require("../utils");
 
 const firestore = admin.firestore();
 
@@ -30,76 +30,15 @@ exports.recommendCourses = functions.https.onCall(async (data, context) => {
 
     const startedCourses = startedCoursesSnapshot.docs.map((doc) => doc.id);
 
-    // Determine tags to use based on user preferences if courseTags are not provided
-    let tagsToUse = courseTags;
-    if (!courseTags || courseTags.length === 0) {
-      console.log(
-        `[${new Date().toISOString()}] No courseTags provided. Fetching user preferences.`,
-      );
+    // Step 1: Use provided courseTags if available
+    let recommendedCourses = [];
+    if (courseTags && courseTags.length > 0) {
+      console.log(`[${new Date().toISOString()}] Using provided courseTags.`);
+      const exactMatchQuerySnapshot = await coursesRef
+        .where("tags", "array-contains-any", courseTags)
+        .get();
 
-      const userDoc = await userRef.get();
-      const userData = userDoc.data();
-      console.log(`[${new Date().toISOString()}] Fetched user data.`);
-
-      const userWorkSkills = userData.workSkills || {};
-      tagsToUse = [...(userWorkSkills.courseTags || [])];
-      // Use 'beginner' as a default tag if no tags are found in user preferences
-      if (tagsToUse.length === 0) {
-        tagsToUse = ["beginner"];
-        console.log(
-          `[${new Date().toISOString()}] No user preference tags found. Defaulting to 'beginner'.`,
-        );
-      } else {
-        console.log(
-          `[${new Date().toISOString()}] Using tags from user's course preferences:`,
-          tagsToUse,
-        );
-      }
-    }
-
-    // Step 1: Query for exact matches using array-contains-any
-    const exactMatchQuerySnapshot = await coursesRef
-      .where("tags", "array-contains-any", tagsToUse)
-      .get();
-    console.log(`[${new Date().toISOString()}] Fetched exact match courses.`);
-
-    const exactMatchCourses = exactMatchQuerySnapshot.docs
-      .map((doc) => ({
-        id: doc.id,
-        createdDate: doc.data().createdDate,
-        name: doc.data().name,
-        isNew: doc.data().isNew,
-        category: doc.data().category,
-        overview: doc.data().overview,
-        level: doc.data().level,
-        image: doc.data().image,
-        tags: doc.data().tags,
-      }))
-      .filter((course) => !startedCourses.includes(course.id));
-
-    console.log(
-      `[${new Date().toISOString()}] Filtered out started courses from exact matches: ${exactMatchCourses.length}`,
-    );
-
-    // Step 2: Check if we have enough exact matches
-    if (count && exactMatchCourses.length >= count) {
-      const selectedCourses = getRandomSelection(exactMatchCourses, count);
-      console.log(
-        `[${new Date().toISOString()}] Satisfied course count with exact matches. Returning ${selectedCourses.length} courses.`,
-      );
-      return selectedCourses;
-    }
-
-    // Step 3: Calculate additional courses needed and fetch partial matches if needed
-    const additionalNeeded = count ? count - exactMatchCourses.length : 0;
-    let partialMatchCourses = [];
-    if (additionalNeeded > 0) {
-      const allCoursesSnapshot = await coursesRef.get();
-      console.log(
-        `[${new Date().toISOString()}] Fetched all courses for partial matches.`,
-      );
-
-      partialMatchCourses = allCoursesSnapshot.docs
+      recommendedCourses = exactMatchQuerySnapshot.docs
         .map((doc) => ({
           id: doc.id,
           createdDate: doc.data().createdDate,
@@ -111,48 +50,117 @@ exports.recommendCourses = functions.https.onCall(async (data, context) => {
           image: doc.data().image,
           tags: doc.data().tags,
         }))
-        .filter((course) => {
-          const courseTagsArray = Array.isArray(course.tags)
-            ? course.tags
-            : [course.tags];
-          return (
-            !startedCourses.includes(course.id) &&
-            tagsToUse.some((tag) =>
-              courseTagsArray.some((courseTag) =>
-                hasPartialMatch(tag, courseTag),
-              ),
-            )
-          );
-        })
-        .slice(0, additionalNeeded);
+        .filter((course) => !startedCourses.includes(course.id));
 
       console.log(
-        `[${new Date().toISOString()}] Found partial match courses: ${partialMatchCourses.length}`,
+        `[${new Date().toISOString()}] Found ${recommendedCourses.length} courses with provided courseTags.`,
       );
     }
 
-    // Combine exact and partial matches, prioritizing uniqueness
-    const uniqueCourses = new Map();
-    [...exactMatchCourses, ...partialMatchCourses].forEach((course) => {
-      uniqueCourses.set(course.id, course);
-    });
+    // Step 2: If not enough matches, try user profile tags
+    if (recommendedCourses.length < count) {
+      const additionalNeeded = count - recommendedCourses.length;
+      console.log(
+        `[${new Date().toISOString()}] Fetching user profile tags for more matches.`,
+      );
 
-    let recommendedCourses = Array.from(uniqueCourses.values());
+      const userDoc = await userRef.get();
+      const userData = userDoc.data();
+      console.log(`[${new Date().toISOString()}] Fetched user data.`);
+
+      const planCategories = userData?.financialPlanning?.planCategories || [];
+      const planTags = userData?.financialPlanning?.planTags || [];
+      const courseTagsFromUser = userData?.workSkills?.courseTags || [];
+      const industries = userData?.workSkills?.industries || [];
+      const userProfileTags = [
+        ...planCategories,
+        ...planTags,
+        ...courseTagsFromUser,
+        ...industries,
+      ];
+
+      console.log(
+        `[${new Date().toISOString()}] Combined user tags:`,
+        userProfileTags,
+      );
+      if (userProfileTags && userProfileTags.length > 0) {
+        const userProfileQuerySnapshot = await coursesRef
+          .where("tags", "array-contains-any", userProfileTags)
+          .get();
+
+        const userProfileMatches = userProfileQuerySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            createdDate: doc.data().createdDate,
+            name: doc.data().name,
+            isNew: doc.data().isNew,
+            category: doc.data().category,
+            overview: doc.data().overview,
+            level: doc.data().level,
+            image: doc.data().image,
+            tags: doc.data().tags,
+          }))
+          .filter(
+            (course) =>
+              !startedCourses.includes(course.id) &&
+              !recommendedCourses.some((c) => c.id === course.id),
+          );
+
+        console.log(
+          `[${new Date().toISOString()}] Found ${userProfileMatches.length} additional courses from user profile tags.`,
+        );
+        recommendedCourses.push(
+          ...userProfileMatches.slice(0, additionalNeeded),
+        );
+      }
+    }
+
+    // Step 3: If still not enough matches, fetch newest courses
+    if (recommendedCourses.length < count) {
+      const additionalNeeded = count - recommendedCourses.length;
+      console.log(
+        `[${new Date().toISOString()}] Fetching ${additionalNeeded} newest courses.`,
+      );
+
+      const newestCoursesSnapshot = await coursesRef
+        .orderBy("createdDate", "desc")
+        .limit(30)
+        .get();
+
+      const newestCourses = newestCoursesSnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          createdDate: doc.data().createdDate,
+          name: doc.data().name,
+          isNew: doc.data().isNew,
+          category: doc.data().category,
+          overview: doc.data().overview,
+          level: doc.data().level,
+          image: doc.data().image,
+          tags: doc.data().tags,
+        }))
+        .filter(
+          (course) =>
+            !startedCourses.includes(course.id) &&
+            !recommendedCourses.some((c) => c.id === course.id),
+        );
+
+      console.log(
+        `[${new Date().toISOString()}] Fetched ${newestCourses.length} newest courses.`,
+      );
+
+      recommendedCourses.push(...newestCourses);
+    }
 
     // Step 4: Limit the result to the requested count
-    if (count) {
-      recommendedCourses = getRandomSelection(recommendedCourses, count);
-      console.log(
-        `[${new Date().toISOString()}] Selected random subset of recommended courses: ${recommendedCourses.length}`,
-      );
-    }
+    const finalRecommendations = getRandomSelection(recommendedCourses, count);
 
     const endTime = new Date();
     console.log(
       `[${endTime.toISOString()}] Finished processing recommendation. Total time: ${(endTime - startTime) / 1000} seconds.`,
     );
 
-    return recommendedCourses;
+    return finalRecommendations;
   } catch (error) {
     console.error(
       `[${new Date().toISOString()}] Error recommending courses:`,

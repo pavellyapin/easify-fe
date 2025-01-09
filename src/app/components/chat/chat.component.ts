@@ -7,15 +7,20 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
+  Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { easeIn } from '@animations/animations';
 import { Store } from '@ngrx/store';
 import { EasifyService } from '@services/easify.service';
 import { AppState } from '@store/app.state';
@@ -36,22 +41,23 @@ interface ChatMessage {
     CommonModule,
     FormsModule,
     MatButtonModule,
-    MatCardModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
+  animations: [easeIn],
 })
-export class ChatComponent implements OnDestroy, AfterViewChecked {
+export class ChatComponent implements OnDestroy, AfterViewChecked, OnChanges {
+  @Input() isChatOpen = false;
+  @Output() chatToggled = new EventEmitter<boolean>();
+  @ViewChild('messageContainer') private messageContainer!: ElementRef;
+
   messages$: Observable<ChatMessage[]>;
   subscription: Subscription | null = null;
   userMessage = '';
   isTyping = false;
-  isChatOpen = false;
-
-  @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
   constructor(
     private chatService: EasifyService,
@@ -60,17 +66,28 @@ export class ChatComponent implements OnDestroy, AfterViewChecked {
     this.messages$ = this.store.select(selectAllMessages);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isChatOpen'] && changes['isChatOpen'].currentValue) {
+      this.checkAndAddGreetingMessage();
+    }
+  }
+
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
 
-  toggleChat() {
+  toggleChat(): void {
     this.isChatOpen = !this.isChatOpen;
+    this.chatToggled.emit(this.isChatOpen);
+
+    if (this.isChatOpen) {
+      this.checkAndAddGreetingMessage();
+    }
   }
 
-  sendMessage() {
+  sendMessage(): void {
     if (this.userMessage.trim()) {
-      const messageToSend = this.userMessage; // Capture the user message
+      const messageToSend = this.userMessage;
       const userMsg: ChatMessage = { user: 'You', message: this.userMessage };
       this.store.dispatch(addMessage({ message: userMsg }));
       this.userMessage = ''; // Clear the input field after dispatching
@@ -78,28 +95,22 @@ export class ChatComponent implements OnDestroy, AfterViewChecked {
       // Show typing indicator
       this.isTyping = true;
 
-      // Capture the conversation history once
       this.messages$.pipe(take(1)).subscribe((messages) => {
-        // Limit to the last 10 messages
         const conversation = messages.slice(-10).map((msg) => ({
           role: msg.user === 'You' ? 'user' : 'assistant',
           content: msg.message,
         }));
 
-        // Make the API call with the captured conversation
         this.chatService
           .getChatResponse(messageToSend, conversation)
           .subscribe({
             next: (response) => {
-              this.isTyping = false; // Hide typing indicator
-              const gptMsg: ChatMessage = {
-                user: 'GPT',
-                message: response,
-              };
+              this.isTyping = false;
+              const gptMsg: ChatMessage = { user: 'GPT', message: response };
               this.store.dispatch(addMessage({ message: gptMsg }));
             },
             error: (error) => {
-              this.isTyping = false; // Hide typing indicator
+              this.isTyping = false;
               console.error('Error:', error);
               const errorMsg: ChatMessage = {
                 user: 'System',
@@ -112,8 +123,24 @@ export class ChatComponent implements OnDestroy, AfterViewChecked {
     }
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe(); // Clean up subscription on component destroy
+  private checkAndAddGreetingMessage(): void {
+    this.messages$.pipe(take(1)).subscribe((messages) => {
+      if (!messages || messages.length === 0) {
+        this.isTyping = true;
+        setTimeout(() => {
+          this.isTyping = false;
+          const greetingMessage: ChatMessage = {
+            user: 'GPT',
+            message: 'Hello! How can I assist you today?',
+          };
+          this.store.dispatch(addMessage({ message: greetingMessage }));
+        }, 3000);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   private scrollToBottom(): void {

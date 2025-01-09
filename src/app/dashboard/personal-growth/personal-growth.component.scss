@@ -1,0 +1,8 @@
+@use "variables" as var;
+
+.search-box-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 100%; /* Ensures full width */
+}

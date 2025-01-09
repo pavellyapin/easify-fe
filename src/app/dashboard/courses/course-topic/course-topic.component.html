@@ -1,0 +1,56 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="main-with-side padded">
+  <div class="main-content">
+    <div class="topic-header-container">
+      <!-- Breadcrumbs with Navigation -->
+      <div class="breadcrumbs scrollable-breadcrumbs">
+        <span>
+          <button
+            mat-button
+            class="breadcrumb-button"
+            (click)="navigateToBreadcrumb('home')"
+          >
+            <span i18n>Home</span>
+          </button>
+        </span>
+        <span>
+          <button
+            mat-button
+            class="breadcrumb-button"
+            (click)="navigateToBreadcrumb('learningHub')"
+          >
+            <span i18n>Learning Hub</span>
+          </button>
+        </span>
+        <span>
+          <button
+            mat-button
+            class="breadcrumb-button"
+            (click)="navigateToBreadcrumb('course')"
+          >
+            <span>{{ course.name }}</span>
+          </button>
+        </span>
+        <span>
+          <button
+            mat-button
+            class="breadcrumb-button"
+            (click)="navigateToBreadcrumb('chapter')"
+          >
+            <span>{{ chapter.title }}</span>
+          </button>
+        </span>
+        <span class="breadcrumb-button">{{ topic.title }}</span>
+      </div>
+    </div>
+    <router-outlet />
+  </div>
+
+  <div *ngIf="!isMobile && !isTablet" class="side-content">
+    <app-chapter-nav [course]="course" [startedCourse]="startedCourse" />
+  </div>
+</div>

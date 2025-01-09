@@ -1,0 +1,73 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- Recipe Preparation Section -->
+<h5 i18n>Prepare</h5>
+<span class="stat-row">
+  <mat-icon svgIcon="alarm" />
+  <p i18n>{{ recipe.prepTime }}</p>
+</span>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let step of recipe.prepare; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="!startedRecipe?.progress?.prepComplete && i === 0"
+  >
+    <mat-expansion-panel-header>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ step.name }}</h6>
+        <p class="single-line-ellipsis">{{ step.additionalTips }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getPrepIcon()"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ step.description }}</p>
+      <button mat-button class="action-link" (click)="navigateToSection()">
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<!-- Recipe Cooking Section -->
+<h5 i18n>Cook</h5>
+<span class="stat-row">
+  <mat-icon svgIcon="alarm" />
+  <p i18n>{{ recipe.cookTime }}</p>
+</span>
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let step of recipe.instructions; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="startedRecipe?.progress?.prepComplete && i === 0"
+  >
+    <mat-expansion-panel-header>
+      <div class="expand-header">
+        <h6 class="single-line-ellipsis">{{ step.name }}</h6>
+        <p class="single-line-ellipsis">{{ step.additionalTips }}</p>
+      </div>
+      <mat-icon
+        class="toggle-icon"
+        i18n
+        matExpansionPanelToggleIndicator
+        [svgIcon]="getSectionIcon()"
+      />
+    </mat-expansion-panel-header>
+    <div class="expand-content">
+      <p>{{ step.description }}</p>
+      <button mat-button class="action-link" (click)="navigateToSection()">
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,23 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="recipes?.length; else noRecipesTemplate">
+  <!-- Carousel for Recipes -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-recipe-tile
+      *ngFor="let recipe of recipes; let i = index"
+      ngxSlickItem
+      class="carousel-item"
+      [recipe]="recipe"
+      [manualLoad]="true"
+    />
+  </ngx-slick-carousel>
+</ng-container>
+
+<!-- No Recipes Available Template -->
+<ng-template #noRecipesTemplate>
+  <p i18n>No recipes available.</p>
+</ng-template>

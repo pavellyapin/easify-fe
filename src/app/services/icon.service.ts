@@ -146,6 +146,68 @@ export class IconService {
         'assets/icons/profile-circle.svg',
       ),
     );
+    this.matIconRegistry.addSvgIcon(
+      'people',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/people.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'global',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/global.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'people',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/people.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'receipt-item',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/receipt-item.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'profile-tick',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/profile-tick.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'build',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/build.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'school',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/school.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'work',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/work.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'psychology',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/psychology.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'face',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/face.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'source_environment',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/source_environment.svg',
+      ),
+    );
     // Register more icons if needed
   }
 }

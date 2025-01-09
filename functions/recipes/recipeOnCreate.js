@@ -8,14 +8,13 @@ exports.recipeOnCreate = functions.firestore
   .document("recipes/{recipeId}")
   .onCreate(async (snap) => {
     const recipeData = snap.data();
-    const keywords = recipeData.tags || [];
+    const tags = recipeData.tags || [];
     const ingredients = recipeData.ingredients || [];
     const cuisine = recipeData.cuisine || "unknown"; // Default to 'unknown' if no cuisine provided
+    const category = recipeData.category || "unknown"; // Default to 'unknown' if no category provided
 
     try {
-      const keywordCountsRef = firestore
-        .collection("tagCounts")
-        .doc("recipeKeywords");
+      const tagCountsRef = firestore.collection("tagCounts").doc("recipeTags");
 
       const ingredientCountsRef = firestore
         .collection("tagCounts")
@@ -25,61 +24,76 @@ exports.recipeOnCreate = functions.firestore
         .collection("tagCounts")
         .doc("recipeCuisines");
 
-      const [keywordCountsDoc, ingredientCountsDoc, cuisineCountsDoc] =
-        await Promise.all([
-          keywordCountsRef.get(),
-          ingredientCountsRef.get(),
-          cuisineCountsRef.get(),
-        ]);
+      const categoryCountsRef = firestore
+        .collection("tagCounts")
+        .doc("recipeCategories");
 
-      let keywordCounts = keywordCountsDoc.exists
-        ? keywordCountsDoc.data().tags
-        : [];
+      console.log("Fetching existing counts from Firestore...");
+      const [
+        tagCountsDoc,
+        ingredientCountsDoc,
+        cuisineCountsDoc,
+        categoryCountsDoc,
+      ] = await Promise.all([
+        tagCountsRef.get(),
+        ingredientCountsRef.get(),
+        cuisineCountsRef.get(),
+        categoryCountsRef.get(),
+      ]);
 
-      let ingredientCounts = ingredientCountsDoc.exists
+      console.log("Existing counts fetched successfully.");
+
+      let tagCounts = tagCountsDoc.exists ? tagCountsDoc.data().tags : [];
+      let ingredientNames = ingredientCountsDoc.exists
         ? ingredientCountsDoc.data().ingredients
         : [];
-
       let cuisineCounts = cuisineCountsDoc.exists
         ? cuisineCountsDoc.data().cuisines
         : [];
+      let categoryCounts = categoryCountsDoc.exists
+        ? categoryCountsDoc.data().categories
+        : [];
 
       // Convert the arrays of objects into maps for easier manipulation
-      const keywordCountsMap = new Map(
-        keywordCounts.map((item) => [item.tag, item.count]),
-      );
-
-      const ingredientCountsMap = new Map(
-        ingredientCounts.map((item) => [item.ingredient, item.count]),
+      const tagCountsMap = new Map(
+        tagCounts.map((item) => [item.tag, item.count]),
       );
 
       const cuisineCountsMap = new Map(
         cuisineCounts.map((item) => [item.cuisine, item.count]),
       );
 
-      // Update the keyword counts in the map
-      keywords.forEach((keyword) => {
-        const normalizedKeyword = keyword.toLowerCase();
-        if (keywordCountsMap.has(normalizedKeyword)) {
-          keywordCountsMap.set(
-            normalizedKeyword,
-            keywordCountsMap.get(normalizedKeyword) + 1,
-          );
+      const categoryCountsMap = new Map(
+        categoryCounts.map((item) => [item.category, item.count]),
+      );
+
+      console.log("Normalized maps created.");
+
+      // Update the tag counts in the map
+      tags.forEach((tag) => {
+        const normalizedTag = tag.toLowerCase();
+        if (tagCountsMap.has(normalizedTag)) {
+          tagCountsMap.set(normalizedTag, tagCountsMap.get(normalizedTag) + 1);
         } else {
-          keywordCountsMap.set(normalizedKeyword, 1);
+          tagCountsMap.set(normalizedTag, 1);
         }
       });
 
-      // Update the ingredient counts in the map
       ingredients.forEach((ingredientObj) => {
-        const normalizedIngredient = ingredientObj.name.toLowerCase().trim();
-        if (ingredientCountsMap.has(normalizedIngredient)) {
-          ingredientCountsMap.set(
-            normalizedIngredient,
-            ingredientCountsMap.get(normalizedIngredient) + 1,
-          );
-        } else {
-          ingredientCountsMap.set(normalizedIngredient, 1);
+        // Normalize by removing digits, special characters, and anything in parentheses
+        let normalizedIngredient = ingredientObj.name
+          .toLowerCase()
+          .trim()
+          .replace(/\([^)]*\)/g, "") // Remove parentheses and content inside them
+          .replace(/[^a-z\s]/g, "") // Remove digits and special characters, retain spaces and letters
+          .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+          .trim(); // Trim again to ensure no leading/trailing spaces
+
+        if (
+          !ingredientNames.includes(normalizedIngredient) &&
+          normalizedIngredient !== ""
+        ) {
+          ingredientNames.push(normalizedIngredient); // Add only unique and non-empty ingredients
         }
       });
 
@@ -94,43 +108,56 @@ exports.recipeOnCreate = functions.firestore
         cuisineCountsMap.set(normalizedCuisine, 1);
       }
 
+      // Update the category counts in the map
+      const normalizedCategory = category.toLowerCase().trim();
+      if (categoryCountsMap.has(normalizedCategory)) {
+        categoryCountsMap.set(
+          normalizedCategory,
+          categoryCountsMap.get(normalizedCategory) + 1,
+        );
+      } else {
+        categoryCountsMap.set(normalizedCategory, 1);
+      }
+
       // Convert the maps back to arrays of objects
-      keywordCounts = Array.from(keywordCountsMap, ([tag, count]) => ({
+      tagCounts = Array.from(tagCountsMap, ([tag, count]) => ({
         tag,
         count,
       }));
-
-      ingredientCounts = Array.from(
-        ingredientCountsMap,
-        ([ingredient, count]) => ({
-          ingredient,
-          count,
-        }),
-      );
 
       cuisineCounts = Array.from(cuisineCountsMap, ([cuisine, count]) => ({
         cuisine,
         count,
       }));
 
+      categoryCounts = Array.from(categoryCountsMap, ([category, count]) => ({
+        category,
+        count,
+      }));
+
+      console.log("Converted maps back to arrays.");
+
       // Sort the arrays by count in descending order
-      keywordCounts.sort((a, b) => b.count - a.count);
-      ingredientCounts.sort((a, b) => b.count - a.count);
+      tagCounts.sort((a, b) => b.count - a.count);
       cuisineCounts.sort((a, b) => b.count - a.count);
+      categoryCounts.sort((a, b) => b.count - a.count);
+
+      console.log("Sorted arrays of counts.");
 
       // Store the sorted arrays back in Firestore
       await Promise.all([
-        keywordCountsRef.set({ tags: keywordCounts }),
-        ingredientCountsRef.set({ ingredients: ingredientCounts }),
+        tagCountsRef.set({ tags: tagCounts }),
+        ingredientCountsRef.set({ ingredients: ingredientNames }),
         cuisineCountsRef.set({ cuisines: cuisineCounts }),
+        categoryCountsRef.set({ categories: categoryCounts }),
       ]);
 
       console.log(
-        "Keyword, ingredient, and cuisine counts updated and sorted successfully.",
+        "Tag, ingredient, cuisine, and category counts updated and sorted successfully.",
       );
     } catch (error) {
       console.error(
-        "Error updating keyword, ingredient, and cuisine counts:",
+        "Error updating tag, ingredient, cuisine, and category counts:",
         error,
       );
     }

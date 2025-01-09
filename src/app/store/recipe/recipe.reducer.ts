@@ -6,21 +6,28 @@ import {
   loadNewRecipeFailure,
   loadNewRecipeSuccess,
   loadRecipe,
+  setSearchResults,
 } from './recipe.actions';
 
 export interface RecipeState {
   newRecipe: any | null;
+  searchResults: any | null;
   error: any | null;
 }
 
 export const initialState: RecipeState = {
   newRecipe: null,
   error: null,
+  searchResults: null,
 };
 
 export const recipeReducer = createReducer(
   initialState,
   on(loadRecipe, (state) => ({ ...state, schedule: null, error: null })),
   on(loadNewRecipeSuccess, (state, { newRecipe }) => ({ ...state, newRecipe })),
+  on(setSearchResults, (state, { results }) => ({
+    ...state,
+    searchResults: results,
+  })),
   on(loadNewRecipeFailure, (state, { error }) => ({ ...state, error })),
 );

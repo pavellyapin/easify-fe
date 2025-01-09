@@ -1,0 +1,72 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- Recipe Intro Component Template -->
+<ng-container *ngIf="!isMobile && !isTablet">
+  <!-- Recipe Name -->
+  <h3>{{ recipe?.name }}</h3>
+
+  <!-- Recipe Overview -->
+  <summary>{{ recipe?.description }}</summary>
+</ng-container>
+
+<ng-container *ngIf="startedRecipe.progress?.progress">
+  <h5 class="section-title" i18n>
+    {{
+      startedRecipe.status === "completed"
+        ? "Recipe complete!"
+        : "You're almost there!"
+    }}
+  </h5>
+
+  <!-- Progress bar below recipe image -->
+  <mat-progress-bar
+    mode="determinate"
+    class="custom-progress-bar"
+    i18n-mode
+    [value]="startedRecipe.progress.progress"
+  />
+  <p class="caption" i18n>
+    {{
+      startedRecipe.status === "completed"
+        ? "Great job! You've mastered this recipe. Time to enjoy your meal!"
+        : "You're doing great! Just a little more to complete this recipe."
+    }}
+  </p>
+  <p *ngIf="startedRecipe.status !== 'completed'" class="caption" i18n>
+    {{ getRemainingPercentage() }}% remaining to complete this recipe
+  </p>
+</ng-container>
+
+<ng-container *ngIf="recipe.ingredients">
+  <h5 class="section-title" i18n>Ingredients you'll need</h5>
+  <ul class="items-list">
+    <li *ngFor="let ingredient of recipe.ingredients">
+      <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+      <span>{{ ingredient.quantity }} {{ ingredient.name | capitalize }}</span>
+    </li>
+  </ul>
+</ng-container>
+
+<!-- Cooking Tips Section -->
+<ng-container *ngIf="recipe.additionalTips">
+  <h5 class="section-title" i18n>Tips</h5>
+  <ul class="items-list">
+    <li *ngFor="let item of getAdditionalTips()">
+      <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+      <span>{{ item }}</span>
+    </li>
+  </ul>
+</ng-container>
+
+<!-- Skills You'll Gain Section -->
+<div class="chips-container">
+  <div class="app-chips-secondary">
+    <mat-chip-set>
+      <mat-chip *ngFor="let tag of recipe?.tags" i18n-ngFor [removable]="false">
+        {{ tag | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>

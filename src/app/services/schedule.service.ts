@@ -15,14 +15,16 @@ import {
   collectionData,
   doc,
   Firestore,
+  getDoc,
   query,
+  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as ScheduleActions from '@store/schedule/schedule.actions'; // Import actions
 import * as ScheduleSelectors from '@store/schedule/schedule.selectors'; // Select from schedule
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
@@ -76,8 +78,10 @@ export class ScheduleService {
               }),
             );
           } else {
-            // Navigate to custom day creation if no schedule found
-            this.router.navigate(['/dashboard/custom-day']);
+            // Navigate to custom day creation with query parameters
+            this.router.navigate(['/dashboard/custom-day'], {
+              queryParams: { forTomorrow: true },
+            });
           }
         },
         error: (error) => {
@@ -106,6 +110,7 @@ export class ScheduleService {
     );
 
     return collectionData(tomorrowQuery, { idField: 'id' }).pipe(
+      take(1),
       map((schedules) => schedules[0] || null), // Return only the first item or null if none found
       catchError((error) => {
         console.error(
@@ -117,29 +122,57 @@ export class ScheduleService {
     ) as Observable<any>;
   }
 
-  // Function to retrieve and submit the custom day request
-  async submitCustomDayRequest(
-    type: 'basic' | 'full' | 'expanded' = 'full',
+  /**
+   * Save recommendations to a specific time slot in the schedule object.
+   * @param scheduleId The ID of the schedule document.
+   * @param timeSlotIndex The index of the time slot inside the `schedule` array.
+   * @param recommendations The list of recommendations to save.
+   */
+  async saveRecommendationsToTimeSlot(
+    scheduleId: string,
+    timeSlotIndex: number,
+    recommendations: any[],
   ): Promise<void> {
-    const customDayRequest = await firstValueFrom(
-      this.store.select(ScheduleSelectors.selectCustomDayRequest),
-    );
+    if (!this.auth.currentUser) {
+      this.router.navigate(['/signup']);
+      throw new Error('User not authenticated');
+    }
 
-    if (customDayRequest) {
-      const request = {
-        ...customDayRequest,
-        type,
+    const userRef = doc(this.firestore, 'users', this.auth.currentUser.uid);
+    const scheduleRef = doc(collection(userRef, 'schedules'), scheduleId);
+
+    try {
+      // Fetch the current schedule document
+      const scheduleSnap = await getDoc(scheduleRef);
+      if (!scheduleSnap.exists()) {
+        throw new Error(`Schedule with ID ${scheduleId} does not exist.`);
+      }
+
+      const scheduleData = scheduleSnap.data() as any;
+
+      // Ensure `schedule` and `schedule.schedule` exist
+      if (!scheduleData.schedule || !Array.isArray(scheduleData.schedule)) {
+        scheduleData.schedule = [];
+      }
+
+      // Update the specific time slot with recommendations
+      scheduleData.schedule[timeSlotIndex] = {
+        ...scheduleData.schedule[timeSlotIndex],
+        recommendedItems: recommendations,
       };
 
-      this.store.dispatch(
-        ScheduleActions.submitCustomDayRequest({
-          customDayRequest: request,
-        }),
-      );
+      // Save the updated schedule document
+      await setDoc(scheduleRef, scheduleData, { merge: true });
 
-      console.log('Submitted custom day request:', request);
-    } else {
-      console.log('No custom day request found to submit.');
+      console.log(
+        `Recommendations saved for schedule: ${scheduleId}, time slot index: ${timeSlotIndex}`,
+      );
+    } catch (error) {
+      console.error(
+        `Error saving recommendations for schedule: ${scheduleId}, time slot index: ${timeSlotIndex}`,
+        error,
+      );
+      throw error;
     }
   }
 }

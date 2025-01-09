@@ -1,0 +1,76 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="!isMobile && !isTablet">
+  <!-- Workout Name -->
+  <h3>{{ workout?.name }}</h3>
+
+  <!-- Workout Overview -->
+  <summary>{{ workout?.overview }}</summary>
+</ng-container>
+
+<ng-container *ngIf="startedWorkout.progress.progress">
+  <h5 class="section-title" i18n>
+    {{
+      startedWorkout.status === "completed"
+        ? "Workout complete!"
+        : "Keep pushing yourself!"
+    }}
+  </h5>
+
+  <!-- Progress bar below workout image -->
+  <mat-progress-bar
+    mode="determinate"
+    class="custom-progress-bar"
+    i18n-mode
+    [value]="startedWorkout.progress.progress"
+  />
+  <p class="caption" i18n>
+    {{
+      startedWorkout.status === "completed"
+        ? "Fantastic job! You’ve completed this workout. Keep moving!"
+        : "You're making excellent progress! Stay motivated to hit your goals."
+    }}
+  </p>
+  <p *ngIf="startedWorkout.status !== 'completed'" class="caption" i18n>
+    {{ getRemainingPercentage() }}% remaining to complete this workout
+  </p>
+</ng-container>
+
+<ng-container *ngIf="workout.equipmentNeeded">
+  <h5 class="section-title" i18n>What you'll need</h5>
+  <ul class="items-list">
+    <li *ngFor="let item of getEquipmentNeeded()">
+      <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+      <span>{{ item | capitalize }}</span>
+    </li>
+  </ul>
+</ng-container>
+
+<!-- Additional Resources Section -->
+<ng-container *ngIf="workout.additionalTips">
+  <h5 class="section-title" i18n>Tips</h5>
+  <ul class="items-list">
+    <li *ngFor="let item of getAdditionalTips()">
+      <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+      <span>{{ item }}</span>
+    </li>
+  </ul>
+</ng-container>
+
+<!-- Skills You'll Gain Section -->
+<h5 class="section-title" i18n>Skills you'll gain</h5>
+<div class="chips-container">
+  <div class="app-chips-secondary">
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of workout?.tags"
+        i18n-ngFor
+        [removable]="false"
+      >
+        {{ tag | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>

@@ -1,9 +1,0 @@
-.step-actions {
-  display: flex;
-  justify-content: space-between; // Space between the buttons
-  align-items: center; // Center align buttons vertically
-  margin-top: 16px; // Add some space above the buttons
-  &.center {
-    justify-content: center;
-  }
-}

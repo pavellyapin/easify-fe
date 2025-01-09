@@ -1,0 +1,23 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="workouts?.length; else noWorkoutsTemplate">
+  <!-- Carousel for Workouts -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-workout-tile
+      *ngFor="let workout of workouts; let i = index"
+      ngxSlickItem
+      class="carousel-item"
+      [workout]="workout"
+      [manualLoad]="true"
+    />
+  </ngx-slick-carousel>
+</ng-container>
+
+<!-- No Workouts Available Template -->
+<ng-template #noWorkoutsTemplate>
+  <p i18n>No workouts available.</p>
+</ng-template>

@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import { FinancialPlansService } from '@services/financial.service';
 import { map, Observable, startWith } from 'rxjs';
 
@@ -25,6 +26,7 @@ import { map, Observable, startWith } from 'rxjs';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    CapitalizePipe,
   ],
   templateUrl: './plan-tags-autocomplete.component.html',
   styleUrl: './plan-tags-autocomplete.component.scss',

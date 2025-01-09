@@ -5,6 +5,7 @@ import { inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { setLoginLoading } from '@store/loader/loading.actions';
 import { setProfileInfo } from '@store/user/user.action';
 import { selectIsProfileLoading } from '@store/user/user.selector';
 import { of } from 'rxjs';
@@ -18,6 +19,7 @@ export const loggedIn: CanActivateFn = () => {
   return authState(auth).pipe(
     take(1),
     switchMap((user) => {
+      store.dispatch(setLoginLoading(true));
       if (user) {
         store.dispatch(setProfileInfo()); // Dispatch the action to set the profile
 
@@ -26,6 +28,7 @@ export const loggedIn: CanActivateFn = () => {
           filter((isLoading) => !isLoading),
           take(1),
           map((isLoading) => {
+            store.dispatch(setLoginLoading(false));
             if (!isLoading) {
               return true; // Allow navigation
             } else {
@@ -36,6 +39,7 @@ export const loggedIn: CanActivateFn = () => {
           }),
         );
       } else {
+        store.dispatch(setLoginLoading(false));
         router.navigate(['/login']);
         return of(false); // User not logged in, deny navigation
       }

@@ -1,9 +1,28 @@
 /* stylelint-disable no-descending-specificity */
 @use "variables" as var;
 
+.chat-bubble {
+  display: flex;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
+  border-radius: 50%;
+  background: var(--primary-color);
+  width: 40px;
+  height: 40px;
+
+  img.chat-bubble-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .sidenav-container {
-  background-color: white;
-  padding-top: 70px;
   height: 100vh;
   overflow: hidden; /* Allow overflow to show toggle button */
   overscroll-behavior: contain;
@@ -11,11 +30,17 @@
   .sidenav {
     transition: width 0.3s ease-in-out;
     overflow: visible; /* Ensure toggle button is visible */
+    .sidenav-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
 
     .toggle-button {
       display: flex;
       position: absolute;
-      top: 82px; /* Adjust this as needed */
+      top: 50px; /* Adjust this as needed */
       right: -12px; /* Position over the right edge */
       justify-content: center;
       align-items: center;
@@ -61,10 +86,16 @@
 
   mat-sidenav-content {
     flex-grow: 1;
-    background-color: white;
-    padding: 20px;
     overflow-y: auto; /* Ensure scrolling for the content */
     overscroll-behavior: contain; /* Prevent bounce on desktop as well */
+
+    @media (width <= 768px) {
+      padding: 0;
+    }
+  }
+
+  .mini-footer {
+    height: 250px;
   }
 
   .expanded-content {
@@ -78,23 +109,9 @@
 
 /* Sticky navbar */
 app-navbar {
-  position: absolute;
+  position: sticky;
   top: 0;
   z-index: 1001;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%); /* Optional shadow for the sticky navbar */
-  background-color: white; /* Ensure the background color covers content behind */
   width: 100%;
-}
-
-.loader-container {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  background: rgb(255 255 255 / 80%);
-  width: 100%;
-  height: 100%;
 }

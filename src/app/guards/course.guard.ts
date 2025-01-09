@@ -16,7 +16,7 @@ import { CourseItem } from '@components/models/course.models';
 import { Store } from '@ngrx/store';
 import { CoursesProgressService } from '@services/courses-progress.service';
 import { CoursesService } from '@services/courses.service';
-import { setLoading } from '@store/loader/loading.actions';
+import { setDashboardLoading } from '@store/loader/loading.actions';
 import * as StartedCourseActions from '@store/started-course/started-course.actions';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class CourseGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
-    this.store.dispatch(setLoading(true));
+    this.store.dispatch(setDashboardLoading(true));
     const courseId = route.paramMap.get('id')!;
     try {
       // Fetch the course by ID
@@ -40,7 +40,7 @@ export class CourseGuard implements CanActivate {
       if (!course) {
         // If the course does not exist, redirect to a 404 page or home
         console.error(`Course with ID ${courseId} not found.`);
-        return this.router.parseUrl('/404');
+        return this.router.parseUrl('error');
       }
       route.data = { course };
       // Check if the user has already started the course
@@ -86,7 +86,7 @@ export class CourseGuard implements CanActivate {
         this.store.dispatch(
           StartedCourseActions.loadStartedCourseSuccess({ startedCourse }),
         );
-        this.store.dispatch(setLoading(false));
+        this.store.dispatch(setDashboardLoading(false));
         return true;
       }
 
@@ -94,7 +94,19 @@ export class CourseGuard implements CanActivate {
       this.store.dispatch(
         StartedCourseActions.loadStartedCourseSuccess({ startedCourse }),
       );
-      this.store.dispatch(setLoading(false));
+
+      // Fetch Easify responses for the course
+      const easifyResponses =
+        await this.coursesProgressService.getEasifyResponsesByItemId(courseId);
+
+      // Dispatch action to store Easify responses in the state
+      this.store.dispatch(
+        StartedCourseActions.loadCourseEasifyResponsesSuccess({
+          responses: easifyResponses,
+        }),
+      );
+
+      this.store.dispatch(setDashboardLoading(false));
 
       // Allow navigation
       return true;

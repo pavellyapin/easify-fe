@@ -1,0 +1,36 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Industries Autocomplete Field -->
+<div class="primary-search-box">
+  <mat-form-field appearance="outline" i18n-appearance class="full-width">
+    <input
+      matInput
+      placeholder="Search industries (e.g., Technology, Finance, Healthcare)"
+      i18n-placeholder
+      [formControl]="industryCtrl"
+      [matAutocomplete]="autoIndustry"
+    />
+    <button
+      class="add-button"
+      mat-icon-button
+      matSuffix
+      aria-label="Add industry"
+      i18n-aria-label
+      (click)="addIndustryFromInput()"
+    >
+      <mat-icon i18n>add</mat-icon>
+    </button>
+    <mat-autocomplete
+      #autoIndustry="matAutocomplete"
+      (optionSelected)="addIndustry($event)"
+    >
+      <mat-option
+        *ngFor="let industry of filteredIndustries | async"
+        [value]="industry"
+      >
+        {{ industry | capitalize }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

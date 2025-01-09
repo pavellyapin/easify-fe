@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotificationsService } from '@services/notifications.service';
-import { TimeUtils } from '@services/time.utils';
+import { TimeUtilsAndMore } from '@services/time.utils';
 
 @Component({
   selector: 'app-notifications',
@@ -24,7 +24,7 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private notificationsService: NotificationsService,
-    private timeUtils: TimeUtils,
+    private timeUtils: TimeUtilsAndMore,
   ) {}
 
   ngOnInit(): void {

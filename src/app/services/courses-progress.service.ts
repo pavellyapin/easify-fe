@@ -213,4 +213,52 @@ export class CoursesProgressService {
       idField: 'id',
     }) as Observable<any[]>;
   }
+
+  async getEasifyResponsesByItemId(itemId: string): Promise<any[]> {
+    try {
+      // Reference to the user's document
+      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
+      // Reference to the 'easifyResponses' sub-collection
+      const easifyResponsesCollectionRef = collection(
+        userRef,
+        'easifyResponses',
+      );
+
+      // Query to fetch all documents with the specified itemId
+      const responsesQuery = query(
+        easifyResponsesCollectionRef,
+        where('itemId', '==', itemId),
+        orderBy('timestamp', 'desc'), // Order responses by timestamp (latest first)
+      );
+
+      const querySnapshot = await getDocs(responsesQuery);
+
+      if (!querySnapshot.empty) {
+        // Map the documents to an array of data
+        const responses = querySnapshot.docs.map((doc) => ({
+          id: doc.id, // Include document ID for reference
+          ...doc.data(),
+        }));
+        console.log(
+          `Fetched ${responses.length} responses for itemId: ${itemId}`,
+        );
+        return responses;
+      } else {
+        console.log(`No Easify responses found for itemId: ${itemId}`);
+        return [];
+      }
+    } catch (error: any) {
+      console.error('Error fetching Easify responses:', error);
+      if (error.code) {
+        console.error(`Error Code: ${error.code}`);
+      }
+      if (error.message) {
+        console.error(`Error Message: ${error.message}`);
+      }
+      if (error.details) {
+        console.error(`Error Details: ${error.details}`);
+      }
+      return [];
+    }
+  }
 }

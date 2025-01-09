@@ -1,0 +1,67 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<mat-card
+  class="schedule-item"
+  [ngClass]="{ 'current-time': timeUtils.isCurrentTime(item.time_range) }"
+>
+  <mat-card-header>
+    <mat-card-title>
+      <span>{{ item.time_range }}</span>
+      <div>
+        <button mat-icon-button aria-label="menu" i18n-aria-label>
+          <mat-icon i18n>more_vert</mat-icon>
+        </button>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h5>{{ item.activity }}</h5>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p *ngIf="item.recommendations">{{ item.recommendations }}</p>
+
+    <!-- Loading state with ng-template for skeleton loaders -->
+    <ng-template #loadingState>
+      <app-loading-chips />
+    </ng-template>
+
+    <div *ngIf="isLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
+
+    <!-- Dynamic Content Section -->
+    <div *ngIf="!isLoading">
+      <div class="app-chips-primary relative-container">
+        <mat-chip-set
+          *ngIf="recommendations.length > 0; else noRecommendations"
+        >
+          <mat-chip
+            *ngFor="let recommendation of recommendations"
+            clickable
+            (click)="viewItem(recommendation.id)"
+          >
+            {{ recommendation.name }}
+          </mat-chip>
+        </mat-chip-set>
+
+        <ng-template #noRecommendations>
+          <p i18n>No recommendations found for this session.</p>
+        </ng-template>
+
+        <!-- Floating action button -->
+        <button
+          mat-icon-button
+          class="fab-bottom-right"
+          i18n-aria-label
+          (click)="onFabClick(item.type)"
+        >
+          <mat-icon [svgIcon]="getFabIcon()" />
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

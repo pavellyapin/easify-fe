@@ -6,9 +6,6 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <mat-toolbar class="main-toolbar">
   <!-- Left icon button (e.g., for sidenav toggle) -->
-  <button mat-icon-button (click)="onToggleSidenav()">
-    <mat-icon i18n>menu</mat-icon>
-  </button>
 
   <!-- Logo navigates to dashboard -->
   <div
@@ -21,41 +18,54 @@
   </div>
   <span class="spacer"></span>
 
-  <!-- Notification Icon with Badge, navigates to notifications page -->
-  <button
-    mat-icon-button
-    matBadgeColor="primary"
-    i18n-matBadgeColor
-    matBadgePosition="above after"
-    i18n-matBadgePosition
-    aria-label="Notifications"
-    i18n-aria-label
-    [matBadge]="notificationCount"
-    [matBadgeHidden]="notificationCount === 0"
-    (click)="navigateTo('/profile/notifications')"
-  >
-    <mat-icon svgIcon="notification" i18n />
-  </button>
-
   <!-- Avatar Circle with Dropdown Menu -->
-  <div class="user-profile" [matMenuTriggerFor]="profileMenu">
-    <ng-container *ngIf="avatarUrl; else showInitials">
-      <img alt="User Avatar" i18n-alt class="avatar-circle" [src]="avatarUrl" />
+  <div class="user-profile">
+    <ng-container *ngIf="isMobile; else desktopView">
+      <!-- Mobile view: Show toggle button -->
+      <button mat-icon-button (click)="onToggleSidenav()">
+        <mat-icon i18n>menu</mat-icon>
+      </button>
     </ng-container>
 
-    <!-- Show initials if avatar doesn't exist -->
-    <ng-template #showInitials>
-      <div class="avatar-circle">
-        <span class="initials">{{ initials }}</span>
-      </div>
-    </ng-template>
+    <ng-template #desktopView>
+      <!-- Desktop view -->
+      <ng-container *ngIf="avatarUrl; else showInitials">
+        <img
+          alt="User Avatar"
+          class="avatar-circle"
+          i18n-alt
+          [matMenuTriggerFor]="profileMenu"
+          [src]="avatarUrl"
+        />
+      </ng-container>
 
-    <mat-icon i18n>keyboard_arrow_down</mat-icon>
+      <!-- Show initials if avatar doesn't exist -->
+      <ng-template #showInitials>
+        <div class="avatar-circle" [matMenuTriggerFor]="profileMenu">
+          <span class="initials">{{ initials }}</span>
+        </div>
+      </ng-template>
+    </ng-template>
   </div>
 
   <!-- Dropdown menu for profile actions -->
   <mat-menu #profileMenu="matMenu">
     <button i18n mat-menu-item (click)="navigateTo('/profile')">Profile</button>
-    <button i18n mat-menu-item (click)="logout()">Sign Out</button>
+    <button
+      matBadgeColor="primary"
+      i18n-matBadgeColor
+      matBadgePosition="above after"
+      i18n-matBadgePosition
+      aria-label="Notifications"
+      i18n-aria-label
+      mat-menu-item
+      [matBadge]="notificationCount"
+      i18n
+      [matBadgeHidden]="notificationCount === 0"
+      (click)="navigateTo('/profile/notifications')"
+    >
+      Notifications
+    </button>
+    <button i18n mat-menu-item (click)="logout()">Log Out</button>
   </mat-menu>
 </mat-toolbar>

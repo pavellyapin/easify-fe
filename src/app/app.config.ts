@@ -13,6 +13,9 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { startedCourseReducer } from '@store/started-course/started-course.reducer';
+import { startedGrowthReducer } from '@store/started-growth/started-growth.reducer';
+import { startedRecipeReducer } from '@store/started-recipe/started-recipe.reducer';
+import { startedWorkoutReducer } from '@store/started-workout/started-workout.reducer';
 import { environment } from '../environment/environment';
 import { routes } from './app.routes';
 import { IconService } from './services/icon.service';
@@ -50,6 +53,9 @@ export const appConfig: ApplicationConfig = {
         recipe: recipeReducer,
         user: userReducer,
         startedCourse: startedCourseReducer,
+        startedWorkout: startedWorkoutReducer,
+        startedRecipe: startedRecipeReducer,
+        startedGrowth: startedGrowthReducer,
       },
       { metaReducers: [hydrationMetaReducer] },
     ),

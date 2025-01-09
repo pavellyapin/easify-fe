@@ -9,19 +9,10 @@
   Your industry and work details help us deliver tailored tips and advice for
   your career growth.
 </p>
-
-<!-- Material Alert -->
-<app-alert-card
-  message="Your information is private and secure."
-  i18n-message
-  icon="info"
-  i18n-icon
-  color="primary"
-/>
-<form [formGroup]="workSkillsForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="workSkillsForm">
   <!-- Occupation Field -->
-  <div>
-    <h6 i18n>What is your occupation?</h6>
+  <fieldset>
+    <legend i18n>What is your occupation?</legend>
     <mat-form-field class="full-width" appearance="outline" i18n-appearance>
       <input
         matInput
@@ -30,83 +21,96 @@
         i18n-placeholder
       />
     </mat-form-field>
-  </div>
+  </fieldset>
+  <fieldset>
+    <!-- Instruction Text for Industries -->
+    <legend i18n>
+      Related
+      <b>industries:</b>
+    </legend>
+    <!-- Industry Autocomplete -->
+    <app-industries-autocomplete (industryAdded)="onIndustryAdded($event)" />
 
-  <!-- Instruction Text for Industries -->
-  <h6 i18n>Which industries are you involved in?</h6>
-  <!-- Industry Autocomplete -->
-  <app-industries-autocomplete (industryAdded)="onIndustryAdded($event)" />
+    <!-- Added Industries as Chips -->
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let industry of addedIndustries"
+            [removable]="true"
+            (removed)="removeIndustry(industry)"
+          >
+            {{ industry | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <!-- Instruction Text for Industries -->
+    <legend i18n>
+      What are your
+      <b>interests</b>
+      ?
+    </legend>
+    <!-- Industry Autocomplete -->
+    <app-course-category-autocomplete
+      (categoryAdded)="onCourseTagAdded($event)"
+    />
 
-  <!-- Added Industries as Chips -->
-  <div>
-    <mat-chip-set>
-      <mat-chip
-        *ngFor="let industry of addedIndustries"
-        [removable]="true"
-        (removed)="removeIndustry(industry)"
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let course of addedCourseTags"
+            [removable]="true"
+            (removed)="removeCourseTag(course)"
+          >
+            {{ course | capitalize }}
+            <mat-icon i18n matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Work Status Dropdown -->
+  <fieldset>
+    <legend i18n>What is your current work status?</legend>
+    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+      <mat-select
+        formControlName="workStatus"
+        placeholder="Select your work status"
+        i18n-placeholder
       >
-        {{ industry }}
-        <mat-icon i18n matChipRemove>cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-set>
-  </div>
+        <mat-option value="full-time" i18n>Full-time employed</mat-option>
+        <mat-option value="part-time" i18n>Part-time employed</mat-option>
+        <mat-option value="looking-for-work" i18n>Looking for work</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
 
-  <!-- Instruction Text for Industries -->
-  <h6 i18n>What are some topics you might want to learn more about?</h6>
-  <!-- Industry Autocomplete -->
-  <app-course-category-autocomplete
-    (categoryAdded)="onCourseTagAdded($event)"
+  <!-- Hybrid Status Dropdown -->
+  <fieldset>
+    <legend i18n>Do you work remotely, in-office, or hybrid?</legend>
+    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+      <mat-select
+        formControlName="hybridStatus"
+        placeholder="Select your work type"
+        i18n-placeholder
+      >
+        <mat-option value="remote" i18n>Remote</mat-option>
+        <mat-option value="in-office" i18n>In-office</mat-option>
+        <mat-option value="hybrid" i18n>Hybrid</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
+
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Health & Lifestyle'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
   />
-
-  <!-- Added Industries as Chips -->
-  <div>
-    <mat-chip-set>
-      <mat-chip
-        *ngFor="let course of addedCourseTags"
-        [removable]="true"
-        (removed)="removeCourseTag(course)"
-      >
-        {{ course }}
-        <mat-icon i18n matChipRemove>cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-set>
-  </div>
-
-  <!-- Work Status Radio Options -->
-  <div>
-    <h6 i18n>What is your current work status?</h6>
-    <mat-radio-group formControlName="workStatus">
-      <mat-radio-button value="full-time" i18n>
-        Full-time employed
-      </mat-radio-button>
-      <mat-radio-button value="part-time" i18n>
-        Part-time employed
-      </mat-radio-button>
-      <mat-radio-button value="looking-for-work" i18n>
-        Looking for work
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <!-- Hybrid Status Radio Options (Conditional) -->
-  <div>
-    <h6 i18n>Do you work remotely, in-office, or hybrid?</h6>
-    <mat-radio-group formControlName="hybridStatus">
-      <mat-radio-button value="remote" i18n>Remote</mat-radio-button>
-      <mat-radio-button value="in-office" i18n>In-office</mat-radio-button>
-      <mat-radio-button value="hybrid" i18n>Hybrid</mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="submit-btn">
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="workSkillsForm.invalid"
-      i18n
-    >
-      Continue
-    </button>
-  </div>
 </form>

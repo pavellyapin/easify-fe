@@ -16,161 +16,143 @@ exports.recommendWorkouts = functions.https.onCall(async (data, context) => {
   }
 
   try {
+    const startTime = new Date();
+    console.log(`[${startTime.toISOString()}] Start: Received request.`);
+
     const workoutsRef = firestore.collection("workouts");
     const userRef = firestore.collection("users").doc(context.auth.uid);
 
-    let tagsToUse = workoutTags;
+    // Step 1: Determine tags to use for filtering workouts
+    let tagsToUse =
+      workoutTags && workoutTags.length > 0
+        ? workoutTags
+        : await fetchUserWorkoutTags(userRef);
 
-    // If no workoutTags are provided, fetch user's started workouts and/or preferences
-    if (!workoutTags || workoutTags.length === 0) {
-      console.log("No workoutTags provided. Fetching started workouts.");
-
-      // Fetch the user's started workouts under users/{userId}/workouts
-      const startedWorkoutsSnapshot = await firestore
-        .collection(`users/${context.auth.uid}/workouts`)
-        .get();
-
-      const startedWorkouts = startedWorkoutsSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          tags: data.tags || [],
-        };
-      });
-
-      // Extract tags from started workouts if they exist
-      const startedWorkoutTags = startedWorkouts.reduce((acc, workout) => {
-        return acc.concat(workout.tags);
-      }, []);
-
-      if (startedWorkoutTags.length > 0) {
-        console.log("Using tags from started workouts:", startedWorkoutTags);
-        tagsToUse = startedWorkoutTags;
-      } else {
-        // If no started workouts or tags, fetch user workout preferences
-        console.log(
-          "No tags from started workouts, fetching user preferences.",
-        );
-
-        const userDoc = await userRef.get();
-        const userData = userDoc.data();
-
-        const userLifestyleHealth = userData.lifestyleHealth || {};
-        tagsToUse = [
-          ...(userLifestyleHealth.workoutCategories || []),
-          ...(userLifestyleHealth.workoutTags || []),
-        ];
-
-        console.log("Using tags from user's workout preferences:", tagsToUse);
-      }
-    }
-
-    if (tagsToUse.length === 0) {
-      console.log("No tags available, returning all workouts.");
-
-      // Fetch all workouts
-      const allWorkoutsSnapshot = await workoutsRef.get();
-      const allWorkouts = allWorkoutsSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          createdDate: data.createdDate,
-          name: data.name,
-          category: data.category,
-          overview: data.description,
-          level: data.difficulty,
-          tags: data.tags,
-        };
-      });
-
-      // If count is specified, return a random selection of the workouts
-      if (count) {
-        return getRandomSelection(allWorkouts, count);
-      }
-
-      return allWorkouts;
-    }
-
-    console.log("Tags to use for fetching workouts:", tagsToUse);
-
-    // Fetch workouts that match any of the tagsToUse
-    const workoutsQuerySnapshot = await workoutsRef
-      .where("tags", "array-contains-any", tagsToUse)
-      .get();
-
-    const workouts = workoutsQuerySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        createdDate: data.createdDate,
-        name: data.name,
-        category: data.category,
-        overview: data.description,
-        level: data.difficulty,
-        tags: data.tags,
-      };
-    });
-
-    console.log("Found workouts matching tags:", workouts.length);
-
-    // Fetch all workouts for broader filtering
-    const allWorkoutsSnapshot = await workoutsRef.get();
-    const allWorkouts = allWorkoutsSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        createdDate: data.createdDate,
-        name: data.name,
-        category: data.category,
-        overview: data.description,
-        level: data.difficulty,
-        tags: data.tags,
-      };
-    });
-
-    // Filter additional workouts based on partial tag matches
-    const additionalWorkouts = allWorkouts.filter((workout) => {
-      const workoutTagsArray = Array.isArray(workout.tags)
-        ? workout.tags
-        : [workout.tags]; // Ensure tags is an array
-
-      return tagsToUse.some((tag) =>
-        workoutTagsArray.some((workoutTag) => {
-          // Check if the workout is not already in the list and has a partial tag match
-          return (
-            !workouts.find((w) => w.id === workout.id) &&
-            hasPartialMatch(tag, workoutTag)
-          );
-        }),
-      );
-    });
-
-    console.log(
-      "Found additional workouts based on partial matches:",
-      additionalWorkouts.length,
+    // Step 2: Fetch exact matches for the tagsToUse
+    const exactMatchWorkouts = await fetchExactMatchWorkouts(
+      tagsToUse,
+      workoutsRef,
+      count,
     );
 
-    // Combine and deduplicate the workout recommendations
-    const uniqueWorkouts = new Map();
-    [...workouts, ...additionalWorkouts].forEach((workout) => {
-      uniqueWorkouts.set(workout.id, workout);
-    });
-
-    let recommendedWorkouts = Array.from(uniqueWorkouts.values());
-
-    // If count is specified, return a random selection of the workouts
-    if (count) {
-      recommendedWorkouts = getRandomSelection(recommendedWorkouts, count);
+    if (count && exactMatchWorkouts.length >= count) {
+      console.log(
+        `[${new Date().toISOString()}] Exact matches satisfy the count.`,
+      );
+      return exactMatchWorkouts;
     }
 
-    console.log("Final recommended workouts:", recommendedWorkouts.length);
+    // Step 3: Fetch partial matches if more workouts are needed
+    const additionalNeeded = count ? count - exactMatchWorkouts.length : 0;
+    const partialMatchWorkouts =
+      additionalNeeded > 0
+        ? await fetchPartialMatchWorkouts(
+            tagsToUse,
+            workoutsRef,
+            additionalNeeded,
+          )
+        : [];
 
+    // Combine exact and partial matches, ensuring uniqueness
+    const recommendedWorkouts = combineUniqueWorkouts(
+      exactMatchWorkouts,
+      partialMatchWorkouts,
+      count,
+    );
+
+    const endTime = new Date();
+    console.log(
+      `[${endTime.toISOString()}] Finished processing. Total time: ${(endTime - startTime) / 1000} seconds.`,
+    );
     return recommendedWorkouts;
   } catch (error) {
-    console.error("Error recommending workouts:", error);
+    console.error(
+      `[${new Date().toISOString()}] Error recommending workouts:`,
+      error,
+    );
     throw new functions.https.HttpsError(
       "internal",
       "Unable to recommend workouts",
     );
   }
 });
+
+// Helper functions
+async function fetchUserWorkoutTags(userRef) {
+  // Fall back to user preferences if no started workouts found
+  const userDoc = await userRef.get();
+  const userData = userDoc.data();
+  const userWorkoutPreferences = [
+    ...(userData.lifestyleHealth?.workoutCategories || []),
+    ...(userData.lifestyleHealth?.workoutTags || []),
+  ];
+  console.log(
+    `[${new Date().toISOString()}] Using tags from user preferences:`,
+    userWorkoutPreferences,
+  );
+  return userWorkoutPreferences.length > 0
+    ? userWorkoutPreferences
+    : ["beginner"];
+}
+
+async function fetchExactMatchWorkouts(tags, workoutsRef, count) {
+  const exactMatchSnapshot = await workoutsRef
+    .where("tags", "array-contains-any", tags)
+    .get();
+  const exactMatchWorkouts = exactMatchSnapshot.docs.map((doc) =>
+    formatWorkoutData(doc),
+  );
+  console.log(
+    `[${new Date().toISOString()}] Fetched exact matches: ${exactMatchWorkouts.length}`,
+  );
+  return getRandomSelection(exactMatchWorkouts, count);
+}
+
+async function fetchPartialMatchWorkouts(tags, workoutsRef, count) {
+  const allWorkoutsSnapshot = await workoutsRef.get();
+  const allWorkouts = allWorkoutsSnapshot.docs.map((doc) =>
+    formatWorkoutData(doc),
+  );
+
+  const partialMatches = allWorkouts.filter((workout) => {
+    const workoutTagsArray = Array.isArray(workout.tags)
+      ? workout.tags
+      : [workout.tags];
+    return tags.some((tag) =>
+      workoutTagsArray.some((workoutTag) => hasPartialMatch(tag, workoutTag)),
+    );
+  });
+
+  console.log(
+    `[${new Date().toISOString()}] Found partial matches: ${partialMatches.length}`,
+  );
+  return getRandomSelection(partialMatches, count);
+}
+
+function combineUniqueWorkouts(exactMatches, partialMatches, count) {
+  const uniqueWorkouts = new Map();
+  [...exactMatches, ...partialMatches].forEach((workout) =>
+    uniqueWorkouts.set(workout.id, workout),
+  );
+
+  const recommendedWorkouts = Array.from(uniqueWorkouts.values());
+  return count
+    ? getRandomSelection(recommendedWorkouts, count)
+    : recommendedWorkouts;
+}
+
+// Helper function to format workout data consistently
+function formatWorkoutData(doc) {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    createdDate: data.createdDate,
+    name: data.name,
+    isNew: data.isNew,
+    category: data.category,
+    overview: data.overview,
+    level: data.level,
+    image: data.image,
+    tags: data.tags,
+  };
+}

@@ -10,15 +10,16 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { PlanCategoryAutocompleteComponent } from '@components/financial/plan-category-autocomplete/plan-category-autocomplete.component';
 import { PlanTagsAutocompleteComponent } from '@components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component';
 import { Store } from '@ngrx/store';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import { FinancialPlansService } from '@services/financial.service';
 import * as UserActions from '@store/user/user.action';
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-financial-planning',
@@ -29,12 +30,13 @@ import { take } from 'rxjs/operators';
     MatInputModule,
     MatChipsModule,
     MatIconModule,
-    MatRadioModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
     PlanTagsAutocompleteComponent,
+    CustomDayStepActionsComponent,
+    CapitalizePipe,
   ],
   templateUrl: './financial-planning.component.html',
   styleUrl: './financial-planning.component.scss',
@@ -115,7 +117,6 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
     if (category && !this.addedCategories.includes(category)) {
       // Add the new category to the array using immutability
       this.addedCategories = [...this.addedCategories, category];
-      console.log('Category added:', category);
     } else {
       console.log('Category already exists or is invalid.');
     }
@@ -138,7 +139,6 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
     if (tag && !this.addedPlanTags.includes(tag)) {
       // Add the new tag to the array using immutability
       this.addedPlanTags = [...this.addedPlanTags, tag];
-      console.log('Plan tag added:', tag);
     } else {
       console.log('Plan tag already exists or is invalid.');
     }
@@ -180,11 +180,24 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         UserActions.setFinancialPlanning({ financialPlanning }),
       );
-
-      console.log('Form Submitted', financialPlanning);
     } else {
       console.log('Form is invalid');
     }
+  }
+  resetForm(): void {
+    // Reset the form to its default state
+    this.financialPlanningForm.reset({
+      planType: '', // Adjust based on your form control names and default values
+      investmentOptions: '', // Reset specific fields
+    });
+
+    // Clear the added categories and plan tags
+    this.addedCategories = [];
+    this.addedPlanTags = [];
+
+    // If you need to reset additional fields or toggle options
+    this.showInvestmentOptions = false;
+    this.financialPlanningForm.get('investmentOptions')?.disable(); // Disable if applicable
   }
 
   // Unsubscribe from all subscriptions when the component is destroyed

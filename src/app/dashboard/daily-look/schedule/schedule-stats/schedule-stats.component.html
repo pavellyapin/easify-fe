@@ -1,0 +1,81 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/conditional-complexity -->
+<div class="schedule-stats">
+  <!-- Active Day Container -->
+  <div
+    class="active-day-container"
+    [ngClass]="{ 'viewing-tomorrow': viewingTomorrow }"
+  >
+    <div class="date-info">
+      <div
+        class="day-actions"
+        [ngClass]="{ 'viewing-tomorrow': viewingTomorrow }"
+      >
+        <button
+          mat-icon-button
+          aria-label="Day action"
+          i18n-aria-label
+          class="day-action-button"
+        >
+          <mat-icon i18n>more_vert</mat-icon>
+        </button>
+        <caption *ngIf="!isMobile" class="model-name">
+          {{
+            viewingTomorrow
+              ? tomorrow.type + "/" + tomorrow.model
+              : today.type + "/" + today.model
+          }}
+        </caption>
+      </div>
+      <div
+        class="day-details"
+        [ngClass]="{ 'viewing-tomorrow': viewingTomorrow }"
+      >
+        <span class="day-header" i18n>
+          {{ viewingTomorrow ? "Tomorrow" : "Today" }}
+        </span>
+        <p class="day-desc">
+          <b>{{ viewingTomorrow ? tomorrow.day : today.day }}</b>
+          <span *ngIf="!isMobile">
+            {{ " " + (viewingTomorrow ? tomorrow.date : today.date) }}
+          </span>
+        </p>
+      </div>
+    </div>
+    <!-- SVG in the background -->
+    <svg
+      preserveAspectRatio="none"
+      i18n-preserveAspectRatio
+      viewBox="0 0 570 65"
+      [ngClass]="{
+        'arrow-left': viewingTomorrow,
+        'arrow-right': !viewingTomorrow,
+      }"
+    >
+      <path
+        d="M0 8C0 3.58172 3.58172 0 8 0H549.854C552.807 0 555.52 1.62726 556.911 4.23275L569.989 28.7328C571.246 31.087 571.246 33.913 569.989 36.2672L556.911 60.7673C555.52 63.3727 552.807 65 549.854 65H7.99998C3.5817 65 0 61.4183 0 57V8Z"
+        i18n-d
+        fill="#C1E8DA"
+      />
+    </svg>
+  </div>
+
+  <!-- Non-Active Day Container -->
+  <button
+    mat-button
+    class="day-container"
+    aria-label="Switch day"
+    i18n-aria-label
+    (click)="onDaySelected()"
+  >
+    <div class="date-info">
+      <span class="day-header" i18n>
+        {{ viewingTomorrow ? "Today" : "Tomorrow" }}
+      </span>
+      <caption *ngIf="!isMobile" class="day-desc">
+        {{ " " + (viewingTomorrow ? today.date : tomorrow.date) }}
+      </caption>
+    </div>
+  </button>
+</div>

@@ -2,7 +2,6 @@
 @use "variables" as var;
 
 .sidenav-container {
-  background-color: white;
   padding-top: 70px;
   height: 100vh;
   overflow: hidden; /* Allow overflow to show toggle button */
@@ -61,7 +60,6 @@
 
   mat-sidenav-content {
     flex-grow: 1;
-    background-color: white;
     padding: 20px;
     overflow-y: auto; /* Ensure scrolling for the content */
     overscroll-behavior: contain; /* Prevent bounce on desktop as well */
@@ -82,6 +80,21 @@ app-navbar {
   top: 0;
   z-index: 1001;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%); /* Optional shadow for the sticky navbar */
-  background-color: white; /* Ensure the background color covers content behind */
   width: 100%;
+}
+
+.mini-footer {
+  height: 250px;
+}
+
+.loader-container {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
 }

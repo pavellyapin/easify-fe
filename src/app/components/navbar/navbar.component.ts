@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -11,7 +12,7 @@ import { AuthService } from '@services/auth.service';
 import { NotificationsService } from '@services/notifications.service';
 import { selectUserState } from '@store/user/user.selector'; // Import the full state selector
 import UserState from '@store/user/user.state';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -32,15 +33,18 @@ export class NavbarComponent implements OnInit {
   public notificationCount = 0; // Start notification count at 0
   public initials = ''; // Initials to display if no avatar
   public avatarUrl: string | null = null; // Avatar URL to display
-
+  isMobile = false;
+  isTablet = false;
   // User state observable
   public userState$: Observable<UserState>;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private notificationsService: NotificationsService, // Inject the NotificationsService
     private store: Store, // Inject the NgRx Store
+    private breakpointObserver: BreakpointObserver,
   ) {
     // Get the full user state from the store
     this.userState$ = this.store.select(selectUserState);
@@ -49,6 +53,14 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.loadNotificationCount(); // Load notification count when component initializes
     this.setInitialsAndAvatar(); // Set initials or avatar
+    const breakpointSub = this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small]) // Observing both mobile (XSmall) and tablet (Small)
+      .subscribe((result) => {
+        const breakpoints = result.breakpoints;
+        this.isMobile = breakpoints[Breakpoints.XSmall] ? true : false; // True if mobile size
+        this.isTablet = breakpoints[Breakpoints.Small] ? true : false; // True if tablet size
+      });
+    this.subscriptions.push(breakpointSub);
   }
 
   // Fetch the unread notification count

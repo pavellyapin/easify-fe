@@ -1,0 +1,7 @@
+@use "variables" as var;
+
+:host {
+  --mdc-linear-progress-active-indicator-height: 7px; /* Sets the progress bar fill height */
+  --mdc-linear-progress-track-height: 7px; /* Sets the track height */
+  --mdc-linear-progress-track-shape: 0; /* Controls the track shape - rounded or not */
+}

@@ -12,7 +12,7 @@ exports.onUserCreate = functions.firestore
 
     try {
       // Initialize courseStats for the new user
-      const userStatsRef = firestore
+      const courseStatsRef = firestore
         .collection("users")
         .doc(userId)
         .collection("stats")
@@ -26,12 +26,71 @@ exports.onUserCreate = functions.firestore
           intermediate: 0,
           advanced: 0,
         },
-        categoryCounts: [],
+        inProgressLevelCounts: {
+          beginner: 0,
+          intermediate: 0,
+          advanced: 0,
+        },
+        categoryCounts: {},
+        inProgressCategoryCounts: {},
       };
 
       // Set the courseStats document in Firestore
-      await userStatsRef.set(courseStats);
-      console.log(`Course stats initialized for user: ${userId}`);
+      await courseStatsRef.set(courseStats);
+
+      // Initialize workoutStats for the new user
+      const workoutStatsRef = firestore
+        .collection("users")
+        .doc(userId)
+        .collection("stats")
+        .doc("workoutStats");
+
+      const workoutStats = {
+        totalStartedWorkouts: 0,
+        totalCompletedWorkouts: 0,
+        levelCounts: {
+          beginner: 0,
+          intermediate: 0,
+          advanced: 0,
+        },
+        inProgressLevelCounts: {
+          beginner: 0,
+          intermediate: 0,
+          advanced: 0,
+        },
+        categoryCounts: {},
+        inProgressCategoryCounts: {},
+      };
+
+      // Set the workoutStats document in Firestore
+      await workoutStatsRef.set(workoutStats);
+
+      // Initialize recipeStats for the new user
+      const recipeStatsRef = firestore
+        .collection("users")
+        .doc(userId)
+        .collection("stats")
+        .doc("recipeStats");
+
+      const recipeStats = {
+        totalStartedRecipes: 0,
+        totalCompletedRecipes: 0,
+        cuisineCounts: {}, // Count by cuisine type (e.g., Italian, Asian)
+        levelCounts: {
+          beginner: 0,
+          intermediate: 0,
+          advanced: 0,
+        },
+        inProgressLevelCounts: {
+          beginner: 0,
+          intermediate: 0,
+          advanced: 0,
+        },
+        inProgressCuisineCounts: {},
+      };
+
+      await recipeStatsRef.set(recipeStats);
+      console.log(`Recipe stats initialized for user: ${userId}`);
 
       // Initialize dailyStats for the new user
       const dailyStatsRef = firestore

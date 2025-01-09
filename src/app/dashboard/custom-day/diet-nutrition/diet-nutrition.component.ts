@@ -16,16 +16,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { CuisineAutocompleteComponent } from '@components/recipes/cuisine-autocomplete/cuisine-autocomplete.component';
+import { CuisineAutocompleteComponent } from '@dashboard/recipes/cuisine-autocomplete/cuisine-autocomplete.component';
 import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
-import { ScheduleService } from '@services/schedule.service';
 import * as ScheduleActions from '@store/schedule/schedule.actions';
 import * as ScheduleSelectors from '@store/schedule/schedule.selectors';
 import * as UserSelectors from '@store/user/user.selector';
 import { combineLatest, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomDayStepActionsComponent } from '../step-actions/step-actions.component';
+import { CustomDayStepActionsComponent } from '../../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-custom-day-diet-nutrition',
@@ -50,10 +49,7 @@ export class CustomDayDietNutritionComponent implements OnInit, OnDestroy {
   addedNutritionCategories: string[] = [];
   private subscriptions: Subscription[] = []; // Collect all subscriptions
 
-  constructor(
-    private store: Store, // Inject the store
-    private scheduleService: ScheduleService,
-  ) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     // Initialize the form group
@@ -126,8 +122,6 @@ export class CustomDayDietNutritionComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         ScheduleActions.updateCustomDayDietNutrition({ dietNutrition }),
       );
-
-      console.log('Form Submitted', dietNutrition);
     } else {
       console.log('Form is invalid');
     }
@@ -136,7 +130,7 @@ export class CustomDayDietNutritionComponent implements OnInit, OnDestroy {
   // Handle form submission
   onGenerate(): void {
     this.onSubmit();
-    this.scheduleService.submitCustomDayRequest();
+    this.store.dispatch(ScheduleActions.submitCustomDayRequest());
   }
 
   // Unsubscribe from all subscriptions when the component is destroyed

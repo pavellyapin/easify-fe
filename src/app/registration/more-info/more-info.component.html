@@ -12,7 +12,7 @@
   <!-- Form -->
   <form class="more-info-form" [formGroup]="moreInfoForm">
     <!-- Additional Info Textarea -->
-    <div>
+    <fieldset>
       <h6 i18n>Any other information you'd like to provide?</h6>
       <mat-form-field appearance="outline" class="full-width" i18n-appearance>
         <textarea
@@ -23,19 +23,13 @@
           i18n-placeholder
         ></textarea>
       </mat-form-field>
-    </div>
+    </fieldset>
 
-    <!-- Submit Button -->
-    <div class="button-container">
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="!moreInfoForm.valid"
-        i18n
-        (click)="onSubmit()"
-      >
-        Submit
-      </button>
-    </div>
+    <app-custom-day-step-actions
+      [primaryLabel]="'Reset'"
+      [secondaryLabel]="'Save'"
+      (primaryButton)="resetForm()"
+      (secondaryButton)="onSubmit()"
+    />
   </form>
 </div>

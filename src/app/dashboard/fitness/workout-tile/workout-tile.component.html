@@ -1,0 +1,87 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<mat-card *ngIf="workout" class="tile-card-1">
+  <!-- Show "New" chip in the top-left corner if the workout is new -->
+  <div *ngIf="workout.isNew" class="new-chip-container">
+    <caption i18n class="new-chip">New</caption>
+  </div>
+
+  <!-- Skeleton loader only if not manual load and image is still loading -->
+  <div
+    *ngIf="!manualLoad && isImageLoading"
+    class="skeleton-loader"
+    inert
+  ></div>
+
+  <!-- Image on top with cropping applied through CSS -->
+  <div class="image-cropper">
+    <img
+      #image
+      class="tile-image"
+      [src]="imageSrc"
+      alt="{{ workout.name }}"
+      [class.loaded]="!isImageLoading"
+      (load)="onImageLoad()"
+    />
+  </div>
+
+  <!-- Progress bar below image -->
+  <mat-progress-bar
+    mode="determinate"
+    i18n-mode
+    [value]="workout.progress?.progress"
+  />
+
+  <!-- Title with tooltip and three dots (more options) on the right -->
+  <mat-card-title class="title-row">
+    <h6
+      class="tile-title"
+      matTooltipPosition="above"
+      i18n-matTooltipPosition
+      [matTooltip]="workout.name"
+    >
+      {{ workout.name }}
+    </h6>
+    <button
+      mat-icon-button
+      aria-label="More options"
+      i18n-aria-label
+      class="icon-button"
+    >
+      <mat-icon color="primary" i18n>more_vert</mat-icon>
+    </button>
+  </mat-card-title>
+
+  <!-- Category below title with Level icon -->
+  <mat-card-subtitle>
+    <mat-icon
+      i18n
+      class="level-icon"
+      [svgIcon]="getLevelIcon(workout.level)"
+      matTooltip="{{ workout.level }}"
+      i18n-matTooltip
+    />
+    {{ workout.category | capitalize }}
+  </mat-card-subtitle>
+
+  <!-- Overview -->
+  <mat-card-content>
+    <caption class="overview">{{ workout.overview }}</caption>
+  </mat-card-content>
+
+  <!-- Button at the bottom -->
+  <mat-card-actions>
+    <button
+      i18n
+      mat-flat-button
+      class="primary-full-md-button"
+      (click)="startWorkout(workout.id)"
+    >
+      Start Workout
+    </button>
+  </mat-card-actions>
+</mat-card>

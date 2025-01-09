@@ -22,8 +22,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { routeAnimation } from '@animations/animations';
 import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import * as ScheduleActions from '@store/schedule/schedule.actions'; // Import custom day actions
-import { Subscription } from 'rxjs';
+import { selectIsScheduleLoading } from '@store/schedule/schedule.selectors';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-custom-day',
@@ -43,7 +45,8 @@ import { Subscription } from 'rxjs';
 export class CustomDayComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStep = 0; // Tracks the current step index
   totalSteps = 4; // Total number of steps
-  loading = false;
+  loading$!: Observable<boolean>; // Use the loading selector
+
   private actionsSubscription: Subscription = new Subscription(); // Subscription to actions stream
 
   constructor(
@@ -51,9 +54,12 @@ export class CustomDayComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private actions$: Actions, // Inject the Actions stream
+    private store: Store,
   ) {}
 
   ngOnInit() {
+    // Subscribe to the loading state
+    this.loading$ = this.store.select(selectIsScheduleLoading);
     // Listen for custom day action completion and navigate to the next step
     this.actionsSubscription.add(
       this.actions$
@@ -70,15 +76,12 @@ export class CustomDayComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
     );
 
-    // Listen for refreshScheduleSuccess to navigate to the dashboard
+    // Listen to the submitCustomDayRequest action and trigger API call
     this.actionsSubscription.add(
       this.actions$
-        .pipe(ofType(ScheduleActions.refreshScheduleSuccess))
+        .pipe(ofType(ScheduleActions.submitCustomDayRequest))
         .subscribe(() => {
-          this.router.navigate(['/dashboard']);
-          console.log(
-            'Navigated to the dashboard after refreshScheduleSuccess.',
-          );
+          this.store.dispatch(ScheduleActions.submitCustomDayRequestFromAPI());
         }),
     );
   }
@@ -108,9 +111,6 @@ export class CustomDayComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentStep < this.totalSteps - 1) {
       this.currentStep++;
       this.navigateToCurrentStep();
-    } else {
-      // If the current step is the last step, navigate to the dashboard
-      this.loading = true;
     }
   }
 

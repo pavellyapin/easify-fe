@@ -1,0 +1,90 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-card *ngIf="recipe" class="tile-card-1">
+  <!-- Show "New" chip in the top-left corner if the recipe is new -->
+  <div *ngIf="recipe.isNew" class="new-chip-container">
+    <caption i18n class="new-chip">New</caption>
+  </div>
+
+  <!-- Skeleton loader only if not manual load and image is still loading -->
+  <div
+    *ngIf="!manualLoad && isImageLoading"
+    class="skeleton-loader"
+    inert
+  ></div>
+
+  <!-- Image on top with cropping applied through CSS -->
+  <div class="image-cropper">
+    <img
+      #image
+      class="tile-image"
+      [src]="imageSrc"
+      alt="{{ recipe.name }}"
+      [class.loaded]="!isImageLoading"
+      (load)="onImageLoad()"
+    />
+  </div>
+
+  <!-- Progress bar below image -->
+  <mat-progress-bar
+    mode="determinate"
+    i18n-mode
+    [value]="recipe.progress?.progress"
+  />
+
+  <!-- Title with tooltip and three dots (more options) on the right -->
+  <mat-card-title class="title-row">
+    <h6
+      class="tile-title"
+      matTooltipPosition="above"
+      i18n-matTooltipPosition
+      [matTooltip]="recipe.name"
+    >
+      {{ recipe.name }}
+    </h6>
+    <button
+      mat-icon-button
+      aria-label="More options"
+      i18n-aria-label
+      class="icon-button"
+    >
+      <mat-icon color="primary" i18n>more_vert</mat-icon>
+    </button>
+  </mat-card-title>
+
+  <!-- Category below title with Level icon -->
+  <mat-card-subtitle>
+    <mat-icon
+      i18n
+      class="level-icon"
+      [svgIcon]="getLevelIcon(recipe.level)"
+      matTooltip="{{ recipe.level }}"
+      i18n-matTooltip
+    />
+    {{ recipe.cuisine | capitalize }}
+  </mat-card-subtitle>
+
+  <!-- Overview -->
+  <mat-card-content>
+    <caption class="overview">{{ recipe.description }}</caption>
+    <div class="time-stat">
+      <mat-icon i18n class="level-icon" svgIcon="alarm" i18n-matTooltip />
+      <caption>{{ recipe.totalTime }}</caption>
+    </div>
+  </mat-card-content>
+
+  <!-- Button at the bottom -->
+  <mat-card-actions>
+    <button
+      i18n
+      mat-flat-button
+      class="primary-full-md-button"
+      (click)="startRecipe(recipe.id)"
+    >
+      Start Recipe
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,3 +1,6 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/no-negated-async -->
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
@@ -5,10 +8,9 @@
 <!-- eslint-disable @angular-eslint/template/prefer-self-closing-tags -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 
-<app-navbar (toggleSidenav)="toggleSidebar()"></app-navbar>
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" hasBackdrop="false">
   <mat-sidenav
-    #sidenav
+    #mainSidenav
     class="sidenav"
     [mode]="sidenavMode"
     [opened]="!isMobile || (isMobile && !isMinimized)"
@@ -16,6 +18,12 @@
     [style.padding-top]="'70px'"
     [style.width]="isMobile ? '100%' : isMinimized ? '70px' : '250px'"
   >
+    <!-- Close Icon for Mobile -->
+    <div *ngIf="isMobile" class="sidenav-close">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon i18n>close</mat-icon>
+      </button>
+    </div>
     <button
       *ngIf="!isMobile"
       mat-icon-button
@@ -62,6 +70,44 @@
         </span>
       </button>
     </mat-nav-list>
+    <mat-nav-list *ngIf="isMobile">
+      <!-- Navigate to Profile Details -->
+      <button mat-button (click)="navigateTo('profile/details')">
+        <mat-icon svgIcon="profile-circle"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Profile Details</span>
+      </button>
+
+      <!-- Navigate to Security Settings -->
+      <button mat-button (click)="navigateTo('profile/security')">
+        <mat-icon svgIcon="lock"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Security</span>
+      </button>
+
+      <!-- Navigate to Notifications Settings -->
+      <button mat-button (click)="navigateTo('profile/notifications')">
+        <mat-icon svgIcon="notification"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>Notifications</span>
+      </button>
+
+      <!-- Navigate to General Settings -->
+      <button mat-button (click)="navigateTo('profile/general')">
+        <mat-icon svgIcon="setting"></mat-icon>
+        <span *ngIf="!isMinimized" i18n>General</span>
+      </button>
+      <button mat-button (click)="logout()">
+        <span *ngIf="!isMinimized" i18n>Logout</span>
+      </button>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav
+    #chat
+    class="chat-sidenav"
+    position="end"
+    i18n-position
+    [mode]="'over'"
+    [(opened)]="isChatOpen"
+  >
+    <app-chat [isChatOpen]="isChatOpen" (chatToggled)="toggleChat()"></app-chat>
   </mat-sidenav>
 
   <!-- Main Content Section -->
@@ -72,13 +118,23 @@
     }"
   >
     <div>
-      <router-outlet *ngIf="!(loading$ | async)"></router-outlet>
-      <div *ngIf="loading$ | async" class="loader-container">
-        <mat-progress-spinner
-          mode="indeterminate"
-          i18n-mode
-        ></mat-progress-spinner>
-      </div>
+      <app-navbar (toggleSidenav)="toggleSidebar()"></app-navbar>
+      <ng-container *ngIf="!(loading$ | async); else loadingTemplate">
+        <router-outlet></router-outlet>
+      </ng-container>
+
+      <ng-template #loadingTemplate>
+        <app-loading></app-loading>
+      </ng-template>
+      <div class="mini-footer"></div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<div *ngIf="!isChatOpen" class="chat-bubble" (click)="toggleChat()">
+  <img
+    src="assets/illustrations/chat-circle.svg"
+    alt="Chat"
+    i18n-alt
+    class="chat-bubble-icon"
+  />
+</div>

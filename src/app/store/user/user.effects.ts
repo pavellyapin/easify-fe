@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { RegisterService } from '@services/register.service';
 import { UserService } from '@services/user.service';
+import { setProfileLoading } from '@store/loader/loading.actions';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as UserActions from './user.action';
@@ -11,20 +13,26 @@ export class UserEffects {
     private actions$: Actions,
     private userService: UserService,
     private registerService: RegisterService,
+    private store: Store<any>,
   ) {}
 
   // Effect for setting full profile information
   setProfileInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.setProfileInfo), // Trigger on setProfileInfo action
-      mergeMap(() =>
-        this.userService.getFullProfile().pipe(
-          map(
-            (profile) => UserActions.setProfileInfoSuccess({ profile }), // Dispatch success action with profile data
-          ),
-          catchError((error) => of(UserActions.userError({ error }))), // Handle errors
-        ),
-      ),
+      mergeMap(() => {
+        this.store.dispatch(setProfileLoading(true));
+        return this.userService.getFullProfile().pipe(
+          map((profile) => {
+            this.store.dispatch(setProfileLoading(false));
+            return UserActions.setProfileInfoSuccess({ profile }); // Dispatch success action with profile data
+          }),
+          catchError((error) => {
+            this.store.dispatch(setProfileLoading(false));
+            return of(UserActions.userError({ error })); // Handle errors
+          }),
+        );
+      }),
     ),
   );
 

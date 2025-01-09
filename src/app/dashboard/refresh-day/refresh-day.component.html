@@ -1,0 +1,104 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+
+<!-- Headline -->
+<h5 i18n>Refresh Schedule</h5>
+
+<!-- Sub-header -->
+<p class="subtext" i18n>
+  We need this information to provide you with the best experience for your
+  custom day. Rest assured, your data is safe with us.
+</p>
+
+<!-- Form -->
+<form [formGroup]="refreshDayForm">
+  <div class="day-and-type">
+    <!-- Day Switch -->
+    <fieldset>
+      <div class="special-day-switch">
+        <h5 class="fixed-width-text" i18n>
+          {{ forTomorrowControl?.value ? "Tomorrow" : "Today" }}
+        </h5>
+        <mat-slide-toggle formControlName="forTomorrow" color="primary" i18n />
+      </div>
+      <p class="date-caption">
+        {{ getDate(!forTomorrowControl?.value) }}
+      </p>
+    </fieldset>
+    <!-- Type Dropdown -->
+    <fieldset class="primary-search-box">
+      <mat-form-field appearance="outline" i18n-appearance>
+        <mat-select
+          formControlName="type"
+          placeholder="Choose a type"
+          i18n-placeholder
+        >
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{ type | capitalize }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <!-- Wake-up Time -->
+  <fieldset class="primary-search-box time-display">
+    <h6 i18n>
+      When do you plan to
+      <b>get up</b>
+      on this day?
+    </h6>
+    <mat-form-field appearance="outline" i18n-appearance>
+      <input
+        matInput
+        formControlName="wakeUpTime"
+        placeholder="Select wake-up time"
+        readonly
+        [ngxMatTimepicker]="wakeUpPicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #wakeUpPicker dottedMinutesInGap />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Sleep Time -->
+  <fieldset class="primary-search-box time-display">
+    <h6 i18n>
+      When do you plan to
+      <b>wind down</b>
+      on this day?
+    </h6>
+    <mat-form-field appearance="outline" i18n-appearance>
+      <input
+        matInput
+        formControlName="sleepTime"
+        placeholder="Select sleep time"
+        readonly
+        [ngxMatTimepicker]="sleepTimePicker"
+        i18n-placeholder
+      />
+      <ngx-mat-timepicker #sleepTimePicker dottedMinutesInGap />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Description Text Area -->
+  <fieldset>
+    <h6 i18n>More Info</h6>
+    <mat-form-field appearance="outline" class="textarea" i18n-appearance>
+      <textarea
+        matInput
+        formControlName="moreInfo"
+        placeholder="Enter more details"
+        i18n-placeholder
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </fieldset>
+  <app-custom-day-step-actions
+    [primaryLabel]="'Reset'"
+    [secondaryLabel]="'Generate'"
+    (primaryButton)="resetForm()"
+    (secondaryButton)="onSubmit()"
+  />
+</form>

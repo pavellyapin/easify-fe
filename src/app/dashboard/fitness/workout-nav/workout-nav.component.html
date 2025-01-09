@@ -1,0 +1,64 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="!loading; else loadingWorkoutNavTemplate">
+  <div class="exercise-nav-container">
+    <div class="exercise" [ngClass]="{ expanded: true }">
+      <!-- Exercise Title with Icon and Count -->
+      <p class="exercise-title">
+        <mat-icon
+          class="toggle-icon"
+          [svgIcon]="getWarmUpIcons() || 'more-horiz'"
+        />
+        <span class="exercise-text">{{ routine.warmUp.name }}</span>
+      </p>
+
+      <!-- Expanded Exercise View -->
+      <div class="exercise-content">
+        <ul class="steps-list">
+          <li
+            *ngFor="let step of routine.warmUp.exercises; let j = index"
+            class="step-item"
+          >
+            <caption class="step-text">
+              <span>{{ step.name }}</span>
+              <span>{{ step.duration }}</span>
+            </caption>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="exercise-nav-container">
+    <div class="exercise" [ngClass]="{ expanded: true }">
+      <!-- Exercise Title with Icon and Count -->
+      <p class="exercise-title">
+        <mat-icon
+          class="toggle-icon"
+          [svgIcon]="getExerciseIcon() || 'more-horiz'"
+        />
+        <span class="exercise-text">{{ routine.routine.name }}</span>
+      </p>
+
+      <!-- Expanded Exercise View -->
+      <div class="exercise-content">
+        <ul class="steps-list">
+          <li
+            *ngFor="let step of routine.routine.exercises; let j = index"
+            class="step-item"
+          >
+            <caption class="step-text">
+              <span>{{ step.name }}</span>
+              <span>{{ step.duration }}</span>
+            </caption>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loadingWorkoutNavTemplate>
+  <app-loading-nav />
+</ng-template>

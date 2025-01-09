@@ -1,0 +1,28 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<div class="grid-container">
+  <app-schedule class="schedule-container" />
+  <div class="placeholder recent-items"></div>
+  <app-suggested-action
+    [actions]="[
+      {
+        title: 'Create Custom Day',
+        subtext: 'Plan a personalized day with your activities',
+        buttonText: 'Create Now',
+        callback: this.createCustomDay.bind(this),
+      },
+      {
+        title: 'Review Quiz Results',
+        subtext: 'Check where you went wrong',
+        buttonText: 'Review',
+        callback: reviewQuizResults,
+      },
+      {
+        title: 'Submit Assignment',
+        subtext: 'Submit the pending task',
+        buttonText: 'Submit',
+        callback: submitAssignment,
+      },
+    ]"
+  />
+  <div class="placeholder tips"></div>
+</div>

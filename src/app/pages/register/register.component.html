@@ -1,0 +1,122 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- eslint-disable @angular-eslint/template/i18n -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="signup-container">
+  <h6 i18n>Welcome to Easify</h6>
+
+  <form
+    class="signup-form"
+    [formGroup]="signupForm"
+    (ngSubmit)="registerWithEmail()"
+  >
+    <!-- Email Field -->
+    <mat-form-field appearance="outline" class="form-group">
+      <input
+        matInput
+        placeholder="Enter your email"
+        type="email"
+        formControlName="email"
+        required
+      />
+      <mat-error
+        *ngIf="
+          signupForm.get('email')?.invalid && signupForm.get('email')?.touched
+        "
+      >
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Password Field with Show/Hide Toggle -->
+    <mat-form-field appearance="outline" class="form-group">
+      <input
+        matInput
+        placeholder="Enter your password"
+        formControlName="password"
+        required
+        [type]="hidePassword ? 'password' : 'text'"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="togglePasswordVisibility()"
+      >
+        <mat-icon style="color: lightgrey">
+          {{ hidePassword ? "visibility_off" : "visibility" }}
+        </mat-icon>
+      </button>
+      <mat-error
+        *ngIf="
+          signupForm.get('password')?.invalid &&
+          signupForm.get('password')?.touched
+        "
+      >
+        Please enter a valid password
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Confirm Password Field with Show/Hide Toggle -->
+    <mat-form-field appearance="outline" class="form-group">
+      <input
+        matInput
+        placeholder="Confirm your password"
+        formControlName="confirmPassword"
+        required
+        [type]="hideConfirmPassword ? 'password' : 'text'"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="toggleConfirmPasswordVisibility()"
+      >
+        <mat-icon style="color: lightgrey">
+          {{ hideConfirmPassword ? "visibility_off" : "visibility" }}
+        </mat-icon>
+      </button>
+      <mat-error
+        *ngIf="
+          signupForm.get('confirmPassword')?.invalid &&
+          signupForm.get('confirmPassword')?.touched
+        "
+      >
+        Passwords must match
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 100%"
+        [disabled]="signupForm.invalid"
+      >
+        Sign Up
+      </button>
+    </div>
+  </form>
+
+  <!-- Social Signup Section -->
+  <div class="social-signup">
+    <p i18n>Signup with</p>
+    <button mat-icon-button (click)="registerWithGoogle()">
+      <mat-icon svgIcon="google" style="color: lightgrey" />
+    </button>
+    <button mat-icon-button (click)="registerWithFacebook()">
+      <mat-icon svgIcon="facebook" style="color: lightgrey" />
+    </button>
+    <button mat-icon-button (click)="registerWithX()">
+      <mat-icon svgIcon="x" style="color: lightgrey" />
+    </button>
+  </div>
+
+  <!-- Login Link -->
+  <p class="login-link">
+    Already have an account?
+    <a i18n href="main/login">Log In</a>
+  </p>
+</div>

@@ -1,0 +1,68 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="all-container padded">
+  <div class="grid-section">
+    <h2 i18n>All Recipes</h2>
+
+    <!-- Loading state for all recipes -->
+    <div *ngIf="isLoadingAll; else allRecipesContent">
+      <app-loading-carousel />
+    </div>
+
+    <!-- All Recipes Content -->
+    <ng-template #allRecipesContent>
+      <div *ngIf="allRecipes">
+        <div *ngIf="allRecipes && allRecipes.length > 0; else noAllRecipes">
+          <div class="grid">
+            <app-recipe-tile
+              *ngFor="let recipe of allRecipes"
+              class="recipe-card"
+              [recipe]="recipe"
+            />
+          </div>
+          <!-- Load More Button -->
+          <div class="load-more-button">
+            <!-- Loading state for all recipes -->
+            <div *ngIf="isLoadingMore; else moreButton">
+              <app-loading-carousel />
+            </div>
+            <ng-template #moreButton>
+              <button
+                #moreButton
+                class="nav-button-container"
+                (click)="loadMoreRecipes()"
+              >
+                <div class="slot-content">
+                  <div
+                    [ngClass]="
+                      !lastRecipe ? 'bottom-svg-container' : 'top-svg-container'
+                    "
+                  >
+                    <svg
+                      width="124"
+                      height="32"
+                      viewBox="0 0 124 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                        i18n-d
+                        fill="#c1e8da"
+                      />
+                    </svg>
+                    <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+                  </div>
+                  <h5 i18n>{{ !lastRecipe ? "Load More" : "Scroll Top" }}</h5>
+                </div>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <ng-template #noAllRecipes>
+          <p i18n>No recipes found.</p>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

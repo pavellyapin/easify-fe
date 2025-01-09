@@ -11,22 +11,18 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import {
-  addDoc,
   collection,
   collectionData,
   doc,
   DocumentData,
   Firestore,
   getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
 } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
-import { from, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectDietNutrition } from '@store/user/user.selector';
+import { from, map, Observable, of, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +31,7 @@ export class RecipesService {
   constructor(
     private firestore: Firestore,
     private functions: Functions,
-    private auth: Auth,
+    private store: Store,
   ) {}
 
   getAllRecipes(): Observable<any> {
@@ -83,100 +79,17 @@ export class RecipesService {
     return from(resultPromise); // Convert the Promise to an Observable
   }
 
-  async addRecipeStart(recipe: any) {
-    try {
-      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-      const userRecipesCollectionRef = collection(userRef, 'recipes');
-      const q = query(
-        userRecipesCollectionRef,
-        where('recipe.id', '==', recipe.id),
-      );
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        // If no existing document, create a new one
-        const userRecipeData = {
-          recipe,
-          status: 'started',
-          createdAt: new Date(),
-        };
-        await addDoc(userRecipesCollectionRef, userRecipeData);
-        console.log('User Recipe data saved to Firestore');
-      } else {
-        // If document exists, update it
-        const docRef = querySnapshot.docs[0]!.ref;
-        await updateDoc(docRef, {
-          updatedAt: new Date(),
-        });
-        console.log('User Recipe data updated in Firestore');
-      }
-    } catch (error: any) {
-      console.error('Error saving User Recipe data to Firestore:', error);
-      if (error.code) {
-        console.error(`Error Code: ${error.code}`);
-      }
-      if (error.message) {
-        console.error(`Error Message: ${error.message}`);
-      }
-      if (error.details) {
-        console.error(`Error Details: ${error.details}`);
-      }
-    }
-  }
-
-  async setFavoriteRecipe(recipeId: string) {
-    try {
-      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-      const userRecipesCollectionRef = collection(userRef, 'recipes');
-
-      // Query to find if the recipe already exists in the user's recipes collection
-      const q = query(
-        userRecipesCollectionRef,
-        where('recipe.id', '==', recipeId),
-      );
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        console.log(`Recipe with ID ${recipeId} not found for this user.`);
-      } else {
-        // If the recipe is found, update its status to 'favorite'
-        const docRef = querySnapshot.docs[0]!.ref;
-        await updateDoc(docRef, {
-          status: 'favorite',
-          updatedAt: new Date(),
-        });
-        console.log(`Recipe with ID ${recipeId} marked as favorite.`);
-      }
-    } catch (error: any) {
-      console.error('Error updating recipe status to favorite:', error);
-      if (error.code) {
-        console.error(`Error Code: ${error.code}`);
-      }
-      if (error.message) {
-        console.error(`Error Message: ${error.message}`);
-      }
-      if (error.details) {
-        console.error(`Error Details: ${error.details}`);
-      }
-    }
-  }
-
-  getStartedRecipes(): Observable<any[]> {
-    const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
-    const userRecipesCollectionRef = collection(userRef, 'recipes');
-
-    // Query to find recipes with status 'started'
-    const startedRecipesQuery = query(
-      userRecipesCollectionRef,
-      where('status', '==', 'started'),
+  recipeKeywordSearch(keyword: string): Observable<any> {
+    const recipeKeywordSearchFunction = httpsCallable(
+      this.functions,
+      'recipeKeywordSearch',
     );
-
-    return collectionData(startedRecipesQuery, {
-      idField: 'id',
-    }) as Observable<any[]>;
+    const resultPromise = recipeKeywordSearchFunction({ keyword });
+    return from(resultPromise); // Convert the Promise to an Observable
   }
 
   getAllRecipeKeywords(): Observable<string[]> {
-    const keywordCountsRef = doc(this.firestore, 'tagCounts/recipeKeywords');
+    const keywordCountsRef = doc(this.firestore, 'tagCounts/recipeTags');
 
     return from(getDoc(keywordCountsRef)).pipe(
       map((docSnapshot) => {
@@ -226,6 +139,43 @@ export class RecipesService {
     );
   }
 
+  getCuisineFilters(): Observable<string[]> {
+    return this.store.select(selectDietNutrition).pipe(
+      take(1),
+      switchMap((dietNutrition) => {
+        const cuisines = dietNutrition?.nutritionCategories;
+
+        // If categories exist in lifestyleHealth, return them as an Observable
+        if (cuisines && cuisines.length > 0) {
+          return of(cuisines);
+        }
+
+        // If no lifestyle categories exist, return an Observable from the Promise
+        return from(this.getTopCuisinesFromTagCounts());
+      }),
+    );
+  }
+
+  private async getTopCuisinesFromTagCounts(): Promise<string[]> {
+    const tagCountsRef = doc(this.firestore, 'tagCounts/recipeCuisines');
+    const tagCountsDoc = await getDoc(tagCountsRef);
+
+    if (tagCountsDoc.exists()) {
+      const cuisinesData = tagCountsDoc.data()['cuisines'] || [];
+
+      // Sort categories by count in descending order
+      const sortedCuisines = cuisinesData
+        .sort((a: any, b: any) => b.count - a.count)
+        .map((cuisine: any) => cuisine.cuisine);
+
+      // Return a random selection of 3 categories from the top 20
+      const topCuisines = sortedCuisines.slice(0, 20);
+      return this.getRandomSample(topCuisines, 3);
+    }
+
+    return [];
+  }
+
   getRandomRecipeCuisines(): Observable<string[]> {
     const cuisinesRef = doc(this.firestore, 'tagCounts/recipeCuisines');
 
@@ -259,6 +209,31 @@ export class RecipesService {
       'findRecipesByIngredients',
     );
     const resultPromise = findRecipesFunction({ ingredients });
+    return from(resultPromise); // Convert the Promise to an Observable
+  }
+  filterRecipes(
+    filters: {
+      categories?: string[];
+      cuisines?: string[];
+      levels?: string[];
+      isNew?: boolean;
+      sortBy?: string;
+    },
+    count: number,
+    lastRecipe: any = null, // Pass the last workout for pagination (batch loading)
+  ): Observable<any> {
+    const filterRecipesFunction = httpsCallable(
+      this.functions,
+      'filterRecipes',
+    );
+
+    const requestPayload = {
+      ...filters,
+      count,
+      lastRecipe,
+    };
+
+    const resultPromise = filterRecipesFunction(requestPayload);
     return from(resultPromise); // Convert the Promise to an Observable
   }
 }

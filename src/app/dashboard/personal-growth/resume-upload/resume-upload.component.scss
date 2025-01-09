@@ -1,0 +1,35 @@
+@use "variables" as var;
+
+.upload-container {
+  margin: 20px;
+  text-align: center;
+}
+
+.drag-drop-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: border-color 0.3s ease;
+  margin-bottom: 10px;
+  border: 2px dashed var.$primary-light-color;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.file-drop-img {
+  padding: 24px;
+}
+
+.link-button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var.$primary-color;
+  text-decoration: underline;
+}
+
+.supported-formats-caption {
+  margin-top: 4px;
+  font-size: 12px;
+}

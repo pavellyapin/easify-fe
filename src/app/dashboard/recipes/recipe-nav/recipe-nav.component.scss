@@ -1,0 +1,63 @@
+.recipe-nav-container {
+  .recipe-section {
+    padding: 10px 0;
+
+    .toggle-icon {
+      width: 20px;
+      min-width: 20px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .section-content {
+      padding-top: 20px;
+      padding-left: 20px;
+
+      .section-subtitle {
+        margin-bottom: 10px;
+      }
+
+      .steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .step-item {
+          display: flex;
+          align-items: flex-start;
+          cursor: pointer;
+
+          .step-count {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 0.5em;
+            min-width: 2.5em;
+            text-align: right;
+          }
+
+          .step-text {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            text-align: start;
+          }
+
+          .step-subtitle {
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+  }
+}

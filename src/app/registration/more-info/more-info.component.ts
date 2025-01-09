@@ -15,6 +15,7 @@ import * as UserActions from '@store/user/user.action'; // Import user actions
 import * as UserSelectors from '@store/user/user.selector'; // Import user selectors
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-more-info',
@@ -26,6 +27,7 @@ import { take } from 'rxjs/operators';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    CustomDayStepActionsComponent,
   ],
   templateUrl: './more-info.component.html',
   styleUrl: './more-info.component.scss',
@@ -33,7 +35,7 @@ import { take } from 'rxjs/operators';
 export class MoreInfoComponent implements OnInit, OnDestroy {
   moreInfoForm!: FormGroup; // Declare the form group
   moreInfo$: Observable<any>; // Observable for more info state
-  private subscription: Subscription = new Subscription(); // To handle unsubscription
+  private subscription: Subscription = new Subscription();
 
   constructor(private store: Store) {
     // Select the moreInfo state from the store
@@ -62,11 +64,16 @@ export class MoreInfoComponent implements OnInit, OnDestroy {
 
       // Dispatch the setMoreInfo action with the form data
       this.store.dispatch(UserActions.setMoreInfo({ moreInfo }));
-
-      console.log('Form Submitted:', moreInfo);
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  resetForm(): void {
+    // Reset the form to its initial state
+    this.moreInfoForm.reset({
+      additionalInfo: '', // Set default value for 'additionalInfo' field
+    });
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "the-ai-advisor",
-    "public": "dist/extreme-angular/browser",
+    "public": "dist/extreme-angular/",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {

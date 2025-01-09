@@ -1,0 +1,44 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/no-negated-async -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-toolbar class="main-toolbar">
+  <!-- Left icon button (e.g., for sidenav toggle) -->
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon i18n>menu</mat-icon>
+  </button>
+
+  <!-- Logo navigates to dashboard -->
+  <div
+    class="logo"
+    style="font-weight: 600; cursor: pointer"
+    (click)="navigateTo('/main/home')"
+    i18n
+  >
+    Easify
+  </div>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    class="sidenav"
+    [mode]="sidenavMode"
+    [opened]="!isMobile || (isMobile && !isMinimized)"
+    [disableClose]="isTablet || !isMobile"
+    [style.padding-top]="'70px'"
+  />
+
+  <!-- Main Content Section -->
+  <mat-sidenav-content>
+    <div>
+      <ng-container>
+        <router-outlet />
+      </ng-container>
+      <div class="mini-footer"></div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

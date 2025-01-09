@@ -1,0 +1,62 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<ng-container *ngIf="!isMobile && !isTablet">
+  <!-- Course Name -->
+  <h3>{{ course?.name }}</h3>
+
+  <!-- Course Overview -->
+  <summary>{{ course?.overview }}</summary>
+</ng-container>
+<ng-container *ngIf="startedCourse.progress.progress">
+  <h5 class="section-title" i18n>
+    {{
+      startedCourse.status === "completed"
+        ? "Course complete!"
+        : "Keep up the great work!"
+    }}
+  </h5>
+  <!-- Progress bar below image -->
+  <mat-progress-bar
+    mode="determinate"
+    class="custom-progress-bar"
+    i18n-mode
+    [value]="startedCourse.progress.progress"
+  />
+  <p class="caption" i18n>
+    {{
+      startedCourse.status === "completed"
+        ? "Great job! You’ve completed another course. Keep going!"
+        : "You're making amazing progress! Stay focused to reach your next milestone."
+    }}
+  </p>
+  <p *ngIf="startedCourse.status !== 'completed'" class="caption" i18n>
+    {{ getRemainingPercentage() }}% remaining to complete this course
+  </p>
+</ng-container>
+
+<!-- What You'll Learn Section -->
+<ng-container *ngIf="course.additionalResources">
+  <h5 class="section-title" i18n>Additional Resources</h5>
+  <ul class="items-list">
+    <li *ngFor="let item of getAdditionalResources()">
+      <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+      <span>{{ item }}</span>
+    </li>
+  </ul>
+</ng-container>
+
+<!-- Skills You'll Gain Section -->
+<h5 class="section-title" i18n>Skills you'll gain</h5>
+<div class="chips-container">
+  <div class="app-chips-secondary">
+    <mat-chip-set>
+      <mat-chip *ngFor="let tag of course?.tags" i18n-ngFor [removable]="false">
+        {{ tag | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>

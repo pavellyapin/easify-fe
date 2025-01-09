@@ -1,34 +1,19 @@
-@use "variables" as var;
-
-.sub-header {
-  margin-bottom: 16px;
-  color: var.$primary-contrast-color;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.mat-form-field {
-  width: 100%;
-}
-
-.mat-radio-group {
+form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
+  gap: 10px;
 
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
+  .time-display {
+    flex-direction: column;
 
-  button {
-    padding: 24px;
+    mat-form-field {
+      max-width: 130px;
+      font-size: 20px !important;
+    }
   }
-}
 
-button[mat-raised-button] {
-  min-width: 120px;
+  .subtext {
+    padding-bottom: 16px;
+    color: grey;
+  }
 }

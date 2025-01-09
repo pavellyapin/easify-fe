@@ -1,0 +1,11 @@
+.time-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+
+  .level-icon {
+    width: 18px;
+    height: 18px;
+  }
+}

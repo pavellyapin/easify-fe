@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EasifyService } from '@services/easify.service';
 import { UserService } from '@services/user.service';
-import { setLoading } from '@store/loader/loading.actions';
+import { setProfileLoading } from '@store/loader/loading.actions';
 import { setProfileInfo } from '@store/user/user.action';
 
 @Component({
@@ -68,7 +68,7 @@ export class GenerateAvatarComponent {
   onSubmit(): void {
     if (this.avatarForm.valid) {
       const formData = this.avatarForm.value;
-      this.store.dispatch(setLoading(true));
+      this.store.dispatch(setProfileLoading(true));
       // Save avatar info in user profile using UserService
       this.userService
         .saveAvatarData(formData)
@@ -80,12 +80,12 @@ export class GenerateAvatarComponent {
             next: (response) => {
               this.store.dispatch(setProfileInfo());
               this.navigateTo('profile/details');
-              this.store.dispatch(setLoading(false));
+              this.store.dispatch(setProfileLoading(false));
               console.log('Avatar generated successfully:', response);
               // You can handle the generated avatar URL (response.avatarUrl) here, like saving it in Firestore
             },
             error: (error) => {
-              this.store.dispatch(setLoading(false));
+              this.store.dispatch(setProfileLoading(false));
               console.error('Error generating avatar:', error);
             },
           });

@@ -1,0 +1,9 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<div class="nav-buttons">
+  <button mat-button class="action-link" (click)="goBack()">
+    <span i18n>Go back</span>
+    <mat-icon i18n>arrow_backward</mat-icon>
+  </button>
+</div>
+<div [innerHTML]="utils.jsonToHtml(easifyResponse.response)"></div>

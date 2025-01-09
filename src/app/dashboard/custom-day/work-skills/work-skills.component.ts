@@ -17,7 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AlertCardComponent } from '@components/alert-card/alert-card.component';
-import { CourseCategoryAutocompleteComponent } from '@components/courses/course-category-autocomplete/course-category-autocomplete.component';
+import { CourseCategoryAutocompleteComponent } from '@dashboard/courses/course-category-autocomplete/course-category-autocomplete.component';
 import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
 import * as ScheduleActions from '@store/schedule/schedule.actions';
@@ -25,7 +25,7 @@ import * as ScheduleSelectors from '@store/schedule/schedule.selectors';
 import * as UserSelectors from '@store/user/user.selector';
 import { combineLatest, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomDayStepActionsComponent } from '../step-actions/step-actions.component';
+import { CustomDayStepActionsComponent } from '../../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-custom-day-work-skills',

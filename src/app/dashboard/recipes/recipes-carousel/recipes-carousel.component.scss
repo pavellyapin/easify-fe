@@ -1,0 +1,9 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+
+  .carousel-item {
+    padding: 10px;
+  }
+}

@@ -51,9 +51,9 @@ $custom-typography: mat.m2-define-typography-config(
   $subtitle-1:
     mat.m2-define-typography-level(
       $font-family: var.$regular-font-family,
-      $font-size: 14px,
+      $font-size: 18px,
       $line-height: 24px,
-      $font-weight: 500,
+      $font-weight: 100,
     ),
   $subtitle-2:
     mat.m2-define-typography-level(
@@ -110,7 +110,8 @@ h6,
 p,
 a,
 span,
-button {
+button,
+caption {
   font-family: var.$regular-font-family;
 }
 
@@ -149,6 +150,10 @@ h6 {
 
   margin: 0;
   margin-bottom: 10px;
+}
+
+summary {
+  @include mat.m2-typography-level($custom-typography, subtitle-1);
 }
 
 p {

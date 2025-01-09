@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
@@ -13,20 +14,36 @@
 
 <!-- Form -->
 <form [formGroup]="basicInfoForm">
-  <!-- Day Switch -->
-  <fieldset>
-    <div class="special-day-switch">
-      <h5 class="fixed-width-text" i18n>
-        {{ forTomorrowControl?.value ? "Tomorrow" : "Today" }}
-      </h5>
-      <mat-slide-toggle formControlName="forTomorrow" color="primary" i18n />
-    </div>
-    <p class="date-caption">
-      {{ getDate(!forTomorrowControl?.value) }}
-    </p>
-  </fieldset>
+  <div class="day-and-type">
+    <!-- Day Switch -->
+    <fieldset>
+      <div class="special-day-switch">
+        <h5 class="fixed-width-text" i18n>
+          {{ forTomorrowControl?.value ? "Tomorrow" : "Today" }}
+        </h5>
+        <mat-slide-toggle formControlName="forTomorrow" color="primary" i18n />
+      </div>
+      <p class="date-caption">
+        {{ getDate(!forTomorrowControl?.value) }}
+      </p>
+    </fieldset>
+    <!-- Type Dropdown -->
+    <fieldset class="primary-search-box">
+      <mat-form-field appearance="outline" i18n-appearance>
+        <mat-select
+          formControlName="type"
+          placeholder="Choose a type"
+          i18n-placeholder
+        >
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{ type | capitalize }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </div>
   <!-- Wake-up Time -->
-  <fieldset class="primary-search-box">
+  <fieldset class="primary-search-box time-display">
     <h6 i18n>
       When do you plan to
       <b>get up</b>
@@ -46,7 +63,7 @@
   </fieldset>
 
   <!-- Sleep Time -->
-  <fieldset class="primary-search-box">
+  <fieldset class="primary-search-box time-display">
     <h6 i18n>
       When do you plan to
       <b>wind down</b>

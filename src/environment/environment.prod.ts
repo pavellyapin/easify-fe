@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://tzr07a57s2.execute-api.us-east-1.amazonaws.com/Prod', // Replace with your actual API endpoint
+  apiUrl: 'https://6hu18mwzph.execute-api.us-east-1.amazonaws.com/Prod', // Replace with your actual API endpoint
+  websocketUrl: 'wss://reur1jihgj.execute-api.us-east-1.amazonaws.com/Prod',
   firebaseConfig: {
     apiKey: 'AIzaSyAkQSz_M5-VlhQQQewPfxVROAkywb5Z64Y',
     authDomain: 'the-ai-advisor.firebaseapp.com',

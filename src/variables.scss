@@ -87,5 +87,100 @@ $accent-palette: mat.m2-define-palette(
   )
 );
 
+// Dark theme colors
+$dark-primary-color: #34a163;
+$dark-primary-light-color: #56c98a;
+$dark-primary-light-color-2: #8cdcb7;
+$dark-primary-dark-color: #22794b;
+$dark-primary-contrast-color: #ffffff;
+
+$dark-secondary-color: #7bb5d8;
+$dark-secondary-light-color: #9acceb;
+$dark-secondary-super-light-color: #d3e8f4;
+$dark-secondary-dark-color: #5890b0;
+$dark-secondary-contrast-color: #ffffff;
+
+$dark-accent-color: #f97738;
+$dark-accent-light-color: #ffa870;
+$dark-accent-dark-color: #c75017;
+$dark-accent-contrast-color: #ffffff;
+
+$dark-background-color: #121212;
+$dark-surface-color: #1e1e1e;
+$dark-border-color: #333333;
+
+// Define custom palettes for the dark theme
+$dark-primary-palette: mat.m2-define-palette(
+  (
+    50: #1e3027,
+    100: #2a4735,
+    200: #345f45,
+    300: #3f784f,
+    400: #4a915a,
+    500: $dark-primary-color,
+    600: #2e8c57,
+    700: $dark-primary-dark-color,
+    800: #1a5e3b,
+    900: #0e3923,
+    A100: #56c98a,
+    A200: #8cdcb7,
+    A400: #c1e8da,
+    A700: #e3f8ef,
+    contrast: (
+      default: $dark-primary-contrast-color,
+    ),
+  )
+);
+
+$dark-secondary-palette: mat.m2-define-palette(
+  (
+    50: #1a252b,
+    100: #233441,
+    200: #2d4557,
+    300: #37576e,
+    400: #406883,
+    500: $dark-secondary-color,
+    600: #6a9fbb,
+    700: $dark-secondary-dark-color,
+    800: #437491,
+    900: #2a536d,
+    A100: #9acceb,
+    A200: #c8e5f7,
+    A400: #dceef9,
+    A700: #f2f8fc,
+    contrast: (
+      default: $dark-secondary-contrast-color,
+    ),
+  )
+);
+
+$dark-accent-palette: mat.m2-define-palette(
+  (
+    50: #2b1b13,
+    100: #3d2518,
+    200: #4f311d,
+    300: #613d22,
+    400: #724926,
+    500: $dark-accent-color,
+    600: #e66e34,
+    700: $dark-accent-dark-color,
+    800: #9f3610,
+    900: #6d240a,
+    A100: #ffa870,
+    A200: #ffbb94,
+    A400: #ffd3b6,
+    A700: #fff5ec,
+    contrast: (
+      default: $dark-accent-contrast-color,
+    ),
+  )
+);
+
+$dark-theme-background-palette: (
+  background: $dark-background-color,
+  surface: $dark-surface-color,
+  border: $dark-border-color,
+);
+
 $heading-font-family: "Poppins", sans-serif;
 $regular-font-family: "Poppins", sans-serif;

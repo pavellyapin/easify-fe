@@ -17,14 +17,16 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { WorkoutCategoryAutocompleteComponent } from '@components/fitness/workout-category-autocomplete/workout-category-autocomplete.component';
-import { WorkoutTagAutocompleteComponent } from '@components/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component';
+import { MatSelectModule } from '@angular/material/select';
+import { WorkoutCategoryAutocompleteComponent } from '@dashboard/fitness/workout-category-autocomplete/workout-category-autocomplete.component';
+import { WorkoutTagAutocompleteComponent } from '@dashboard/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component';
 import { Store } from '@ngrx/store';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import { FitnessWorkoutsService } from '@services/fitness.service';
 import * as UserActions from '@store/user/user.action'; // Import user actions
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription, take } from 'rxjs';
+import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-lifestyle-health',
@@ -34,13 +36,15 @@ import { Observable, Subscription, take } from 'rxjs';
     MatInputModule,
     MatChipsModule,
     MatIconModule,
-    MatRadioModule,
+    MatSelectModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
+    CapitalizePipe,
     WorkoutCategoryAutocompleteComponent,
     WorkoutTagAutocompleteComponent,
+    CustomDayStepActionsComponent,
   ],
   templateUrl: './lifestyle-health.component.html',
   styleUrl: './lifestyle-health.component.scss',
@@ -67,7 +71,7 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
     // Initialize the form group
     this.lifestyleHealthForm = new FormGroup({
       martialStatus: new FormControl(''),
-      kids: new FormControl(''),
+      family: new FormControl(''),
     });
 
     // Prepopulate form with existing lifestyleHealth data if available in the store
@@ -118,7 +122,6 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
     if (tag && !this.addedWorkoutCategories.includes(tag)) {
       // Add the new tag to the array using immutability
       this.addedWorkoutCategories = [...this.addedWorkoutCategories, tag];
-      console.log('Workout category added:', tag);
     } else {
       console.log('Workout category already exists or is invalid.');
     }
@@ -132,7 +135,6 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
         ...this.addedWorkoutCategories.slice(0, index),
         ...this.addedWorkoutCategories.slice(index + 1),
       ];
-      console.log('Workout category removed:', tag);
     }
   }
 
@@ -142,7 +144,6 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
     if (tag && !this.addedWorkoutTags.includes(tag)) {
       // Add the new tag to the array using immutability
       this.addedWorkoutTags = [...this.addedWorkoutTags, tag];
-      console.log('Workout tag added:', tag);
     } else {
       console.log('Workout tag already exists or is invalid.');
     }
@@ -156,7 +157,6 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
         ...this.addedWorkoutTags.slice(0, index),
         ...this.addedWorkoutTags.slice(index + 1),
       ];
-      console.log('Workout tag removed:', tag);
     }
   }
 
@@ -164,6 +164,19 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
   getRandomTags(tags: string[], count = 3): string[] {
     const top20Tags = tags.slice(0, 20); // Only take the top 20
     return top20Tags.sort(() => 0.5 - Math.random()).slice(0, count);
+  }
+
+  // Add this function to your LifestyleHealthComponent class
+  resetForm(): void {
+    // Reset the form to its initial state
+    this.lifestyleHealthForm.reset({
+      martialStatus: '',
+      family: '',
+    });
+
+    // Clear the added workout categories and tags
+    this.addedWorkoutCategories = [];
+    this.addedWorkoutTags = [];
   }
 
   // Handle form submission
@@ -177,8 +190,6 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
 
       // Dispatch the setLifestyleHealth action with the form data
       this.store.dispatch(UserActions.setLifestyleHealth({ lifestyleHealth }));
-
-      console.log('Form Submitted', lifestyleHealth);
     } else {
       console.log('Form is invalid');
     }

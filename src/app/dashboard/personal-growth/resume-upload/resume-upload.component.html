@@ -1,0 +1,91 @@
+<!-- eslint-disable @angular-eslint/template/i18n -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="upload-container">
+  <!-- Drag and Drop Area -->
+  <div
+    class="drag-drop-area"
+    [class.drag-over]="isDragOver"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    <!-- Image File Drop -->
+    <img
+      src="assets/illustrations/file-drop.svg"
+      alt="Drag and Drop"
+      i18n-alt
+      class="file-drop-img"
+    />
+    <h5 i18n>Drop your resume here</h5>
+    <div>
+      or
+      <button
+        i18n
+        type="button"
+        class="link-button"
+        (click)="fileInput.click()"
+      >
+        <h6>Browse</h6>
+      </button>
+    </div>
+
+    <p i18n class="supported-formats-caption">Supports PDF, DOC, DOCX</p>
+
+    <ng-container *ngIf="uploadForm.get('resume')?.value">
+      <p>
+        {{ uploadForm.get("resume")?.value.name }}
+      </p>
+      <button
+        i18n
+        mat-flat-button
+        class="primary-stroked-md-button"
+        (click)="uploadResume()"
+      >
+        Upload Resume
+      </button>
+    </ng-container>
+  </div>
+
+  <!-- Traditional File Input -->
+  <input #fileInput type="file" hidden (change)="onFileChange($event)" />
+
+  <!-- Upload Button -->
+
+  <!-- Upload Message -->
+  <p>{{ uploadMessage }}</p>
+</div>
+
+<!-- Display Resumes as Cards -->
+<div *ngIf="resumes.length > 0" class="resume-cards-container">
+  <mat-card *ngFor="let resume of resumes" class="resume-card">
+    <mat-card-title>{{ resume.fileName }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ resume.uploadedAt | date: "medium" }}
+    </mat-card-subtitle>
+
+    <mat-card-actions>
+      <!-- Analysis Button -->
+      <button
+        i18n
+        mat-button
+        color="primary"
+        (click)="submitResumeForAnalysis(resume.id)"
+      >
+        Analyze
+      </button>
+
+      <!-- Download Button -->
+      <button
+        i18n
+        mat-button
+        color="accent"
+        (click)="downloadResume(resume.fileUrl)"
+      >
+        Download
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

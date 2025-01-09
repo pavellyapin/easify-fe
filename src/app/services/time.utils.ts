@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,7 +13,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class TimeUtils {
+export class TimeUtilsAndMore {
   /**
    * Checks if the current time is within the given time range.
    * @param timeRange The time range in the format "HH:MM AM/PM - HH:MM AM/PM"
@@ -80,5 +81,53 @@ export class TimeUtils {
       const months = Math.floor(diffInSeconds / month);
       return `${months} month${months === 1 ? '' : 's'} ago`;
     }
+  }
+
+  jsonToHtml(json: any): string {
+    if (
+      typeof json === 'string' ||
+      typeof json === 'number' ||
+      typeof json === 'boolean'
+    ) {
+      return `<span>${json}</span>`;
+    }
+
+    if (Array.isArray(json)) {
+      return `
+        <ul>
+          ${json.map((item) => `<li>${this.jsonToHtml(item)}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    if (typeof json === 'object' && json !== null) {
+      return `
+        <div>
+          ${Object.entries(json)
+            .map(
+              ([key, value]) => `
+                <div>
+                  <h6>${this.formatKey(key)}</h6>
+                  <p>${this.jsonToHtml(value)}</p>
+                </div>
+              `,
+            )
+            .join('')}
+        </div>
+      `;
+    }
+
+    return '';
+  }
+
+  /**
+   * Formats a JSON key into a more readable format.
+   * For example, "conflictAndRivalry" becomes "Conflict and Rivalry".
+   */
+  formatKey(key: string): string {
+    return key
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/^\w/, (c) => c.toUpperCase());
   }
 }

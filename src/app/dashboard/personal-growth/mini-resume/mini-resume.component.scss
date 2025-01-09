@@ -1,0 +1,67 @@
+@use "variables" as var;
+
+.mini-resume-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.overview-card {
+  margin-top: 16px;
+  box-shadow: none;
+  background-color: var.$primary-light-color-2;
+  overflow: hidden;
+}
+
+.text-ellipsis {
+  max-height: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roles-card,
+.industries-card {
+  margin-top: 16px;
+  box-shadow: none;
+  background-color: var.$secondary-super-light-color;
+}
+
+.icon-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.action {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  color: grey;
+}
+
+.skills-card,
+.education-card {
+  margin-top: 16px;
+  box-shadow: none;
+
+  mat-chip-set {
+    max-height: 168px;
+  }
+}
+
+.see-full-resume-link {
+  display: flex;
+  justify-content: end;
+}

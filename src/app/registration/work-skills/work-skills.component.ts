@@ -16,11 +16,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { AlertCardComponent } from '@components/alert-card/alert-card.component';
-import { CourseCategoryAutocompleteComponent } from '@components/courses/course-category-autocomplete/course-category-autocomplete.component';
-import { IndustriesAutocompleteComponent } from '@components/personal-growth/industries-autocomplete/industries-autocomplete.component';
+import { MatSelectModule } from '@angular/material/select';
+import { CustomDayStepActionsComponent } from '@components/step-actions/step-actions.component';
+import { CourseCategoryAutocompleteComponent } from '@dashboard/courses/course-category-autocomplete/course-category-autocomplete.component';
+import { IndustriesAutocompleteComponent } from '@dashboard/personal-growth/industries-autocomplete/industries-autocomplete.component';
 import { Store } from '@ngrx/store';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import { CoursesService } from '@services/courses.service';
 import { GrowthService } from '@services/growth.service';
 import * as UserActions from '@store/user/user.action'; // Import user actions
@@ -36,13 +37,14 @@ import { Subscription, take } from 'rxjs';
     MatInputModule,
     MatChipsModule,
     MatIconModule,
-    MatRadioModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
-    AlertCardComponent,
+    MatSelectModule,
     CourseCategoryAutocompleteComponent,
+    CapitalizePipe,
+    CustomDayStepActionsComponent,
   ],
   templateUrl: './work-skills.component.html',
   styleUrl: './work-skills.component.scss',
@@ -107,6 +109,18 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  resetForm(): void {
+    this.workSkillsForm.reset({
+      occupation: '',
+      workStatus: '',
+      hybridStatus: '',
+    });
+
+    // Clear the added industries and course tags
+    this.addedIndustries = [];
+    this.addedCourseTags = [];
   }
 
   // Handle industry added from autocomplete

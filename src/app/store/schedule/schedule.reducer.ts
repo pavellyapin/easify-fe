@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
@@ -14,10 +15,13 @@ import {
   refreshSchedule,
   refreshScheduleFailure,
   refreshScheduleSuccess,
+  submitCustomDayRequestFromAPI,
   updateCustomDayBasicInfo,
   updateCustomDayDietNutrition,
   updateCustomDayHealthLifestyle,
   updateCustomDayWorkSkills,
+  updateTodayRecommendations,
+  updateTomorrowRecommendations,
 } from './schedule.actions';
 
 export interface ScheduleState {
@@ -73,6 +77,13 @@ export const scheduleReducer = createReducer(
 
   // Trigger loading for refreshSchedule
   on(refreshSchedule, (state) => ({
+    ...state,
+    error: null,
+    loading: true,
+  })),
+
+  // Trigger loading for refreshSchedule
+  on(submitCustomDayRequestFromAPI, (state) => ({
     ...state,
     error: null,
     loading: true,
@@ -157,6 +168,54 @@ export const scheduleReducer = createReducer(
       dietNutrition,
     },
   })),
+
+  // Update recommendations for a specific time slot in today's schedule
+  on(
+    updateTodayRecommendations,
+    (state, { timeSlotIndex, recommendations }) => {
+      if (!state.schedule?.schedule) {
+        return state; // If no schedule, return current state
+      }
+
+      const updatedSchedule = [...state.schedule.schedule]; // Clone schedule array
+      updatedSchedule[timeSlotIndex] = {
+        ...updatedSchedule[timeSlotIndex],
+        recommendedItems: recommendations,
+      };
+
+      return {
+        ...state,
+        schedule: {
+          ...state.schedule,
+          schedule: updatedSchedule,
+        },
+      };
+    },
+  ),
+
+  // Update recommendations for a specific time slot in tomorrow's schedule
+  on(
+    updateTomorrowRecommendations,
+    (state, { timeSlotIndex, recommendations }) => {
+      if (!state.tomorrow?.schedule) {
+        return state; // If no schedule, return current state
+      }
+
+      const updatedSchedule = [...state.tomorrow.schedule]; // Clone schedule array
+      updatedSchedule[timeSlotIndex] = {
+        ...updatedSchedule[timeSlotIndex],
+        recommendedItems: recommendations,
+      };
+
+      return {
+        ...state,
+        tomorrow: {
+          ...state.tomorrow,
+          schedule: updatedSchedule,
+        },
+      };
+    },
+  ),
 
   // Clear schedule and tomorrow state
   on(clearSchedule, () => initialState),

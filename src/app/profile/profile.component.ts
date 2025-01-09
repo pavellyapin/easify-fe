@@ -7,10 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '@components/navbar/navbar.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +27,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
     MatSidenavModule,
     MatToolbarModule,
     NavbarComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -58,6 +61,17 @@ export class ProfileComponent implements OnInit {
           this.sidenavMode = 'side'; // Default to 'side' mode on larger screens
           this.isMinimized = true; // Ensure sidenav is not minimized on larger screens
         }
+      });
+
+    // Listen to router events to scroll to the top after navigation ends
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const scrollContainer = document.querySelector('.mat-drawer-content');
+        if (scrollContainer) {
+          scrollContainer.scrollTo(0, 0);
+        }
+        window.scrollTo(0, 0); // Scroll to the top of the page
       });
   }
 

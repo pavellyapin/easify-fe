@@ -1,0 +1,72 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- Recipe Overview Template -->
+<div *ngIf="recipe" class="recipe-overview-container">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('recipesHub')"
+      >
+        <span i18n>Recipes Hub</span>
+      </button>
+    </span>
+
+    <span class="breadcrumb-button">{{ recipe.title }}</span>
+  </div>
+  <div class="main-with-side padded">
+    <div class="main-content">
+      <app-recipe-intro
+        [recipe]="recipe"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedRecipe]="startedRecipe$ | async"
+      />
+
+      <section class="table-of-contents">
+        <app-recipe-breakdown
+          [recipe]="recipe"
+          [startedRecipe]="startedRecipe$ | async"
+        />
+      </section>
+    </div>
+    <div class="side-content">
+      <app-recipe-stats
+        [recipe]="recipe"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedRecipe]="startedRecipe$ | async"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Started Recipes Section -->
+<div class="recipes-section padded">
+  <h5 i18n>Started Recipes</h5>
+
+  <!-- Loading state with card skeletons -->
+  <div *ngIf="isLoadingRecommendedRecipes; else startedRecipesContent">
+    <app-loading-carousel />
+  </div>
+
+  <!-- Recipes content when loading is finished -->
+  <ng-template #startedRecipesContent>
+    <div *ngIf="recommendedRecipes">
+      <div *ngIf="recommendedRecipes.length">
+        <!-- Use the app-recipes-carousel component -->
+        <app-recipes-carousel [recipes]="recommendedRecipes" />
+      </div>
+    </div>
+  </ng-template>
+</div>

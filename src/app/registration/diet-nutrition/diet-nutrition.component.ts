@@ -4,27 +4,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { CuisineAutocompleteComponent } from '@components/recipes/cuisine-autocomplete/cuisine-autocomplete.component';
-import { RecipeTagAutocompleteComponent } from '@components/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component';
+import { CuisineAutocompleteComponent } from '@dashboard/recipes/cuisine-autocomplete/cuisine-autocomplete.component';
+import { RecipeTagAutocompleteComponent } from '@dashboard/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component';
 import { Store } from '@ngrx/store';
+import { CapitalizePipe } from '@services/capitalize.pipe';
 import { RecipesService } from '@services/recipes.service';
 import * as UserActions from '@store/user/user.action';
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-diet-nutrition',
@@ -34,14 +29,14 @@ import { take } from 'rxjs/operators';
     MatInputModule,
     MatChipsModule,
     MatIconModule,
-    MatRadioModule,
-    MatCheckboxModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
     CuisineAutocompleteComponent,
     RecipeTagAutocompleteComponent,
+    CapitalizePipe,
+    CustomDayStepActionsComponent,
   ],
   templateUrl: './diet-nutrition.component.html',
   styleUrl: './diet-nutrition.component.scss',
@@ -63,12 +58,7 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Initialize the form group
-    this.dietNutritionForm = new FormGroup({
-      vegetarian: new FormControl(false),
-      vegan: new FormControl(false),
-      lactoseIntolerant: new FormControl(false),
-      glutenFree: new FormControl(false),
-    });
+    this.dietNutritionForm = new FormGroup({});
 
     // Prepopulate form with existing dietNutrition data if available in the store
     const dietSubscription = this.dietNutrition$
@@ -111,7 +101,6 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
     if (tag && !this.addedNutritionCategories.includes(tag)) {
       // Add the new tag to the array using immutability
       this.addedNutritionCategories = [...this.addedNutritionCategories, tag];
-      console.log('Nutrition category added:', tag);
     } else {
       console.log('Nutrition category already exists or is invalid.');
     }
@@ -134,7 +123,6 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
     if (tag && !this.addedRecipeTags.includes(tag)) {
       // Add the new tag to the array using immutability
       this.addedRecipeTags = [...this.addedRecipeTags, tag];
-      console.log('Recipe tag added:', tag);
     } else {
       console.log('Recipe tag already exists or is invalid.');
     }
@@ -157,6 +145,13 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
     return top20Tags.sort(() => 0.5 - Math.random()).slice(0, count);
   }
 
+  // Add this function to your DietNutritionComponent class
+  resetForm(): void {
+    // Clear the added nutrition categories and recipe tags
+    this.addedNutritionCategories = [];
+    this.addedRecipeTags = [];
+  }
+
   // Handle form submission
   onSubmit(): void {
     if (this.dietNutritionForm.valid) {
@@ -168,8 +163,6 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
 
       // Dispatch the setDietNutrition action with the form data
       this.store.dispatch(UserActions.setDietNutrition({ dietNutrition }));
-
-      console.log('Form Submitted', dietNutrition);
     } else {
       console.log('Form is invalid');
     }

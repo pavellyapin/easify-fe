@@ -1,0 +1,136 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Navigation Buttons for Next and Previous Steps -->
+<ng-container *ngIf="!initLoading; else loadingRoutineTemplate">
+  <div class="nav-buttons">
+    <button mat-button class="action-link" (click)="navigatePrevious()">
+      <span i18n>Go back</span>
+      <mat-icon i18n>arrow_backward</mat-icon>
+    </button>
+  </div>
+  <div class="intro">
+    <div class="header">
+      <div>
+        <h5 class="title">{{ recipe.name }}</h5>
+      </div>
+    </div>
+
+    <div class="chips-container">
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let ingredient of recipe.ingredients"
+            i18n-ngFor
+            [removable]="false"
+          >
+            {{ ingredient.quantity }} {{ ingredient.name | capitalize }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </div>
+
+  <div class="theme-carousel">
+    <!-- Previous Step Button -->
+    <button
+      [ngClass]="
+        currentIndex === 0
+          ? 'nav-button-container opacity'
+          : 'nav-button-container'
+      "
+      (click)="goToPreviousSlide()"
+    >
+      <div class="slot-content">
+        <div class="top-svg-container">
+          <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+            <path
+              d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+              i18n-d
+              fill="#c1e8da"
+            />
+          </svg>
+          <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+        </div>
+        <div *ngIf="currentIndex > 0; else previousText" class="slot-details">
+          <h5>
+            {{ routine[currentIndex - 1]?.name }}
+          </h5>
+          <span>
+            {{ routine[currentIndex - 1]?.additionalTips }}
+          </span>
+        </div>
+        <ng-template #previousText>
+          <div></div>
+        </ng-template>
+      </div>
+    </button>
+
+    <!-- Carousel for the Recipe Steps -->
+    <ngx-slick-carousel
+      #slickModal="slick-carousel"
+      class="carousel"
+      [config]="slideConfig"
+    >
+      <div
+        *ngFor="let step of routine; let i = index"
+        class="point-content"
+        ngxSlickItem
+      >
+        <h5 class="title">{{ step.name }}</h5>
+        <span class="subtitle">{{ step.description }}</span>
+        <p>{{ step.additionalTips }}</p>
+        <div class="action">
+          <caption class="caption" i18n>Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="!step.hasResponse"
+            i18n-aria-label
+            (click)="expandPoint(i)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+
+    <!-- Next Step Button -->
+    <button class="nav-button-container" (click)="goToNextSlide()">
+      <div class="slot-content">
+        <div class="bottom-svg-container">
+          <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+            <path
+              d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+              i18n-d
+              fill="#c1e8da"
+            />
+          </svg>
+          <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+        </div>
+        <ng-template #nextText>
+          <h5 class="opacity" i18n>Next</h5>
+        </ng-template>
+        <div
+          *ngIf="currentIndex < routine.length - 1; else nextText"
+          class="slot-details"
+        >
+          <h5>
+            {{ routine[currentIndex + 1]?.name }} -
+            {{ routine[currentIndex + 1]?.duration }}
+          </h5>
+          <span>
+            {{ routine[currentIndex + 1]?.description }}
+          </span>
+        </div>
+      </div>
+    </button>
+  </div>
+</ng-container>
+<ng-template #loadingRoutineTemplate>
+  <app-topic-loader />
+</ng-template>

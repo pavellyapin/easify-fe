@@ -1,0 +1,122 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<div class="main-with-side padded">
+  <!-- Main content: workouts and banners -->
+  <div class="main-content">
+    <!-- Search Box Section -->
+    <div class="search-box-container primary-search-box">
+      <mat-form-field appearance="outline" i18n-appearance>
+        <mat-icon i18n matPrefix>search</mat-icon>
+        <input
+          matInput
+          placeholder="What workout are you looking for?"
+          aria-label="What workout are you looking for?"
+          i18n-aria-label
+          i18n-placeholder
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Started Workouts Section -->
+    <div class="workouts-section">
+      <h5 i18n>Started Workouts</h5>
+
+      <!-- Loading state with card skeletons -->
+      <div *ngIf="isLoadingCombinedWorkouts; else startedWorkoutsContent">
+        <app-loading-carousel />
+      </div>
+
+      <!-- Workouts content when loading is finished -->
+      <ng-template #startedWorkoutsContent>
+        <div *ngIf="combinedWorkouts as startedWorkouts">
+          <div *ngIf="startedWorkouts.length">
+            <!-- Use the app-workouts-carousel component -->
+            <app-workouts-carousel [workouts]="startedWorkouts" />
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Side content: workout tracker and suggested actions -->
+  <div *ngIf="!isTablet" class="side-content">
+    <div class="tracker-and-actions">
+      <app-suggested-action
+        *ngIf="!isTablet"
+        [title]="'Suggested Actions'"
+        [actions]="[
+          {
+            title: 'Complete Warm-Up Routine',
+            subtext: 'Prepare your body for the workout',
+            buttonText: 'Start Now',
+            callback: completeWorkout,
+          },
+          {
+            title: 'Review Exercise Form',
+            subtext: 'Ensure you are performing exercises correctly',
+            buttonText: 'Review',
+            callback: completeWorkout,
+          },
+        ]"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Hero Banner Section -->
+<div class="hero-and-actions padded">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h5 i18n>Discover New Workouts and Reach Your Goals</h5>
+      <p i18n>
+        Join our fitness community and push your limits with custom workout
+        plans.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <button mat-flat-button class="primary-stroked-md-button" i18n>
+          Get Started
+        </button>
+        <button mat-stroked-button class="primary-full-md-button" i18n>
+          Learn More
+        </button>
+      </div>
+    </div>
+
+    <!-- Illustration on the right -->
+    <div class="hero-illustration">
+      <img
+        src="assets/illustrations/workouts-hero.svg"
+        alt="Illustration"
+        i18n-alt
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isTablet">
+    <app-suggested-action
+      [actions]="[
+        {
+          title: 'Complete Warm-Up Routine',
+          subtext: 'Prepare your body for the workout',
+          buttonText: 'Start Now',
+          callback: completeWorkout,
+        },
+        {
+          title: 'Review Exercise Form',
+          subtext: 'Ensure you are performing exercises correctly',
+          buttonText: 'Review',
+          callback: completeWorkout,
+        },
+      ]"
+    />
+  </div>
+</div>
+
+<!-- Component to display all workouts -->
+<app-all-workouts />

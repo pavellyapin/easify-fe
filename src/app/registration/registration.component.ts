@@ -43,7 +43,7 @@ import { routeAnimation } from '../animations/animations';
 export class RegistrationComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   currentStep = 0; // Tracks the current step index
-  totalSteps = 7; // Total number of steps
+  totalSteps = 6; // Total number of steps
   private actionsSubscription: Subscription = new Subscription(); // Subscription to actions stream
 
   constructor(
@@ -65,7 +65,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnDestroy {
             UserActions.setFinancialPlanning,
             UserActions.setLifestyleHealth,
             UserActions.setMoreInfo,
-            UserActions.setResume,
           ),
         )
         .subscribe(() => {
@@ -85,7 +84,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnDestroy {
             UserActions.setFinancialPlanningSuccess,
             UserActions.setLifestyleHealthSuccess,
             UserActions.setMoreInfoSuccess,
-            UserActions.setResumeSuccess,
           ),
         )
         .subscribe(() => {
@@ -113,11 +111,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnDestroy {
     const url = this.router.url;
     if (url.includes('basic-info')) this.currentStep = 0;
     if (url.includes('work-skills')) this.currentStep = 1;
-    if (url.includes('upload-resume')) this.currentStep = 2;
-    if (url.includes('lifestyle-health')) this.currentStep = 3;
-    if (url.includes('diet-nutrition')) this.currentStep = 4;
-    if (url.includes('financial-planning')) this.currentStep = 5;
-    if (url.includes('more-info')) this.currentStep = 6;
+    if (url.includes('lifestyle-health')) this.currentStep = 2;
+    if (url.includes('diet-nutrition')) this.currentStep = 3;
+    if (url.includes('financial-planning')) this.currentStep = 4;
+    if (url.includes('more-info')) this.currentStep = 5;
   }
 
   // Calculate progress value dynamically
@@ -149,7 +146,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit, OnDestroy {
     const routes = [
       'basic-info',
       'work-skills',
-      'upload-resume',
       'lifestyle-health',
       'diet-nutrition',
       'financial-planning',
