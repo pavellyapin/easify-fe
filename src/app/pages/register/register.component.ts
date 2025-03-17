@@ -56,7 +56,6 @@ export class RegisterComponent {
       const { email, password } = this.signupForm!.value;
       this.authService.registerWithEmail(email, password).subscribe({
         next: async (user) => {
-          console.log('User registered with email:', user);
           await this.userService.saveUserToFirestore(user!);
           this.authService.toggleLoader(false);
           this.router.navigate(['/profile/edit']);
@@ -96,7 +95,6 @@ export class RegisterComponent {
             this.authService.toggleLoader(false); // Ensure loader is turned off
           },
         });
-        console.log('User registered with Google:', user);
       },
       error: (error) => {
         // Check if the error indicates that the popup was closed

@@ -1,57 +1,105 @@
 <!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <div class="home-page">
-  <div class="banner">
-    <div class="banner-content">
-      <div class="banner-left">
-        <h1 i18n class="main-header">Welcome to Easify</h1>
-        <h2 i18n class="sub-header">Your Personal Life Coach</h2>
-        <p i18n class="description">
-          Easify helps you with financial tasks, family questions, relationship
-          advice, health questions, nutrition, cooking, and more. Get
-          personalized advice and take control of your life with Easify.
-        </p>
-      </div>
-      <div class="banner-right">
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-card-title i18n>Join Us Today</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p i18n>
-              Get started with Easify and improve your life with personalized
-              coaching.
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button
-              i18n
-              mat-raised-button
-              color="accent"
-              class="register-button"
-              (click)="navigateToRegistration()"
-            >
-              Register
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-  </div>
-  <div class="info-section">
-    <div class="info-content">
-      <h2 i18n class="info-header">Why Choose Easify?</h2>
-      <p i18n class="info-description">
-        Easify is your go-to solution for personal coaching in various aspects
-        of life. Our expert coaches are dedicated to providing personalized
-        advice tailored to your specific needs, helping you achieve your goals
-        and improve your overall well-being. Join us today and take the first
-        step towards a better, more organized life.
+  <!-- Split Container -->
+  <div class="split-container">
+    <!-- Left Side: Header, Subheader, Buttons -->
+    <div class="text-content">
+      <h2 i18n class="main-header">Your Personal AI Guide to a Better You</h2>
+      <p i18n class="sub-header">
+        Unlock your full potential with AI-driven routines, insights, and
+        support—effortlessly.
       </p>
+
+      <div class="button-group">
+        <button i18n mat-flat-button class="primary-full-md-button">
+          Get Started Free
+        </button>
+        <button
+          i18n
+          mat-flat-button
+          class="primary-naked-md-button"
+          color="accent"
+        >
+          See how it works
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Side: Image -->
+    <div class="image-container">
+      <div class="image-wrapper">
+        <img
+          src="assets/home/device.png"
+          alt="Easify AI Assistant"
+          i18n-alt
+          class="banner-image"
+        />
+        <img
+          src="assets/home/top-rounded-light-green.png"
+          alt="Background Decor"
+          i18n-alt
+          class="background-shape"
+        />
+      </div>
     </div>
   </div>
-  <footer class="footer">
-    <p i18n>&copy; 2024 Easify. All Rights Reserved.</p>
-    <p><a href="#" i18n>Privacy Policy</a></p>
-  </footer>
+  <h2 class="grid-title" i18n>Your All-in-One Self-Improvement Hub</h2>
+
+  <!-- ✅ 2x2 Grid Section -->
+  <div class="grid-section">
+    <div class="grid-item top-first">
+      <h3 i18n>Optimized Daily Schedule</h3>
+      <h6 i18n>AI-crafted schedules to maximize your time and energy.</h6>
+      <div class="image-wrapper">
+        <img
+          src="assets/home/daily-main-illustration.png"
+          alt="Personalized Routines"
+          i18n-alt
+        />
+      </div>
+    </div>
+
+    <div class="grid-item top-second">
+      <h3 i18n>Learning & Career Growth</h3>
+      <h6 i18n>
+        Tailored courses and career insights to help you upskill and advance
+        professionally.
+      </h6>
+      <div class="image-wrapper">
+        <img
+          src="assets/home/courses-main-illustration.png"
+          alt="Learning & Career Growth"
+          i18n-alt
+        />
+      </div>
+    </div>
+
+    <div class="grid-item bottom-first">
+      <h3 i18n>Easy Financial Planning</h3>
+      <h6 i18n>AI-driven strategies to save, invest, and build your future.</h6>
+      <div class="image-wrapper">
+        <img
+          src="assets/home/financial-main-illustration.png"
+          alt="Easy Financial Planning"
+          i18n-alt
+        />
+      </div>
+    </div>
+
+    <div class="grid-item bottom-second">
+      <h3 i18n>Recipes & Workouts</h3>
+      <h6 i18n>
+        Smart meal plans and customized fitness routines to fuel your body and
+        mind.
+      </h6>
+      <div class="image-wrapper">
+        <img
+          src="assets/home/workouts-main-illustration.png"
+          alt="Recipes and Workouts"
+          i18n-alt
+        />
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,8 +1,16 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -12,7 +20,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '@components/navbar/navbar.component';
-import { filter } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -32,11 +40,13 @@ import { filter } from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   isMinimized = true; // To track whether sidenav is minimized
   sidenavMode: 'side' | 'over' = 'side'; // Initial sidenav mode is 'side'
   isMobile = false; // Tracks if the device is mobile
   isTablet = false; // Tracks if the device is tablet
+  isRegisterFlow = false;
+  subscriptions: Subscription[] = []; // ✅ Subscription tracking array
 
   constructor(
     private router: Router,
@@ -44,35 +54,50 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Observe screen size changes and adjust sidenav mode and state for mobile and tablet
-    this.breakpointObserver
-      .observe([Breakpoints.XSmall, Breakpoints.Small]) // Observing both mobile (XSmall) and tablet (Small)
+    // ✅ Observe screen size changes and adjust sidenav mode and state for mobile and tablet
+    const breakpointSub = this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
       .subscribe((result) => {
         const breakpoints = result.breakpoints;
-        this.isMobile = breakpoints[Breakpoints.XSmall] ? true : false; // True if mobile size
-        this.isTablet = breakpoints[Breakpoints.Small] ? true : false; // True if tablet size
+        this.isMobile = !!breakpoints[Breakpoints.XSmall]; // True if mobile size
+        this.isTablet = !!breakpoints[Breakpoints.Small]; // True if tablet size
 
         if (this.isTablet) {
-          this.sidenavMode = 'side'; // Set sidenav to 'side' mode on tablet
-          this.isMinimized = true; // Minimize the sidenav by default on tablet
+          this.sidenavMode = 'side';
+          this.isMinimized = true;
         } else if (this.isMobile) {
-          this.sidenavMode = 'over'; // Set sidenav to 'over' mode on mobile
+          this.sidenavMode = 'over';
         } else {
-          this.sidenavMode = 'side'; // Default to 'side' mode on larger screens
-          this.isMinimized = true; // Ensure sidenav is not minimized on larger screens
+          this.sidenavMode = 'side';
+          this.isMinimized = true;
         }
       });
 
-    // Listen to router events to scroll to the top after navigation ends
-    this.router.events
+    this.subscriptions.push(breakpointSub);
+
+    const registerSub = this.router.events
+      .pipe(
+        filter((event: any) => event.routerEvent instanceof NavigationEnd), // ✅ Check nested routerEvent
+        map((event: any) => event.routerEvent as NavigationEnd), // ✅ Extract correct event type
+      )
+      .subscribe((event) => {
+        this.isRegisterFlow = event.url.includes('/register');
+      });
+
+    this.subscriptions.push(registerSub);
+
+    // ✅ Listen to router events to scroll to the top after navigation ends
+    const routerSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         const scrollContainer = document.querySelector('.mat-drawer-content');
         if (scrollContainer) {
           scrollContainer.scrollTo(0, 0);
         }
-        window.scrollTo(0, 0); // Scroll to the top of the page
+        window.scrollTo(0, 0);
       });
+
+    this.subscriptions.push(routerSub);
   }
 
   navigateTo(route: string): void {
@@ -80,23 +105,23 @@ export class ProfileComponent implements OnInit {
 
     // Close sidenav if mobile
     if (this.isMobile) {
-      this.isMinimized = true; // Close sidenav on mobile after navigating
+      this.isMinimized = true;
     }
   }
 
   toggleSidebar() {
-    // Toggle sidebar based on current state and device
     if (this.isTablet) {
       this.isMinimized = !this.isMinimized;
-
-      // If minimized, change to 'over' mode to allow full sidenav overlay when reopened
-      if (!this.isMinimized) {
-        this.sidenavMode = 'over';
-      } else {
-        this.sidenavMode = 'side';
-      }
+      this.sidenavMode = this.isMinimized ? 'side' : 'over';
     } else {
       this.isMinimized = !this.isMinimized;
     }
+  }
+
+  // ✅ Unsubscribe from all subscriptions when component is destroyed
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }

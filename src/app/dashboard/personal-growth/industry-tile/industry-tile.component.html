@@ -1,16 +1,80 @@
-<!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<mat-card class="industry-card">
-  <mat-card-title>{{ industry.name }}</mat-card-title>
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<mat-card *ngIf="industry" class="tile-card-1">
+  <!-- Show "New" chip in the top-left corner if the recipe is new -->
+  <div *ngIf="industry.isNew" class="new-chip-container">
+    <caption i18n class="new-chip">New</caption>
+  </div>
+
+  <!-- Progress bar below image -->
+  <mat-progress-bar
+    mode="determinate"
+    i18n-mode
+    [value]="industry.progress?.progress"
+  />
+
+  <!-- Title with tooltip and three dots (more options) on the right -->
+  <mat-card-title class="title-row">
+    <h6
+      class="tile-title"
+      matTooltipPosition="above"
+      i18n-matTooltipPosition
+      [matTooltip]="industry.name"
+    >
+      {{ industry.name }}
+    </h6>
+    <button
+      mat-icon-button
+      aria-label="More options"
+      i18n-aria-label
+      class="icon-button"
+    >
+      <mat-icon color="primary" i18n>more_vert</mat-icon>
+    </button>
+  </mat-card-title>
+
+  <!-- Category below title with Level icon -->
+  <mat-card-subtitle>
+    {{ industry.category | capitalize }}
+  </mat-card-subtitle>
+
+  <!-- Overview -->
   <mat-card-content>
-    <div class="tags">
-      <div class="chip-list">
-        <mat-chip *ngFor="let tag of industry.tags">{{ tag }}</mat-chip>
-      </div>
+    <caption class="overview">{{ industry.description }}</caption>
+    <div class="industry-stat">
+      <mat-icon i18n class="stat-icon" svgIcon="savings" i18n-matTooltip />
+      <caption>
+        <b i18n>{{ industry.averageSalaryRange.midLevel.range }}</b>
+      </caption>
     </div>
+    <div class="industry-stat">
+      <mat-icon i18n class="stat-icon" svgIcon="work-green" i18n-matTooltip />
+      <caption>
+        <b i18n>{{ industry.jobsCount }} Job Titles</b>
+      </caption>
+    </div>
+    <mat-chip-set class="app-chips-primary">
+      <mat-chip *ngFor="let title of industry.jobsSample" selectable>
+        {{ title.name | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
   </mat-card-content>
+
+  <!-- Button at the bottom -->
   <mat-card-actions>
-    <button i18n mat-button>Explore Industry</button>
+    <div class="explore-link">
+      <button
+        mat-button
+        class="action-link"
+        (click)="startIndustry(industry.id)"
+      >
+        <span i18n>Explore industry</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

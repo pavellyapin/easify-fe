@@ -4,14 +4,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { PlanCategoryAutocompleteComponent } from '@components/financial/plan-category-autocomplete/plan-category-autocomplete.component';
-import { PlanTagsAutocompleteComponent } from '@components/financial/plan-tags-autocomplete/plan-tags-autocomplete.component';
+import { CustomDayStepActionsComponent } from '@components/step-actions/step-actions.component';
+import { LoadingChipsComponent } from '@dashboard/daily-look/timeslot/loading-chips/loading-chips.component';
+import { PlanCategoryAutocompleteComponent } from '@dashboard/financial/plan-category-autocomplete/plan-category-autocomplete.component';
+import { PlanTagsAutocompleteComponent } from '@dashboard/financial/plan-tags-autocomplete/plan-tags-autocomplete.component';
 import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
 import { FinancialPlansService } from '@services/financial.service';
@@ -19,7 +26,6 @@ import * as UserActions from '@store/user/user.action';
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-financial-planning',
@@ -37,6 +43,7 @@ import { CustomDayStepActionsComponent } from '../../components/step-actions/ste
     PlanTagsAutocompleteComponent,
     CustomDayStepActionsComponent,
     CapitalizePipe,
+    LoadingChipsComponent,
   ],
   templateUrl: './financial-planning.component.html',
   styleUrl: './financial-planning.component.scss',
@@ -47,6 +54,7 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
   addedPlanTags: string[] = []; // New array for plan tags
   financialPlanning$: Observable<any>; // Observable for financial planning state
   showInvestmentOptions = false; // Toggle for showing additional investment options
+  chipsLoading = false;
   private subscriptions: Subscription = new Subscription(); // Collect all subscriptions
 
   constructor(
@@ -61,8 +69,8 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Initialize form group with fields for financial planning
-    this.financialPlanningForm = new FormGroup({});
-
+    this.financialPlanningForm = new FormGroup({ goals: new FormControl('') });
+    this.chipsLoading = true;
     // Prepopulate form with existing financialPlanning data if available in the store
     const planSubscription = this.financialPlanning$
       .pipe(take(1))
@@ -73,12 +81,15 @@ export class FinancialPlanningComponent implements OnInit, OnDestroy {
             financialPlanning.planCategories || this.addedCategories;
           this.addedPlanTags = financialPlanning.planTags || this.addedPlanTags; // Populate plan tags if available
         }
+        setTimeout(() => {
+          this.chipsLoading = false;
+        }, 500);
       });
     this.subscriptions.add(planSubscription);
 
     // Fetch the plan categories and populate added categories
     const categorySubscription = this.financialPlansService
-      .getAllPlanCategories()
+      .getAllPortfolioCategories()
       .subscribe((categories) => {
         if (this.addedCategories.length === 0) {
           this.addedCategories = this.getRandomCategories(categories, 3); // Populate with 3 random categories

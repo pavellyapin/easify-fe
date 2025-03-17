@@ -1,0 +1,17 @@
+.graph-tooltip {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px;
+}
+
+.overview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit text to 2 lines */
+  -webkit-box-orient: vertical;
+  height: 3em; /* Force static height, even for 1 line */
+  overflow: hidden;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5em; /* Ensures consistent spacing */
+  text-overflow: ellipsis;
+}

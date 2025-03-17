@@ -25,16 +25,16 @@
 <!-- Main Template -->
 <ng-container *ngIf="!isLoading; else loadingTemplate">
   <ng-container *ngIf="currentSchedule as dailySchedule; else noSchedule">
-    <app-schedule-stats
-      [today]="today"
-      [tomorrow]="tomorrow"
-      [viewingTomorrow]="viewingTomorrow"
-      [isMobile]="isMobile"
-      [isTablet]="isTablet"
-      (daySelected)="handleDaySelected($event)"
-    />
     <!-- Schedule Display -->
     <div class="theme-carousel">
+      <app-schedule-stats
+        [today]="today"
+        [tomorrow]="tomorrow"
+        [viewingTomorrow]="viewingTomorrow"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        (daySelected)="handleDaySelected($event)"
+      />
       <!-- Previous Time Slot Button -->
       <button class="nav-button-container" (click)="goToPreviousSlide()">
         <div class="slot-content">

@@ -11,18 +11,7 @@
   <!-- Main content: courses and banners -->
   <div class="main-content">
     <!-- Search Box Section -->
-    <div class="search-box-container primary-search-box">
-      <mat-form-field appearance="outline" i18n-appearance>
-        <mat-icon i18n matPrefix>search</mat-icon>
-        <input
-          matInput
-          placeholder="What do you like to learn?"
-          aria-label="What do you like to learn?"
-          i18n-aria-label
-          i18n-placeholder
-        />
-      </mat-form-field>
-    </div>
+    <app-industry-search-box />
 
     <!-- Content -->
     <!-- Show mini resume or upload component -->
@@ -103,3 +92,4 @@
     />
   </div>
 </div>
+<app-all-industries />

@@ -10,6 +10,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { CustomDayStepActionsComponent } from '@components/step-actions/step-actions.component';
+import { LoadingChipsComponent } from '@dashboard/daily-look/timeslot/loading-chips/loading-chips.component';
 import { CuisineAutocompleteComponent } from '@dashboard/recipes/cuisine-autocomplete/cuisine-autocomplete.component';
 import { RecipeTagAutocompleteComponent } from '@dashboard/recipes/recipe-tag-autocomplete/recipe-tag-autocomplete.component';
 import { Store } from '@ngrx/store';
@@ -19,7 +21,6 @@ import * as UserActions from '@store/user/user.action';
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-diet-nutrition',
@@ -37,6 +38,7 @@ import { CustomDayStepActionsComponent } from '../../components/step-actions/ste
     RecipeTagAutocompleteComponent,
     CapitalizePipe,
     CustomDayStepActionsComponent,
+    LoadingChipsComponent,
   ],
   templateUrl: './diet-nutrition.component.html',
   styleUrl: './diet-nutrition.component.scss',
@@ -47,6 +49,7 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
   addedRecipeTags: string[] = []; // New array for recipe tags
   dietNutrition$: Observable<any>; // Observable for diet nutrition state
   private subscriptions: Subscription = new Subscription(); // Collect all subscriptions
+  chipsLoading = false;
 
   constructor(
     private dietNutritionService: RecipesService,
@@ -59,7 +62,7 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Initialize the form group
     this.dietNutritionForm = new FormGroup({});
-
+    this.chipsLoading = true;
     // Prepopulate form with existing dietNutrition data if available in the store
     const dietSubscription = this.dietNutrition$
       .pipe(take(1))
@@ -71,6 +74,9 @@ export class DietNutritionComponent implements OnInit, OnDestroy {
           this.addedRecipeTags =
             dietNutrition.recipeTags || this.addedRecipeTags;
         }
+        setTimeout(() => {
+          this.chipsLoading = false;
+        }, 500);
       });
     this.subscriptions.add(dietSubscription);
 

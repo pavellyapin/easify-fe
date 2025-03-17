@@ -60,7 +60,6 @@ export class IndustriesAutocompleteComponent implements OnInit {
     const value = this.industryCtrl.value?.trim();
     if (value) {
       this.industryAdded.emit(value);
-      console.log('Added from input:', value);
       this.industryCtrl.setValue(''); // Clear the input field after adding
       this.industryCtrl.reset();
     }
@@ -70,7 +69,6 @@ export class IndustriesAutocompleteComponent implements OnInit {
     const industry = event.option.value;
     if (industry) {
       this.industryAdded.emit(industry);
-      console.log('Added from autocomplete:', industry);
       this.industryCtrl.setValue(''); // Clear the input field after adding
     }
   }

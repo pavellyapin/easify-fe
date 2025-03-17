@@ -1,0 +1,101 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div class="theme-carousel">
+  <!-- Previous Point Button -->
+  <button
+    [ngClass]="
+      currentIndex === 0
+        ? 'nav-button-container opacity'
+        : 'nav-button-container'
+    "
+    (click)="goToPreviousSlide()"
+  >
+    <div class="slot-content">
+      <div class="top-svg-container">
+        <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+          <path
+            d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+            i18n-d
+            fill="#c1e8da"
+          />
+        </svg>
+        <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+      </div>
+      <div *ngIf="currentIndex > 0; else previousText" class="slot-details">
+        <h5>
+          {{ carouselCards[currentIndex - 1]?.title }}
+        </h5>
+        <span>
+          {{ carouselCards[currentIndex - 1]?.desc }}
+        </span>
+      </div>
+      <ng-template #previousText>
+        <div></div>
+      </ng-template>
+    </div>
+  </button>
+
+  <!-- Carousel for the Schedule -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <div
+      *ngFor="let item of carouselCards; let i = index"
+      class="point-content"
+      ngxSlickItem
+    >
+      <h5 class="title">{{ item.header }}</h5>
+      <span class="subtitle">{{ item.desc }}</span>
+      <p>{{ item.content }}</p>
+      <div class="action">
+        <caption i18n class="caption">Easify AI</caption>
+        <button
+          mat-icon-button
+          matBadge="!"
+          matBadgeColor="primary"
+          i18n-matBadgeHidden
+          aria-label="Easify AI action"
+          i18n-matBadgeColor
+          [matBadgeHidden]="!item.hasResponse"
+          i18n-aria-label
+          (click)="expandPoint(i)"
+        >
+          <mat-icon svgIcon="help" i18n />
+        </button>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+
+  <!-- Next Point Button -->
+  <button class="nav-button-container" (click)="goToNextSlide()">
+    <div class="slot-content">
+      <div class="bottom-svg-container">
+        <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+          <path
+            d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+            i18n-d
+            fill="#c1e8da"
+          />
+        </svg>
+        <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+      </div>
+      <ng-template #nextText>
+        <h5 class="opacity" i18n>Next</h5>
+      </ng-template>
+      <div
+        *ngIf="currentIndex < carouselCards.length - 1; else nextText"
+        class="slot-details"
+      >
+        <h5>
+          {{ carouselCards[currentIndex + 1]?.title }}
+        </h5>
+        <span>
+          {{ carouselCards[currentIndex + 1]?.desc }}
+        </span>
+      </div>
+    </div>
+  </button>
+</div>

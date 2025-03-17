@@ -189,8 +189,20 @@ export class IconService {
       ),
     );
     this.matIconRegistry.addSvgIcon(
+      'school-green',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/school-green.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
       'work',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/work.svg'),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'work-green',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/work-green.svg',
+      ),
     );
     this.matIconRegistry.addSvgIcon(
       'psychology',
@@ -206,6 +218,12 @@ export class IconService {
       'source_environment',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
         'assets/icons/source_environment.svg',
+      ),
+    );
+    this.matIconRegistry.addSvgIcon(
+      'savings',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/savings.svg',
       ),
     );
     // Register more icons if needed

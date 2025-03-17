@@ -30,8 +30,22 @@ exports.recipeKeywordSearch = functions.https.onCall(async (data, context) => {
     const keywordLower = keyword.toLowerCase();
     const recipesRef = firestore.collection("recipes");
 
-    // Fetch all recipes
-    const allRecipesSnapshot = await recipesRef.get();
+    // Fetch only the required fields
+    const allRecipesSnapshot = await recipesRef
+      .select(
+        "name",
+        "tags",
+        "ingredients",
+        "category",
+        "cuisine",
+        "description",
+        "image",
+        "level",
+        "createdDate",
+        "totalTime",
+        "isNew",
+      )
+      .get();
     const allRecipes = allRecipesSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -115,6 +129,7 @@ exports.recipeKeywordSearch = functions.https.onCall(async (data, context) => {
       relatedCuisines: Array.from(relatedCuisines),
       relatedCategories: Array.from(relatedCategories),
       relatedIngredients: Array.from(relatedIngredients),
+      keyword: keywordLower,
     };
   } catch (error) {
     console.error(

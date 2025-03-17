@@ -21,14 +21,14 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.setProfileInfo), // Trigger on setProfileInfo action
       mergeMap(() => {
-        this.store.dispatch(setProfileLoading(true));
+        this.store.dispatch(setProfileLoading({ isLoading: true }));
         return this.userService.getFullProfile().pipe(
           map((profile) => {
-            this.store.dispatch(setProfileLoading(false));
+            this.store.dispatch(setProfileLoading({ isLoading: false }));
             return UserActions.setProfileInfoSuccess({ profile }); // Dispatch success action with profile data
           }),
           catchError((error) => {
-            this.store.dispatch(setProfileLoading(false));
+            this.store.dispatch(setProfileLoading({ isLoading: false }));
             return of(UserActions.userError({ error })); // Handle errors
           }),
         );

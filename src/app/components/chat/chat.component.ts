@@ -21,10 +21,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { easeIn } from '@animations/animations';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EasifyService } from '@services/easify.service';
 import { AppState } from '@store/app.state';
-import { addMessage } from '@store/chat/chat.actions';
+import {
+  addMessage,
+  clearMessages,
+  sendMessageToChat,
+} from '@store/chat/chat.actions';
 import { selectAllMessages } from '@store/chat/chat.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -55,15 +60,34 @@ export class ChatComponent implements OnDestroy, AfterViewChecked, OnChanges {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
   messages$: Observable<ChatMessage[]>;
-  subscription: Subscription | null = null;
+  subscription = new Subscription();
   userMessage = '';
   isTyping = false;
 
   constructor(
     private chatService: EasifyService,
     private store: Store<AppState>,
+    private actions$: Actions,
   ) {
     this.messages$ = this.store.select(selectAllMessages);
+  }
+
+  ngOnInit() {
+    this.listenToActions();
+  }
+
+  private listenToActions(): void {
+    this.subscription?.add(
+      this.actions$.pipe(ofType(sendMessageToChat)).subscribe(({ message }) => {
+        this.clearChatHistory();
+        this.toggleChat(true);
+        this.sendMessage(message);
+      }),
+    );
+  }
+
+  private clearChatHistory(): void {
+    this.store.dispatch(clearMessages());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,50 +100,72 @@ export class ChatComponent implements OnDestroy, AfterViewChecked, OnChanges {
     this.scrollToBottom();
   }
 
-  toggleChat(): void {
-    this.isChatOpen = !this.isChatOpen;
+  toggleChat(toggle?: boolean): void {
+    this.isChatOpen = toggle ?? !this.isChatOpen;
     this.chatToggled.emit(this.isChatOpen);
 
-    if (this.isChatOpen) {
+    if (this.isChatOpen && !toggle) {
       this.checkAndAddGreetingMessage();
     }
   }
 
-  sendMessage(): void {
-    if (this.userMessage.trim()) {
-      const messageToSend = this.userMessage;
-      const userMsg: ChatMessage = { user: 'You', message: this.userMessage };
+  sendMessage(msg?: string): void {
+    // Use the input `msg` parameter if provided; otherwise, fallback to `userMessage`
+    const messageToSend = msg ?? this.userMessage;
+
+    // Ensure the message is not empty or just whitespace
+    if (messageToSend.trim()) {
+      const userMsg: ChatMessage = { user: 'You', message: messageToSend };
       this.store.dispatch(addMessage({ message: userMsg }));
-      this.userMessage = ''; // Clear the input field after dispatching
 
       // Show typing indicator
       this.isTyping = true;
+      // Clear the input field only if the message came from the input box
+      if (!msg) {
+        this.userMessage = '';
+        this.messages$.pipe(take(1)).subscribe((messages) => {
+          const conversation = messages.slice(-10).map((msg) => ({
+            user: msg.user === 'You' ? 'user' : 'assistant',
+            message: msg.message,
+          }));
 
-      this.messages$.pipe(take(1)).subscribe((messages) => {
-        const conversation = messages.slice(-10).map((msg) => ({
-          role: msg.user === 'You' ? 'user' : 'assistant',
-          content: msg.message,
-        }));
-
-        this.chatService
-          .getChatResponse(messageToSend, conversation)
-          .subscribe({
-            next: (response) => {
-              this.isTyping = false;
-              const gptMsg: ChatMessage = { user: 'GPT', message: response };
-              this.store.dispatch(addMessage({ message: gptMsg }));
-            },
-            error: (error) => {
-              this.isTyping = false;
-              console.error('Error:', error);
-              const errorMsg: ChatMessage = {
-                user: 'System',
-                message: 'Error: Unable to get response from server.',
-              };
-              this.store.dispatch(addMessage({ message: errorMsg }));
-            },
-          });
-      });
+          this.chatService
+            .getChatResponse(messageToSend, conversation)
+            .subscribe({
+              next: (response) => {
+                this.isTyping = false;
+                const gptMsg: ChatMessage = { user: 'GPT', message: response };
+                this.store.dispatch(addMessage({ message: gptMsg }));
+              },
+              error: (error) => {
+                this.isTyping = false;
+                console.error('Error:', error);
+                const errorMsg: ChatMessage = {
+                  user: 'System',
+                  message: 'Error: Unable to get response from server.',
+                };
+                this.store.dispatch(addMessage({ message: errorMsg }));
+              },
+            });
+        });
+      } else {
+        this.chatService.getChatResponse(messageToSend, [userMsg]).subscribe({
+          next: (response) => {
+            this.isTyping = false;
+            const gptMsg: ChatMessage = { user: 'GPT', message: response };
+            this.store.dispatch(addMessage({ message: gptMsg }));
+          },
+          error: (error) => {
+            this.isTyping = false;
+            console.error('Error:', error);
+            const errorMsg: ChatMessage = {
+              user: 'System',
+              message: 'Error: Unable to get response from server.',
+            };
+            this.store.dispatch(addMessage({ message: errorMsg }));
+          },
+        });
+      }
     }
   }
 

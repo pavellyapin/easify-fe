@@ -1,0 +1,109 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="!isMobile && !isTablet">
+  <!-- Portfolio Name -->
+  <h3>{{ portfolio?.name }}</h3>
+
+  <!-- Portfolio Overview -->
+  <summary>{{ portfolio?.description }}</summary>
+</ng-container>
+
+<ng-container *ngIf="startedPortfolio.progress.progress">
+  <h5 class="section-title" i18n>
+    {{
+      startedPortfolio.status === "completed"
+        ? "Portfolio Goal Achieved!"
+        : "Stay Committed to Your Investment Plan!"
+    }}
+  </h5>
+
+  <!-- Progress bar -->
+  <mat-progress-bar
+    mode="determinate"
+    class="custom-progress-bar"
+    i18n-mode
+    [value]="startedPortfolio.progress.progress"
+  />
+  <p class="caption" i18n>
+    {{
+      startedPortfolio.status === "completed"
+        ? "Congratulations! You've successfully completed this investment plan."
+        : "You're on track! Stay consistent to maximize your returns."
+    }}
+  </p>
+  <p *ngIf="startedPortfolio.status !== 'completed'" class="caption" i18n>
+    {{ getRemainingPercentage() }}% remaining to complete your investment plan
+  </p>
+</ng-container>
+
+<!-- Portfolio Tags Section -->
+<div class="chips-container">
+  <div class="app-chips-secondary">
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of portfolio?.tags"
+        i18n-ngFor
+        [removable]="false"
+      >
+        {{ tag | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>
+<!-- Investment Summary Container -->
+<div class="investment-summary-container">
+  <div class="investment-summary">
+    <h3>
+      {{ portfolioValue | currency }}
+    </h3>
+    <h6
+      [ngClass]="{
+        positive: differenceInDollars >= 0,
+        negative: differenceInDollars < 0,
+      }"
+    >
+      <span>
+        {{ differenceInDollars | currency }}
+      </span>
+      (
+      <span>{{ differenceInPercent | number: "1.2-2" }}%</span>
+      )
+    </h6>
+  </div>
+</div>
+<div class="financial-plan-detail-container">
+  <div *ngIf="graphData?.length > 0" #chartContainer class="chart-wrapper">
+    <ngx-charts-line-chart
+      [results]="graphData"
+      [view]="chartView"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [autoScale]="true"
+      [customColors]="customColors"
+      [yAxisTickFormatting]="financialService.formatCurrency"
+      [trimXAxisTicks]="true"
+      [rotateXAxisTicks]="false"
+      [xAxisTicks]="xAxisTicks"
+      [showGridLines]="true"
+    >
+      <ng-template #tooltipTemplate let-model="model">
+        <div class="graph-tooltip">
+          <strong>{{ model.name }}</strong>
+          <h6 i18n>Total Value: {{ model.formattedValue }}</h6>
+
+          <div *ngIf="model.tooltipData">
+            <p *ngFor="let key of assetClasses">
+              <strong>{{ financialService.formatAssetName(key) }}</strong>
+              : {{ model.tooltipData[key] }}
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    </ngx-charts-line-chart>
+  </div>
+</div>

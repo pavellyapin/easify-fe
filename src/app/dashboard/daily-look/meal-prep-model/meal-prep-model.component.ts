@@ -22,7 +22,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EasifyService } from '@services/easify.service';
 import { AppState } from '@store/app.state';
-import { setDashboardLoading } from '@store/loader/loading.actions';
 import {
   loadNewRecipeFailure,
   loadNewRecipeSuccess,
@@ -70,20 +69,17 @@ export class MealPrepModelComponent implements OnInit {
   submit(): void {
     if (this.mealForm.valid) {
       // Pass the form values back to the caller
-      this.store.dispatch(setDashboardLoading(true));
       this.chatService
         .getRecipe(this.mealForm.value)
         .pipe(
           map((newRecipe) => {
             this.store.dispatch(loadNewRecipeSuccess({ newRecipe }));
-            this.store.dispatch(setDashboardLoading(false));
             this.router.navigate(['dashboard/newRecipe']);
             return true;
           }),
           catchError((error) => {
             console.error('Error generating schedule:', error);
             this.store.dispatch(loadNewRecipeFailure({ error }));
-            this.store.dispatch(setDashboardLoading(false));
             return of(false);
           }),
         )

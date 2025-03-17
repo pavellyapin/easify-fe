@@ -1,5 +1,5 @@
 {
-  "name": "extreme-angular",
+  "name": "easify-ai",
   "engines": {
     "node": "^20.10.0"
   },
@@ -10,13 +10,13 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
-    "serve:ssr:extreme-angular": "node dist/extreme-angular/server/server.mjs",
+    "serve:ssr:easify-ai": "node dist/easify-ai/server/server.mjs",
     "lint": "eslint \"**/*.{js,ts,html,json,md}\"",
     "lint:style": "stylelint \"**/*.{css,scss}\"",
     "format": "prettier --write \"**/*.{js,ts,css,sh,html,md,json,yaml,yml}\"",
     "check-spelling": "cspell \"**/*\"",
     "prepare": "husky install",
-    "analyze": "npx source-map-explorer dist/extreme-angular/browser/*.js",
+    "analyze": "npx source-map-explorer dist/easify-ai/browser/*.js",
     "deploy:hosting": "firebase deploy --only hosting",
     "deploy:functions": "firebase deploy --only functions"
   },
@@ -41,7 +41,9 @@
     "@ngrx/router-store": "^18.0.1",
     "@ngrx/store": "^18.0.1",
     "@ngrx/store-devtools": "^18.0.1",
+    "@swimlane/ngx-charts": "^21.1.2",
     "@types/google.maps": "^3.58.0",
+    "d3": "^7.9.0",
     "express": "^4.18.2",
     "jquery": "^3.7.1",
     "ngx-mat-timepicker": "^18.0.0",

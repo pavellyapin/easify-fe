@@ -4,112 +4,123 @@ const admin = require("firebase-admin");
 
 const firestore = admin.firestore();
 
-exports.cleanUpRecipesWithoutImages = functions.firestore
+exports.deleteCryptoPortfolios = functions.firestore
   .document("commands/{commandId}")
   .onCreate(async (snap) => {
     const commandData = snap.data();
 
-    if (commandData.name !== "cleanupRecipesWithoutImages") {
-      console.log(
-        "Command name is not 'cleanupRecipesWithoutImages'. Exiting.",
-      );
+    // Only execute if the command name is "deleteCryptoPortfolios"
+    if (commandData.name !== "deleteCryptoPortfolios") {
       return null;
     }
 
-    console.log("Starting cleanup operation...");
-
     try {
-      const recipesRef = firestore.collection("recipes");
-
-      // References to the tagCounts documents
-      const tagsRef = firestore.collection("tagCounts").doc("recipeTags");
-      const cuisinesRef = firestore
+      const portfoliosCollection = firestore.collection("portfolios");
+      const tagCountsRef = firestore
         .collection("tagCounts")
-        .doc("recipeCuisines");
-      const categoriesRef = firestore
-        .collection("tagCounts")
-        .doc("recipeCategories");
+        .doc("portfolioCategory");
 
-      // Fetch the current tagCounts data
-      const [tagsDoc, cuisinesDoc, categoriesDoc] = await Promise.all([
-        tagsRef.get(),
-        cuisinesRef.get(),
-        categoriesRef.get(),
-      ]);
+      // ✅ Step 1: Fetch all portfolios
+      const portfoliosSnapshot = await portfoliosCollection.get();
+      let deletedPortfolios = [];
+      let tickersToUpdate = new Map(); // Tracks all tickers that need updates
 
-      let tagsData = tagsDoc.exists ? tagsDoc.data()?.tags || {} : {};
-      let cuisinesData = cuisinesDoc.exists
-        ? cuisinesDoc.data()?.cuisines || {}
-        : {};
-      let categoriesData = categoriesDoc.exists
-        ? categoriesDoc.data()?.categories || {}
-        : {};
+      // ✅ Step 2: Identify and delete portfolios with BTC-USD or ETH-USD
+      const deletePortfolioPromises = portfoliosSnapshot.docs.map(
+        async (portfolioDoc) => {
+          const portfolioData = portfolioDoc.data();
 
-      const recipesSnapshot = await recipesRef.get();
-
-      if (recipesSnapshot.empty) {
-        console.log("No recipes found. Exiting.");
-        return null;
-      }
-
-      const batch = firestore.batch();
-      let deleteCount = 0;
-
-      recipesSnapshot.forEach((doc) => {
-        const recipe = doc.data();
-
-        if (!recipe.image) {
-          console.log(`Deleting recipe: ${recipe.name} (ID: ${doc.id})`);
-
-          // Update category count
-          if (recipe.category && categoriesData[recipe.category]) {
-            categoriesData[recipe.category] = Math.max(
-              categoriesData[recipe.category] - 1,
-              0,
-            );
+          if (
+            !portfolioData.holdings ||
+            !Array.isArray(portfolioData.holdings)
+          ) {
+            return;
           }
 
-          // Update cuisine count
-          if (recipe.cuisine && cuisinesData[recipe.cuisine]) {
-            cuisinesData[recipe.cuisine] = Math.max(
-              cuisinesData[recipe.cuisine] - 1,
-              0,
-            );
-          }
+          // Check if portfolio contains BTC-USD or ETH-USD
+          const containsCrypto = portfolioData.holdings.some(
+            (holding) =>
+              holding.ticker === "BTC-USD" || holding.ticker === "ETH-USD",
+          );
 
-          // Update tags count
-          if (recipe.tags && Array.isArray(recipe.tags)) {
-            recipe.tags.forEach((tag) => {
-              if (tagsData[tag]) {
-                tagsData[tag] = Math.max(tagsData[tag] - 1, 0);
-              }
+          if (containsCrypto) {
+            deletedPortfolios.push(portfolioData);
+
+            console.log(
+              `Deleting portfolio: ${portfolioData.name} (ID: ${portfolioDoc.id})`,
+            );
+
+            // Track all tickers in this portfolio for count reduction
+            portfolioData.holdings.forEach((holding) => {
+              tickersToUpdate.set(
+                holding.ticker,
+                (tickersToUpdate.get(holding.ticker) || 0) + 1,
+              );
             });
+
+            return portfolioDoc.ref.delete();
           }
+        },
+      );
 
-          // Add recipe deletion to the batch
-          batch.delete(doc.ref);
-          deleteCount++;
-        }
-      });
+      await Promise.all(deletePortfolioPromises);
 
-      if (deleteCount > 0) {
-        console.log(`Deleting ${deleteCount} recipes without images...`);
-        await batch.commit();
+      console.log(
+        `Deleted ${deletedPortfolios.length} crypto-related portfolios.`,
+      );
 
-        console.log("Updating tag counts...");
+      // ✅ Step 3: Update `tagCounts.portfolioCategory`
+      if (deletedPortfolios.length > 0) {
+        const tagCountsDoc = await tagCountsRef.get();
+        let tagCountsData = tagCountsDoc.exists
+          ? tagCountsDoc.data()
+          : { categories: {}, tickerCounts: [] };
 
-        // Save the updated tagCounts back to Firestore
-        await Promise.all([
-          tagsRef.set({ tags: tagsData }, { merge: true }),
-          cuisinesRef.set({ tags: cuisinesData }, { merge: true }),
-          categoriesRef.set({ tags: categoriesData }, { merge: true }),
-        ]);
+        // Update category counts
+        deletedPortfolios.forEach((portfolio) => {
+          const category = portfolio.category.toLowerCase();
+          if (tagCountsData.categories[category]) {
+            tagCountsData.categories[category] = Math.max(
+              0,
+              tagCountsData.categories[category] - 1,
+            );
+          }
+        });
 
-        console.log("Cleanup operation completed successfully.");
-      } else {
-        console.log("No recipes without images found.");
+        // ✅ Step 4: Update `tagCounts.tickerCounts`
+        tagCountsData.tickerCounts = tagCountsData.tickerCounts.map(
+          (tickerObj) => {
+            if (tickersToUpdate.has(tickerObj.ticker)) {
+              return {
+                ...tickerObj,
+                count: Math.max(
+                  0,
+                  tickerObj.count - tickersToUpdate.get(tickerObj.ticker),
+                ),
+              };
+            }
+            return tickerObj;
+          },
+        );
+
+        // Remove tickers with a count of 0
+        tagCountsData.tickerCounts = tagCountsData.tickerCounts.filter(
+          (tickerObj) => tickerObj.count > 0,
+        );
+
+        // ✅ Step 5: Save updated `tagCounts`
+        await tagCountsRef.set(tagCountsData, { merge: true });
+
+        console.log(
+          "Updated `portfolioCategory` and `tickerCounts` after deletion.",
+        );
       }
+
+      return null;
     } catch (error) {
-      console.error("Error during cleanup operation:", error);
+      console.error(
+        "Error during crypto portfolio deletion and tagCount update:",
+        error,
+      );
     }
   });

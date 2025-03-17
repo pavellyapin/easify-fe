@@ -6,4 +6,8 @@
     <mat-icon i18n>arrow_backward</mat-icon>
   </button>
 </div>
-<div [innerHTML]="utils.jsonToHtml(easifyResponse.response)"></div>
+<app-easify-response-content
+  [context]="context"
+  [easifyResponse]="easifyResponse"
+  (backClicked)="goBack()"
+/>

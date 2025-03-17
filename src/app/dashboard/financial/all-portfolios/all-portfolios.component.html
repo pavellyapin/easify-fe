@@ -1,0 +1,181 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- All Portfolios Section takes full width -->
+<div class="all-container padded">
+  <div class="filters-container">
+    <div class="filter-icon-and-chips">
+      <button
+        #filterTrigger="matMenuTrigger"
+        mat-icon-button
+        i18n-aria-label
+        aria-label="Filter options"
+        [matMenuTriggerFor]="filtersMenu"
+      >
+        <mat-icon i18n>filter_list</mat-icon>
+      </button>
+      <!-- Display Categories in Chip List -->
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let category of filterForm.get('categories')?.value"
+          >
+            {{ category | capitalize }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <mat-menu #filtersMenu="matMenu" disableClose [hasBackdrop]="true">
+      <form
+        class="filters-form"
+        [formGroup]="filterForm"
+        (click)="$event.stopPropagation()"
+      >
+        <fieldset>
+          <!-- Category Autocomplete -->
+          <app-plan-categories-autocomplete
+            (categoryAdded)="onCategorySelected($event)"
+          />
+          <!-- Display Categories in Chip List -->
+          <div class="app-chips-secondary">
+            <mat-chip-set>
+              <mat-chip
+                *ngFor="let category of filterForm.get('categories')?.value"
+                (removed)="removeCategory(category)"
+              >
+                {{ category | capitalize }}
+                <mat-icon i18n matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </fieldset>
+        <div class="level-selector custom-checkbox-container">
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('riskLevels')?.value.includes('low')"
+            (change)="onRiskLevelChange('low', $event.checked)"
+          >
+            <mat-icon svgIcon="beginner" />
+            <span i18n>Low</span>
+          </mat-checkbox>
+
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('riskLevels')?.value.includes('moderate')"
+            (change)="onRiskLevelChange('moderate', $event.checked)"
+          >
+            <mat-icon svgIcon="intermediate" />
+            <span i18n>Moderate</span>
+          </mat-checkbox>
+
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('riskLevels')?.value.includes('high')"
+            (change)="onRiskLevelChange('high', $event.checked)"
+          >
+            <mat-icon svgIcon="advanced" />
+            <span i18n>High</span>
+          </mat-checkbox>
+        </div>
+        <fieldset class="new-switch">
+          <caption i18n class="new-chip">New</caption>
+          <mat-slide-toggle formControlName="isNew" color="primary" i18n>
+            New
+          </mat-slide-toggle>
+        </fieldset>
+        <!-- Buttons to Apply or Reset Filters -->
+        <div class="filter-buttons">
+          <button
+            mat-flat-button
+            color="primary"
+            class="primary-stroked-md-button"
+            (click)="onFilterSubmit(filterTrigger)"
+            i18n
+          >
+            Apply
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            class="primary-full-md-button"
+            (click)="resetFilters(filterTrigger)"
+            i18n
+          >
+            Reset
+          </button>
+        </div>
+      </form>
+    </mat-menu>
+  </div>
+  <div class="grid-section">
+    <h2 i18n>All Portfolios</h2>
+
+    <!-- Loading state for all portfolios -->
+    <div *ngIf="isLoadingAll; else allPortfoliosContent">
+      <app-loading-carousel />
+    </div>
+
+    <!-- All Portfolios Content -->
+    <ng-template #allPortfoliosContent>
+      <div *ngIf="allPortfolios$ | async as allPortfolios">
+        <div *ngIf="allPortfolios.length > 0; else noAllPortfolios">
+          <div class="grid">
+            <app-financial-plan-tile
+              *ngFor="let portfolio of allPortfolios"
+              class="portfolio-card"
+              [financialPlan]="portfolio"
+            />
+          </div>
+          <!-- Load More Button -->
+          <div class="load-more-button">
+            <!-- Loading state for all recipes -->
+            <div *ngIf="isLoadingMore; else moreButton">
+              <app-loading-carousel />
+            </div>
+            <ng-template #moreButton>
+              <button
+                #moreButton
+                class="nav-button-container"
+                (click)="loadMorePortfolios()"
+              >
+                <div class="slot-content">
+                  <div
+                    [ngClass]="
+                      lastPortfolio
+                        ? 'bottom-svg-container'
+                        : 'top-svg-container'
+                    "
+                  >
+                    <svg
+                      width="124"
+                      height="32"
+                      viewBox="0 0 124 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                        i18n-d
+                        fill="#c1e8da"
+                      />
+                    </svg>
+                    <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+                  </div>
+                  <h5 i18n>{{ lastPortfolio ? "Load More" : "Scroll Top" }}</h5>
+                </div>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <ng-template #noAllPortfolios>
+          <p i18n>No portfolios found.</p>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

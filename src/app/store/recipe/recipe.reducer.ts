@@ -6,7 +6,7 @@ import {
   loadNewRecipeFailure,
   loadNewRecipeSuccess,
   loadRecipe,
-  setSearchResults,
+  setRecipeSearchResults,
 } from './recipe.actions';
 
 export interface RecipeState {
@@ -23,9 +23,9 @@ export const initialState: RecipeState = {
 
 export const recipeReducer = createReducer(
   initialState,
-  on(loadRecipe, (state) => ({ ...state, schedule: null, error: null })),
+  on(loadRecipe, (state) => ({ ...state, error: null })),
   on(loadNewRecipeSuccess, (state, { newRecipe }) => ({ ...state, newRecipe })),
-  on(setSearchResults, (state, { results }) => ({
+  on(setRecipeSearchResults, (state, { results }) => ({
     ...state,
     searchResults: results,
   })),

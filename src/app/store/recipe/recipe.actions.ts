@@ -6,7 +6,7 @@ export const loadNewRecipeSuccess = createAction(
   '[Schedule] Load new recipe Success',
   props<{ newRecipe: any }>(),
 );
-export const setSearchResults = createAction(
+export const setRecipeSearchResults = createAction(
   '[Search] Set Search Results',
   props<{ results: any }>(),
 );

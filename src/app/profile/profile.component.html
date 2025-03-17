@@ -12,8 +12,8 @@
   <mat-sidenav
     #sidenav
     class="sidenav"
-    [mode]="sidenavMode"
-    [opened]="!isMobile || (isMobile && !isMinimized)"
+    [mode]="isRegisterFlow ? 'over' : sidenavMode"
+    [opened]="!isRegisterFlow && (!isMobile || (isMobile && !isMinimized))"
     [disableClose]="isTablet || !isMobile"
     [style.padding-top]="'70px'"
     [style.width]="isMobile ? '100%' : isMinimized ? '70px' : '250px'"

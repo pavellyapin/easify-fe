@@ -1,0 +1,42 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="easify-response">
+  <h5>{{ easifyResponse.response.title }}</h5>
+  <div
+    *ngFor="let section of easifyResponse.response.easify | orderBy: 'sort'"
+    class="easify-section"
+  >
+    <h6>{{ section.title }}</h6>
+    <ul *ngIf="isArray(section.content); else singleContent" class="items-list">
+      <li *ngFor="let contentItem of section.content">
+        <mat-icon i18n svgIcon="check" class="check-icon" aria-hidden="true" />
+        <span>{{ contentItem }}</span>
+      </li>
+    </ul>
+    <ng-template #singleContent>
+      <p>{{ section.content }}</p>
+    </ng-template>
+  </div>
+  <div class="actions">
+    <button
+      class="primary-full-md-button"
+      i18n
+      mat-flat-button
+      color="primary"
+      (click)="onBackClick()"
+    >
+      Back
+    </button>
+    <button
+      class="primary-stroked-md-button"
+      i18n
+      mat-flat-button
+      color="primary"
+      (click)="sendTitleToChat()"
+    >
+      Chat
+    </button>
+  </div>
+</div>

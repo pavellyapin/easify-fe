@@ -68,7 +68,7 @@ export class GenerateAvatarComponent {
   onSubmit(): void {
     if (this.avatarForm.valid) {
       const formData = this.avatarForm.value;
-      this.store.dispatch(setProfileLoading(true));
+      this.store.dispatch(setProfileLoading({ isLoading: true }));
       // Save avatar info in user profile using UserService
       this.userService
         .saveAvatarData(formData)
@@ -80,12 +80,12 @@ export class GenerateAvatarComponent {
             next: (response) => {
               this.store.dispatch(setProfileInfo());
               this.navigateTo('profile/details');
-              this.store.dispatch(setProfileLoading(false));
+              this.store.dispatch(setProfileLoading({ isLoading: false }));
               console.log('Avatar generated successfully:', response);
               // You can handle the generated avatar URL (response.avatarUrl) here, like saving it in Firestore
             },
             error: (error) => {
-              this.store.dispatch(setProfileLoading(false));
+              this.store.dispatch(setProfileLoading({ isLoading: false }));
               console.error('Error generating avatar:', error);
             },
           });

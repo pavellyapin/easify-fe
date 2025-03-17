@@ -1,6 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
-<div class="loader-container">
+<div
+  *ngIf="dashboardLoadingMsg$ | async as loadingMsg"
+  class="loader-container"
+>
   <img src="assets/illustrations/compressed-loading.gif" alt="Chat" i18n-alt />
-  <h6 i18n>The AI gears are turning, almost there…</h6>
+  <h6 i18n>{{ loadingMsg }}</h6>
 </div>

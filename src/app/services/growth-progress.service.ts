@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/await-thenable */
@@ -18,6 +22,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   setDoc,
   updateDoc,
@@ -49,7 +55,7 @@ export class GrowthProgressService {
   ) {}
 
   // Function to add or update a started industry
-  async addIndustryStart(industry: any) {
+  async addIndustryStart(industry: any, progress?: any) {
     try {
       const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
       const userIndustriesCollectionRef = collection(userRef, 'industries');
@@ -66,18 +72,17 @@ export class GrowthProgressService {
         // If no existing document, create a new one
         const userIndustryData = {
           industry,
+          progress: progress ? progress : null,
           status: 'started',
           createdAt: new Date(),
         };
         await addDoc(userIndustriesCollectionRef, userIndustryData);
-        console.log('User Industry data saved to Firestore');
       } else {
         // If document exists, update it
         const docRef = querySnapshot.docs[0]!.ref;
         await updateDoc(docRef, {
           updatedAt: new Date(),
         });
-        console.log('User Industry data updated in Firestore');
       }
     } catch (error: any) {
       console.error('Error saving User Industry data to Firestore:', error);
@@ -137,8 +142,6 @@ export class GrowthProgressService {
         .then(() => {
           getDownloadURL(storageRef)
             .then((url) => {
-              console.log('File uploaded successfully! URL:', url);
-
               // Save upload details to Firestore
               this.saveUploadDetailsToFirestore(userId, file.name, url);
             })
@@ -173,8 +176,6 @@ export class GrowthProgressService {
       // Save resume details to Firestore
       await setDoc(resumeDocRef, resumeData);
 
-      console.log('Upload details saved to Firestore:', resumeData);
-
       // Trigger scanning of the resume and fetch mini-resume
       this.easifyService.scanResume(fileName);
     } catch (error) {
@@ -205,8 +206,6 @@ export class GrowthProgressService {
           id: doc.id, // Include the document ID
           ...doc.data(), // Spread the document data
         }));
-
-        console.log('Fetched resumes:', resumes);
         return resumes;
       } catch (error) {
         console.error('Error fetching resumes:', error);
@@ -243,7 +242,6 @@ export class GrowthProgressService {
 
         // Get the first resume
         const firstResume = resumes[0];
-        console.log('First resume:', firstResume);
 
         // Fetch the miniScan document for the first resume
         const miniScanDocRef = doc(
@@ -255,7 +253,6 @@ export class GrowthProgressService {
 
         if (miniScanSnapshot.exists()) {
           const miniScanData = miniScanSnapshot.data();
-          console.log('Fetched miniScan:', miniScanData);
           return miniScanData;
         } else {
           console.log('No miniScan document found.');
@@ -278,5 +275,82 @@ export class GrowthProgressService {
     );
     const resultPromise = analyzeResumeFunction();
     return from(resultPromise); // Convert the Promise to an Observable
+  }
+
+  async getStartedIndustryById(industryId: string): Promise<any | null> {
+    try {
+      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
+      const userPortfolioCollectionRef = collection(userRef, 'industries');
+
+      const portfolioQuery = query(
+        userPortfolioCollectionRef,
+        where('industry.id', '==', industryId),
+        limit(1),
+      );
+
+      const portfolioSnapshot = await getDocs(portfolioQuery);
+      if (!portfolioSnapshot.empty) {
+        const startedPortfolio = portfolioSnapshot.docs[0]?.data();
+        return startedPortfolio;
+      } else {
+        return null;
+      }
+    } catch (error: any) {
+      console.error('Error fetching started portfolio by ID:', error);
+      if (error.code) {
+        console.error(`Error Code: ${error.code}`);
+      }
+      if (error.message) {
+        console.error(`Error Message: ${error.message}`);
+      }
+      if (error.details) {
+        console.error(`Error Details: ${error.details}`);
+      }
+      return null;
+    }
+  }
+
+  async getEasifyResponsesByItemId(itemId: string): Promise<any[]> {
+    try {
+      // Reference to the user's document
+      const userRef = doc(this.firestore, 'users', this.auth.currentUser?.uid!);
+      // Reference to the 'easifyResponses' sub-collection
+      const easifyResponsesCollectionRef = collection(
+        userRef,
+        'easifyResponses',
+      );
+
+      // Query to fetch all documents with the specified itemId
+      const responsesQuery = query(
+        easifyResponsesCollectionRef,
+        where('itemId', '==', itemId),
+        orderBy('timestamp', 'desc'), // Order responses by timestamp (latest first)
+      );
+
+      const querySnapshot = await getDocs(responsesQuery);
+
+      if (!querySnapshot.empty) {
+        // Map the documents to an array of data
+        const responses = querySnapshot.docs.map((doc) => ({
+          id: doc.id, // Include document ID for reference
+          ...doc.data(),
+        }));
+        return responses;
+      } else {
+        return [];
+      }
+    } catch (error: any) {
+      console.error('Error fetching Easify responses:', error);
+      if (error.code) {
+        console.error(`Error Code: ${error.code}`);
+      }
+      if (error.message) {
+        console.error(`Error Message: ${error.message}`);
+      }
+      if (error.details) {
+        console.error(`Error Details: ${error.details}`);
+      }
+      return [];
+    }
   }
 }

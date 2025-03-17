@@ -1,0 +1,108 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<div class="main-with-side padded">
+  <!-- Main content: portfolios and banners -->
+  <div class="main-content">
+    <!-- Search Box Section -->
+    <app-portfolio-search-box />
+
+    <!-- Started Portfolios Section -->
+    <div class="portfolios-section">
+      <!-- Loading state with card skeletons -->
+      <div *ngIf="isLoadingCombinedPortfolios; else startedPortfoliosContent">
+        <app-loading-carousel />
+      </div>
+
+      <!-- Portfolios content when loading is finished -->
+      <ng-template #startedPortfoliosContent>
+        <div *ngIf="combinedPortfolios as startedPortfolios">
+          <div *ngIf="startedPortfolios.length">
+            <!-- Use the app-portfolios-carousel component -->
+            <app-portfolios-carousel [portfolios]="startedPortfolios" />
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Side content: portfolio tracker and suggested actions -->
+  <div *ngIf="!isTablet" class="side-content">
+    <div class="tracker-and-actions">
+      <app-suggested-action
+        *ngIf="!isTablet"
+        [actions]="[
+          {
+            title: 'Complete Warm-Up Routine',
+            subtext: 'Prepare your body for the portfolio',
+            buttonText: 'Start Now',
+            callback: completePortfolio,
+          },
+          {
+            title: 'Review Exercise Form',
+            subtext: 'Ensure you are performing exercises correctly',
+            buttonText: 'Review',
+            callback: completePortfolio,
+          },
+        ]"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Hero Banner Section -->
+<div class="hero-and-actions padded">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h5 i18n>Discover New Portfolios and Reach Your Goals</h5>
+      <p i18n>
+        Join our fitness community and push your limits with custom portfolio
+        plans.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <button mat-flat-button class="primary-stroked-md-button" i18n>
+          Get Started
+        </button>
+        <button mat-stroked-button class="primary-full-md-button" i18n>
+          Learn More
+        </button>
+      </div>
+    </div>
+
+    <!-- Illustration on the right -->
+    <div class="hero-illustration">
+      <img
+        src="assets/illustrations/portfolios-hero.svg"
+        alt="Illustration"
+        i18n-alt
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isTablet">
+    <app-suggested-action
+      [actions]="[
+        {
+          title: 'Complete Warm-Up Routine',
+          subtext: 'Prepare your body for the portfolio',
+          buttonText: 'Start Now',
+          callback: completePortfolio,
+        },
+        {
+          title: 'Review Exercise Form',
+          subtext: 'Ensure you are performing exercises correctly',
+          buttonText: 'Review',
+          callback: completePortfolio,
+        },
+      ]"
+    />
+  </div>
+</div>
+
+<!-- Component to display all portfolios -->
+<app-all-portfolios />

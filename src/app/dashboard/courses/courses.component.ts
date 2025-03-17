@@ -20,6 +20,7 @@ import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, take } from 'rxjs/operators';
 import { AllCoursesComponent } from './all-courses/all-courses.component';
 import { CoursesCarouselComponent } from './courses-carousel/courses-carousel.component';
+import { CoursesSearchBoxComponent } from "./courses-search-box/courses-search-box.component";
 
 @Component({
   selector: 'app-courses',
@@ -34,7 +35,8 @@ import { CoursesCarouselComponent } from './courses-carousel/courses-carousel.co
     LoadingCarouselComponent,
     AllCoursesComponent,
     SuggestedActionComponent,
-  ],
+    CoursesSearchBoxComponent
+],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })

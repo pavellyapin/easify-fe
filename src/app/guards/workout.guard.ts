@@ -16,7 +16,6 @@ import { WorkoutItem } from '@components/models/workout.models';
 import { Store } from '@ngrx/store';
 import { FitnessWorkoutsService } from '@services/fitness.service';
 import { WorkoutsProgressService } from '@services/workouts-progress.service';
-import { setDashboardLoading } from '@store/loader/loading.actions';
 import * as StartedWorkoutActions from '@store/started-workout/started-workout.actions';
 
 @Injectable({
@@ -31,7 +30,6 @@ export class WorkoutGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
-    this.store.dispatch(setDashboardLoading(true));
     const workoutId = route.paramMap.get('id')!;
     try {
       // Fetch the workout by ID
@@ -83,7 +81,6 @@ export class WorkoutGuard implements CanActivate {
         this.store.dispatch(
           StartedWorkoutActions.loadStartedWorkoutSuccess({ startedWorkout }),
         );
-        this.store.dispatch(setDashboardLoading(false));
         return true;
       }
 
@@ -104,9 +101,6 @@ export class WorkoutGuard implements CanActivate {
           responses: easifyResponses,
         }),
       );
-
-      this.store.dispatch(setDashboardLoading(false));
-
       // Allow navigation
       return true;
     } catch (error) {

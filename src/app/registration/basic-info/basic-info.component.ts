@@ -40,7 +40,8 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Initialize the form
     this.basicInfoForm = new FormGroup({
-      name: new FormControl(''),
+      morningGoals: new FormControl(''),
+      eveningGoals: new FormControl(''),
       wakeUpTime: new FormControl('6:00 AM'),
       sleepTime: new FormControl('9:00 PM'),
     });
@@ -71,7 +72,8 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   // Reset the form with default or current values
   resetForm(): void {
     this.basicInfoForm.reset({
-      name: '',
+      morningGoals: '',
+      eveningGoals: '',
       wakeUpTime: this.basicInfo?.wakeUpTime || '6:00 AM',
       sleepTime: this.basicInfo?.sleepTime || '9:00 PM',
     });

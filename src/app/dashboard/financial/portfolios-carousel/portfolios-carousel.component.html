@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="portfolios?.length; else noPortfoliosTemplate">
+  <!-- Carousel for Portfolios -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-financial-plan-tile
+      *ngFor="let portfolio of portfolios; let i = index"
+      ngxSlickItem
+      class="carousel-item"
+      [financialPlan]="portfolio"
+    />
+  </ngx-slick-carousel>
+</ng-container>
+
+<!-- No Portfolios Available Template -->
+<ng-template #noPortfoliosTemplate>
+  <p i18n>No portfolios available.</p>
+</ng-template>

@@ -49,7 +49,6 @@ export class ChallengeService {
         const firstChallenge = querySnapshot.docs[0]?.data();
         return firstChallenge;
       } else {
-        console.log('No incomplete challenges found for type:', type);
         return null;
       }
     } catch (error: any) {

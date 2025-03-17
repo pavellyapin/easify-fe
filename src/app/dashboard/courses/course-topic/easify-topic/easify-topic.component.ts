@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
@@ -10,6 +11,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EasifyResponseContentComponent } from '@components/easify-response-content/easify-response-content.component';
 import { Store } from '@ngrx/store';
 import { TimeUtilsAndMore } from '@services/time.utils';
 import { selectEasifyCourseResponses } from '@store/started-course/started-course.selectors';
@@ -18,7 +20,7 @@ import { combineLatest, filter, map, Subscription } from 'rxjs';
 @Component({
   selector: 'app-easify-topic',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, EasifyResponseContentComponent],
   templateUrl: './easify-topic.component.html',
   styleUrl: './easify-topic.component.scss',
 })
@@ -29,6 +31,7 @@ export class EasifyTopicComponent implements OnInit, OnDestroy {
   chapterIndex!: number;
   topicIndex!: number;
   pointIndex!: number;
+  context: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +46,11 @@ export class EasifyTopicComponent implements OnInit, OnDestroy {
         this.store.select(selectEasifyCourseResponses),
         this.route.paramMap,
         this.route.parent?.paramMap || [],
+        this.route.parent?.data || [], // Subscribe to parent route's data
       ])
         .pipe(
-          filter(([responses]) => !!responses),
-          map(([responses, params, parentParams]) => {
+          filter(([responses, , , parentData]) => !!responses && !!parentData),
+          map(([responses, params, parentParams, parentData]) => {
             this.courseId = parentParams.get('id')!;
             this.chapterIndex = parseInt(
               params.get('chapter') || parentParams.get('chapter') || '1',
@@ -69,6 +73,22 @@ export class EasifyTopicComponent implements OnInit, OnDestroy {
                   response.request.item.pointIndex === this.pointIndex - 1,
               )
               .pop();
+
+            // Use the course data from the parent route
+            const course = parentData['course'];
+            if (course) {
+              const chapterTitle =
+                course.chapters?.[this.chapterIndex - 1]?.title ||
+                'Unknown Chapter';
+              const topicTitle =
+                course.chapters?.[this.chapterIndex - 1]?.topics?.[
+                  this.topicIndex - 1
+                ]?.title || 'Unknown Topic';
+
+              this.context = `I am going through the course "${course.name}" in chapter "${chapterTitle}" and topic "${topicTitle}".`;
+            } else {
+              this.context = 'Course information is not available.';
+            }
           }),
         )
         .subscribe(),

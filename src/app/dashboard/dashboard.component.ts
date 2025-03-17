@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   isMobile = false; // Tracks if the device is mobile
   isTablet = false; // Tracks if the device is tablet
   isChatOpen = false;
-  loading$!: Observable<boolean>;
+  loading$!: Observable<any>;
   private subscriptions: Subscription[] = []; // Array to track subscriptions
 
   constructor(
@@ -100,8 +100,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  toggleChat() {
-    this.isChatOpen = !this.isChatOpen;
+  toggleChat(event: any) {
+    this.isChatOpen = event;
   }
 
   toggleSidebar() {

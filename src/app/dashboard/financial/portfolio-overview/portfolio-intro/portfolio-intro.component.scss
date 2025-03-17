@@ -1,0 +1,29 @@
+:host {
+  --mdc-linear-progress-active-indicator-height: 9px; /* Sets the progress bar fill height */
+  --mdc-linear-progress-track-height: 11px; /* Sets the track height */
+  --mdc-linear-progress-track-shape: 0; /* Controls the track shape - rounded or not */
+}
+
+.section-title {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.graph-tooltip {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.positive::before {
+  content: "+";
+  color: green;
+}

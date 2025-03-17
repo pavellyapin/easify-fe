@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+import {
+  SlickCarouselComponent,
+  SlickCarouselModule,
+} from 'ngx-slick-carousel';
 import { CourseTileComponent } from '../course-tile/course-tile.component';
 
 @Component({
@@ -17,8 +21,9 @@ import { CourseTileComponent } from '../course-tile/course-tile.component';
   templateUrl: './courses-carousel.component.html',
   styleUrl: './courses-carousel.component.scss', // Ensure 'styleUrls' instead of 'styleUrl'
 })
-export class CoursesCarouselComponent {
+export class CoursesCarouselComponent implements AfterViewInit {
   @Input() courses: any[] = [];
+  @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
 
   slideConfig = {
     slidesToShow: 2, // The number of slides to show
@@ -51,4 +56,13 @@ export class CoursesCarouselComponent {
       },
     ],
   };
+
+  ngAfterViewInit(): void {
+    // Automatically slide to the next item after initialization
+    setTimeout(() => {
+      if (this.slickModal) {
+        this.slickModal.slickGoTo(1); // Move to the second slide (index 1)
+      }
+    }, 0); // Delay to ensure Slick Carousel is fully initialized
+  }
 }

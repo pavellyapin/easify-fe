@@ -1,0 +1,60 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<div *ngIf="industry" class="industry-overview-container">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('personalGrowthHub')"
+      >
+        <span i18n>Learning Hub</span>
+      </button>
+    </span>
+
+    <span class="breadcrumb-button">{{ industry.title }}</span>
+  </div>
+  <div class="main-with-side padded">
+    <div class="main-content">
+      <app-industry-intro
+        [industry]="industry"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedIndustry]="startedIndustry$ | async"
+      />
+      <app-industry-breakdown [industry]="industry" />
+      <app-industry-content [industry]="industry" />
+    </div>
+    <div class="side-content">
+      <app-industry-stats
+        [industry]="industry"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedIndustry]="startedIndustry$ | async"
+      />
+    </div>
+  </div>
+</div>
+<div class="padded">
+  <!-- Loading state with card skeletons -->
+  <div *ngIf="isLoadingRecommendedIndustries; else startedIndustriesContent">
+    <app-loading-carousel />
+  </div>
+
+  <ng-template #startedIndustriesContent>
+    <div *ngIf="recommendedIndustries">
+      <div *ngIf="recommendedIndustries.length">
+        <app-industry-carousel [industries]="recommendedIndustries" />
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -37,7 +37,7 @@ export class AuthService {
   ) {}
 
   toggleLoader(isLoading: boolean) {
-    this.store.dispatch(setLoginLoading(isLoading));
+    this.store.dispatch(setLoginLoading({ isLoading: isLoading }));
   }
 
   login(email: string, password: string): Observable<User | null> {

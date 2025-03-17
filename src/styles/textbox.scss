@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+/* stylelint-disable no-descending-specificity */
 @use "variables" as var;
 
 mat-form-field {
@@ -22,6 +24,10 @@ mat-form-field {
       background-color: var.$primary-light-color-2; /* Set background color */
       padding: 0;
       height: 100%;
+
+      &:focus-within {
+        background-color: white; /* Change background color when input is active */
+      }
     }
 
     .mat-mdc-form-field-flex {
@@ -37,6 +43,88 @@ mat-form-field {
       color: var.$primary-contrast-color; /* Set the text color */
       caret-color: var.$primary-contrast-color; /* Ensure the cursor is visible */
       line-height: 40px; /* Center the text */
+
+      &:focus {
+        outline: none; /* Remove the default focus outline */
+        background-color: white; /* Change input background to white when focused */
+      }
+    }
+
+    /* Hover effect */
+    &:hover {
+      .mat-mdc-text-field-wrapper {
+        border-color: var.$secondary-light-color; /* Change border color on hover */
+      }
+
+      .mat-mdc-input-element {
+        color: var.$primary-contrast-color; /* Keep text visible on hover */
+      }
+    }
+
+    /* Outline modifications */
+    .mdc-notched-outline__leading {
+      border-color: var.$primary-light-color-2 !important;
+      border-radius: 12px 0 0 12px; /* Only round left corners */
+    }
+
+    .mdc-notched-outline__trailing {
+      border-color: var.$primary-light-color-2 !important;
+      border-radius: 0 12px 12px 0; /* Only round right corners */
+    }
+
+    .mat-mdc-form-field-outline {
+      border-color: var.$primary-light-color-2; /* Ensure the main outline also has the correct color */
+      &:hover {
+        border-color: var.$secondary-light-color; /* Change border color on hover */
+      }
+    }
+
+    .add-button {
+      color: var.$primary-color; /* Set the icon color to grey */
+    }
+  }
+}
+
+.primary-textarea-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+    font-size: 14px;
+
+    .mat-mdc-text-field-wrapper {
+      transition: border-color 0.3s ease; /* Add smooth transition for hover */
+
+      /* Apply border-radius only to the left and right sides */
+      border-radius: 12px;
+      background-color: var.$primary-light-color-2; /* Set background color */
+      padding: 0 12px;
+      height: 100%;
+
+      &:focus-within {
+        background-color: white; /* Change background color when input is active */
+      }
+    }
+
+    .mat-mdc-form-field-flex {
+      align-items: center;
+      background-color: transparent;
+      height: 100%;
+    }
+
+    .mat-mdc-input-element {
+      background-color: transparent;
+      height: 100%;
+      color: var.$primary-contrast-color; /* Set the text color */
+      caret-color: var.$primary-contrast-color; /* Ensure the cursor is visible */
+      line-height: 20px; /* Center the text */
+
+      &:focus {
+        outline: none; /* Remove the default focus outline */
+        background-color: white; /* Change input background to white when focused */
+      }
     }
 
     /* Hover effect */

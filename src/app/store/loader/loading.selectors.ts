@@ -19,6 +19,12 @@ export const isProfileLoading = createSelector(
   (state: LoaderState) => state.profileLoading,
 );
 
+// ✅ Extract only the `msg` from `dashboardLoading`
+export const selectDashboardLoadingMsg = createSelector(
+  selectLoadingState,
+  (dashboardLoading) => dashboardLoading.globalLoadingMsg,
+);
+
 export const isGlobalLoading = createSelector(
   selectLoadingState,
   (state: LoaderState) => state.globalLoading,

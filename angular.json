@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "extreme-angular": {
+    "easify-ai": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/extreme-angular",
+            "outputPath": "dist/easify-ai",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "extreme-angular:build:production"
+              "buildTarget": "easify-ai:build:production"
             },
             "development": {
-              "buildTarget": "extreme-angular:build:development"
+              "buildTarget": "easify-ai:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "extreme-angular:build",
+            "buildTarget": "easify-ai:build",
             "format": "xlf",
             "outputPath": "src/locale"
           }

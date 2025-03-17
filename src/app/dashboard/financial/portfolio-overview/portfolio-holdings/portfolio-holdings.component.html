@@ -1,0 +1,145 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+
+<mat-accordion class="app-custom-accordion">
+  <mat-expansion-panel
+    *ngFor="let item of computedAllocations; let i = index"
+    class="custom-expansion-panel"
+    [hideToggle]="true"
+    [expanded]="getFirstIncompleteAssetClassIndex() === i"
+  >
+    <mat-expansion-panel-header>
+      <div class="asset-class-header">
+        <div class="portfolio-expand-header">
+          <!-- ✅ Small Square with Color Indicator -->
+          <div
+            class="asset-color-indicator"
+            [ngStyle]="{
+              'background-color': getAssetClassColor(item.assetClass),
+            }"
+          ></div>
+
+          <!-- ✅ Asset Class Name (Left Side) -->
+          <h6 class="single-line-ellipsis asset-class-label">
+            {{ financialService.getAssetClassLabel(item.assetClass) }}
+          </h6>
+
+          <!-- ✅ Percentage & Progress Bar (50% of Row) -->
+          <div *ngIf="!isMobile" class="progress-container">
+            <p class="percentage-label">
+              <strong>{{ item.percentage.toFixed(2) }}%</strong>
+            </p>
+
+            <mat-progress-bar
+              class="custom-progress-bar"
+              mode="determinate"
+              i18n-mode
+              [value]="item.percentage"
+            />
+          </div>
+
+          <!-- ✅ Toggle Icon (Right Side) -->
+          <mat-icon
+            class="toggle-icon"
+            i18n
+            matExpansionPanelToggleIndicator
+            [svgIcon]="getAssetClassIcon(item.assetClass, i)"
+          />
+        </div>
+        <div *ngIf="isMobile" class="progress-container">
+          <p class="percentage-label">
+            <strong>{{ item.percentage.toFixed(2) }}%</strong>
+          </p>
+
+          <mat-progress-bar
+            class="custom-progress-bar"
+            mode="determinate"
+            i18n-mode
+            [value]="item.percentage"
+          />
+        </div>
+      </div>
+    </mat-expansion-panel-header>
+
+    <div class="expand-content">
+      <ng-container
+        *ngIf="portfolio[item.assetClass]?.length > 0; else noHoldings"
+      >
+        <table
+          mat-table
+          class="mat-elevation-z0 full-width-table"
+          [dataSource]="portfolio[item.assetClass]"
+        >
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol" i18n-matColumnDef>
+            <th i18n *matHeaderCellDef mat-header-cell>Symbol</th>
+            <td *matCellDef="let asset; let index = index" mat-cell>
+              <mat-chip
+                class="app-primary-chip"
+                (click)="navigateToAssetClassHolding(item.assetClass, index)"
+              >
+                {{ asset.ticker | uppercase }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Market Value Column -->
+          <ng-container matColumnDef="marketValue" i18n-matColumnDef>
+            <th i18n *matHeaderCellDef mat-header-cell>Market Value</th>
+            <td *matCellDef="let asset" mat-cell>
+              {{ getMarketValue(asset) | currency: "USD" }}
+            </td>
+          </ng-container>
+
+          <!-- Shares (Units Held) Column -->
+          <ng-container matColumnDef="shares" i18n-matColumnDef>
+            <th i18n *matHeaderCellDef mat-header-cell>Shares</th>
+            <td *matCellDef="let asset" mat-cell>{{ asset.unitsHeld }}</td>
+          </ng-container>
+
+          <!-- Performance Column -->
+          <ng-container matColumnDef="performance" i18n-matColumnDef>
+            <th i18n *matHeaderCellDef mat-header-cell>Performance</th>
+            <td *matCellDef="let asset" mat-cell>
+              <span [ngClass]="getPerformanceClass(asset)">
+                {{ getPerformance(asset) | percent: "1.1-1" }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Table Header & Row Definitions -->
+          <tr
+            *matHeaderRowDef="[
+              'symbol',
+              'marketValue',
+              'shares',
+              'performance',
+            ]"
+            mat-header-row
+          ></tr>
+          <tr
+            *matRowDef="
+              let row;
+              columns: ['symbol', 'marketValue', 'shares', 'performance']
+            "
+            mat-row
+          ></tr>
+        </table>
+      </ng-container>
+      <button
+        mat-button
+        class="action-link"
+        (click)="navigateToAssetClass(item.assetClass)"
+      >
+        <span i18n>Continue</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+      <ng-template #noHoldings>
+        <p i18n>No holdings found for this asset class.</p>
+      </ng-template>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

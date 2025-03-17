@@ -30,7 +30,21 @@ export const scheduleGuard: CanActivateFn = () => {
       store.select(selectTomorrow).pipe(
         take(1),
         switchMap((tomorrowSchedule) => {
-          store.dispatch(setGlobalLoading(true));
+          const loadingMessages = [
+            "We're carefully crafting your daily schedule to help you stay productive, balanced, and focused. Hang tight while we put everything in place.",
+            "Your personalized daily plan is on the way! We're organizing your tasks, workouts, and meals to give you the best possible day.",
+            'Give us a moment while we tailor your schedule to match your goals, priorities, and habits. A well-structured day leads to better results!',
+            "We're optimizing your schedule to ensure you get the right mix of work, rest, and personal growth. Your custom plan will be ready shortly.",
+            "Designing a day that works best for you takes a little time. We're arranging everything so that your day flows smoothly and efficiently.",
+            'Your schedule is being built with care, making sure every hour is filled with the right balance of focus, energy, and relaxation.',
+          ];
+
+          const randomMsg =
+            loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+
+          store.dispatch(
+            setGlobalLoading({ isLoading: true, msg: randomMsg! }),
+          );
           const today = new Date().toLocaleDateString('en-CA');
 
           // If tomorrow's schedule exists and has today's date, clear it
@@ -40,7 +54,7 @@ export const scheduleGuard: CanActivateFn = () => {
 
           // Proceed with the usual logic for loading today's schedule
           if (todaySchedule && todaySchedule?.id === today) {
-            store.dispatch(setGlobalLoading(false));
+            store.dispatch(setGlobalLoading({ isLoading: false }));
             return of(true);
           } else {
             return scheduleService.getTodaySchedule(today).pipe(
@@ -48,14 +62,10 @@ export const scheduleGuard: CanActivateFn = () => {
                 if (schedules.length > 0) {
                   const scheduleData = schedules[0];
                   store.dispatch(loadScheduleSuccess({ scheduleData }));
-                  store.dispatch(setGlobalLoading(false));
+                  store.dispatch(setGlobalLoading({ isLoading: false }));
                   return of(true);
                 } else {
-                  const now = new Date();
-                  const hours = now.getHours();
-
-                  const type = hours >= 12 ? 'secondHalf' : 'firstHalf';
-                  const dailyRequest = { type: type };
+                  const dailyRequest = { type: 'short' };
 
                   chatService.getDaily(dailyRequest, 'getDaily'); // Initiate WebSocket request
 
@@ -63,13 +73,13 @@ export const scheduleGuard: CanActivateFn = () => {
                     ofType(loadScheduleSuccess),
                     take(1),
                     switchMap(() => {
-                      store.dispatch(setGlobalLoading(false));
+                      store.dispatch(setGlobalLoading({ isLoading: false }));
                       return of(true);
                     }),
                     catchError((error) => {
                       console.error('Error loading schedule:', error);
                       store.dispatch(loadScheduleFailure({ error }));
-                      store.dispatch(setGlobalLoading(false));
+                      store.dispatch(setGlobalLoading({ isLoading: false }));
                       router.navigate(['dashboard/error']);
                       return of(false);
                     }),
@@ -78,7 +88,7 @@ export const scheduleGuard: CanActivateFn = () => {
               }),
               catchError((error) => {
                 store.dispatch(loadScheduleFailure({ error }));
-                store.dispatch(setGlobalLoading(false));
+                store.dispatch(setGlobalLoading({ isLoading: false }));
                 console.error('Error loading schedule:', error);
                 router.navigate(['dashboard/error']);
                 return of(false);

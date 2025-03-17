@@ -20,6 +20,7 @@ import { catchError, finalize, map, take } from 'rxjs/operators';
 import { LoadingCarouselComponent } from '../../components/loading-carousel/loading-carousel.component';
 import { AllWorkoutsComponent } from './all-workouts/all-workouts.component';
 import { WorkoutsCarouselComponent } from './workouts-carousel/workouts-carousel.component';
+import { WorkoutSearchBoxComponent } from "./workout-search-box/workout-search-box.component";
 
 @Component({
   selector: 'app-workouts',
@@ -34,7 +35,8 @@ import { WorkoutsCarouselComponent } from './workouts-carousel/workouts-carousel
     AllWorkoutsComponent,
     SuggestedActionComponent,
     WorkoutsCarouselComponent,
-  ],
+    WorkoutSearchBoxComponent
+],
   templateUrl: './fitness.component.html',
   styleUrls: ['./fitness.component.scss'],
 })

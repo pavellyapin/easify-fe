@@ -47,7 +47,6 @@ export class UserService {
         photoURL: user.photoURL,
       };
       await setDoc(userRef!, userData);
-      console.log('User data saved to Firestore');
     } catch (error: any) {
       console.error('Error saving user data to Firestore:', error);
     }

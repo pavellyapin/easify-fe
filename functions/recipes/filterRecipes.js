@@ -86,7 +86,21 @@ exports.filterRecipes = functions.https.onCall(async (data, context) => {
 
     // Fetch the next batch of `count` recipes
     console.log(`Fetching the next batch of ${count} recipes`);
-    const recipesSnapshot = await recipesQuery.limit(count).get();
+    const recipesSnapshot = await recipesQuery
+      .select(
+        "createdDate",
+        "name",
+        "isNew",
+        "category",
+        "cuisine",
+        "description",
+        "totalTime",
+        "level",
+        "image",
+        "tags",
+      )
+      .limit(count)
+      .get();
 
     // Check if any recipes were retrieved
     if (recipesSnapshot.empty) {

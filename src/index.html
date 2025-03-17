@@ -3,13 +3,92 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title i18n>extreme-angular</title>
     <base href="/" />
+
+    <!-- Viewport & Mobile Optimization -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://easify.ca" />
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Easify - Your AI-powered assistant for productivity, health, finance, and more."
+    />
+    <meta
+      name="keywords"
+      content="AI, productivity, finance, health, self-improvement, Easify"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Easify Team" />
+
+    <!-- Open Graph Meta Tags (For Facebook, LinkedIn, etc.) -->
+    <meta
+      property="og:title"
+      i18n-property
+      content="Easify - AI-powered Productivity Assistant"
+    />
+    <meta
+      property="og:description"
+      i18n-property
+      content="Boost your productivity with Easify, your AI-powered personal assistant for finance, health, self-improvement, and more."
+    />
+    <meta
+      property="og:image"
+      i18n-property
+      content="https://easify.ca/assets/images/social-preview.jpg"
+    />
+    <meta property="og:url" i18n-property content="https://easify.ca" />
+    <meta property="og:type" i18n-property content="website" />
+    <meta property="og:locale" i18n-property content="en_US" />
+
+    <!-- Twitter Card Meta Tags (For Twitter sharing) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Easify - AI-powered Productivity Assistant"
+    />
+    <meta
+      name="twitter:description"
+      content="Boost your productivity with Easify, your AI-powered personal assistant for finance, health, self-improvement, and more."
+    />
+    <meta
+      name="twitter:image"
+      content="https://easify.ca/assets/images/social-preview.jpg"
+    />
+    <meta name="twitter:site" content="@easify" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Easify",
+        "url": "https://easify.ca",
+        "logo": "https://easify.ca/assets/images/logo.png",
+        "description": "Easify - AI-powered personal assistant for productivity, finance, health, and self-improvement.",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-800-123-4567",
+          "contactType": "customer support",
+          "email": "support@easify.ca"
+        },
+        "sameAs": [
+          "https://www.facebook.com/easify",
+          "https://twitter.com/easify",
+          "https://www.linkedin.com/company/easify"
+        ]
+      }
+    </script>
+
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"

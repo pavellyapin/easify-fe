@@ -12,6 +12,33 @@ exports.onUserCreate = functions.firestore
 
     try {
       // Initialize courseStats for the new user
+      const portfolioStatsRef = firestore
+        .collection("users")
+        .doc(userId)
+        .collection("stats")
+        .doc("portfolioStats");
+
+      const portfolioStats = {
+        inProgressPortfolios: 0,
+        completePortfolios: 0,
+        completeRiskLevelCounts: {
+          low: 0,
+          moderate: 0,
+          high: 0,
+        },
+        inProgressRiskLevelCounts: {
+          low: 0,
+          moderate: 0,
+          high: 0,
+        },
+        inProgressCategoryCounts: {},
+        completedCategoryCounts: {},
+      };
+
+      // Set the portfolioStats document in Firestore
+      await portfolioStatsRef.set(portfolioStats);
+
+      // Initialize courseStats for the new user
       const courseStatsRef = firestore
         .collection("users")
         .doc(userId)

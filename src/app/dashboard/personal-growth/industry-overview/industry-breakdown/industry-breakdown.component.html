@@ -1,0 +1,265 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="mini-resume-container">
+  <!-- Left Column -->
+  <div class="left-column">
+    <!-- Overview Card -->
+    <mat-card class="overview-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="face" />
+          <h5 i18n>Overview</h5>
+        </div>
+        <p>{{ industry?.detailedInfo.yearStarted }}</p>
+        <p i18n>{{ industry?.detailedInfo.marketSize }}</p>
+        <p i18n>{{ industry?.detailedInfo.growthRate }}</p>
+        <p class="text-ellipsis">
+          {{ industry.detailedInfo.historicalSignificance }}
+        </p>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(industryBreakdownSections.Overview)
+            "
+            i18n-aria-label
+            (click)="expandPoint(industryBreakdownSections.Overview)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Related Roles Card -->
+    <mat-card class="roles-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="work" />
+          <h5 i18n>skillsInDemand</h5>
+        </div>
+        <div class="button-list">
+          <button
+            *ngFor="let role of industry.detailedInfo.skillsInDemand"
+            mat-button
+            class="action-link"
+          >
+            {{ role }}
+          </button>
+        </div>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(industryBreakdownSections.SkillsInDemand)
+            "
+            i18n-aria-label
+            (click)="expandPoint(industryBreakdownSections.SkillsInDemand)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Related Industries Card -->
+    <mat-card class="industries-card">
+      <mat-card-content>
+        <div class="icon-title">
+          <mat-icon svgIcon="source_environment" />
+          <h5 i18n>Top Companies</h5>
+        </div>
+        <div class="button-list">
+          <button
+            *ngFor="let industry of industry.detailedInfo.topCompanies"
+            mat-button
+            class="action-link"
+          >
+            {{ industry.name }}
+            {{ industry.description }}
+          </button>
+        </div>
+
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-aria-label
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Right Column -->
+  <div class="right-column">
+    <!-- Education Section -->
+    <mat-card class="education-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="school" />
+          <h5 i18n>customerBase</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip *ngFor="let skill of industry.detailedInfo.customerBase">
+            {{ skill }}
+          </mat-chip>
+        </mat-chip-set>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(industryBreakdownSections.CustomerBase)
+            "
+            i18n-aria-label
+            (click)="expandPoint(industryBreakdownSections.CustomerBase)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Technical Skills Section -->
+    <mat-card class="skills-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="build" />
+          <h5 i18n>geographicalHotspots</h5>
+        </div>
+
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let spot of industry.detailedInfo.geographicalHotspots"
+          >
+            {{ spot }}
+          </mat-chip>
+        </mat-chip-set>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(
+                industryBreakdownSections.GeographicalHotspots
+              )
+            "
+            i18n-aria-label
+            (click)="
+              expandPoint(industryBreakdownSections.GeographicalHotspots)
+            "
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Soft Skills Section -->
+    <mat-card class="skills-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="psychology" />
+          <h5 i18n>Future Opportunities</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let skill of industry.detailedInfo.futureOpportunities"
+          >
+            {{ skill.name ? skill.name : skill }}
+          </mat-chip>
+        </mat-chip-set>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(industryBreakdownSections.Opportunities)
+            "
+            i18n-aria-label
+            (click)="expandPoint(industryBreakdownSections.Opportunities)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Soft Skills Section -->
+    <mat-card class="skills-card">
+      <mat-card-content class="app-chips-secondary">
+        <div class="icon-title">
+          <mat-icon svgIcon="psychology" />
+          <h5 i18n>notableTechnologies</h5>
+        </div>
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let tech of industry.detailedInfo.notableTechnologies"
+          >
+            {{ tech }}
+          </mat-chip>
+        </mat-chip-set>
+        <div class="action">
+          <caption i18n class="caption">Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="
+              !hasResponseForSection(
+                industryBreakdownSections.NotableTechnologies
+              )
+            "
+            i18n-aria-label
+            (click)="expandPoint(industryBreakdownSections.NotableTechnologies)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="see-full-resume-link">
+      <button mat-button class="action-link">
+        <span i18n>See extended resume</span>
+        <mat-icon iconPositionEnd i18n>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

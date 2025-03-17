@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomDayStepActionsComponent } from '@components/step-actions/step-actions.component';
+import { LoadingChipsComponent } from '@dashboard/daily-look/timeslot/loading-chips/loading-chips.component';
 import { WorkoutCategoryAutocompleteComponent } from '@dashboard/fitness/workout-category-autocomplete/workout-category-autocomplete.component';
 import { WorkoutTagAutocompleteComponent } from '@dashboard/fitness/workout-tag-autocomplete/workout-tag-autocomplete.component';
 import { Store } from '@ngrx/store';
@@ -26,7 +28,6 @@ import { FitnessWorkoutsService } from '@services/fitness.service';
 import * as UserActions from '@store/user/user.action'; // Import user actions
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription, take } from 'rxjs';
-import { CustomDayStepActionsComponent } from '../../components/step-actions/step-actions.component';
 
 @Component({
   selector: 'app-lifestyle-health',
@@ -45,6 +46,7 @@ import { CustomDayStepActionsComponent } from '../../components/step-actions/ste
     WorkoutCategoryAutocompleteComponent,
     WorkoutTagAutocompleteComponent,
     CustomDayStepActionsComponent,
+    LoadingChipsComponent,
   ],
   templateUrl: './lifestyle-health.component.html',
   styleUrl: './lifestyle-health.component.scss',
@@ -55,6 +57,7 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
   addedWorkoutTags: string[] = []; // Array for workout tags
   lifestyleHealth$: Observable<any>; // Observable for the lifestyle health state
   showHybridOptions = false;
+  chipsLoading = false;
   private subscriptions: Subscription = new Subscription(); // Subscription object to hold all subscriptions
 
   constructor(
@@ -73,6 +76,7 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
       martialStatus: new FormControl(''),
       family: new FormControl(''),
     });
+    this.chipsLoading = true;
 
     // Prepopulate form with existing lifestyleHealth data if available in the store
     const lifestyleHealthSub = this.lifestyleHealth$
@@ -86,6 +90,9 @@ export class LifestyleHealthComponent implements OnInit, OnDestroy {
           this.addedWorkoutTags =
             lifestyleHealth.workoutTags || this.addedWorkoutTags;
         }
+        setTimeout(() => {
+          this.chipsLoading = false;
+        }, 500);
       });
 
     // Add this subscription to the subscriptions object

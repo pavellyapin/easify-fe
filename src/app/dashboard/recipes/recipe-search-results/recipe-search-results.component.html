@@ -1,10 +1,70 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<div class="all-container padded">
-  <div class="grid-section">
-    <h2 i18n>All Recipes</h2>
+<div class="all-container padded search-results">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('recipesHub')"
+      >
+        <span i18n>Recipes Hub</span>
+      </button>
+    </span>
+  </div>
+  <!-- Search Box Section -->
+  <app-recipe-search-box />
+  <!-- Search Result Count and Related Info -->
+  <div *ngIf="keyword" class="search-summary">
+    <h5 i18n>{{ totalCount }} recipes for</h5>
+    <h5>"{{ keyword }}"</h5>
+  </div>
 
+  <!-- Related Ingredients Section -->
+  <div *ngIf="relatedIngredients!.length > 0" class="chip-set">
+    <div class="search-header">
+      <mat-icon svgIcon="receipt-item" />
+      <h5 i18n>Ingredients</h5>
+    </div>
+    <mat-chip-set class="app-chips-primary">
+      <mat-chip
+        *ngFor="let ingredient of relatedIngredients"
+        selectable
+        (click)="onSearchKeyword(ingredient)"
+      >
+        {{ ingredient | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Related Cuisines Section -->
+  <div *ngIf="relatedCuisines!.length > 0" class="chip-set">
+    <div class="search-header">
+      <mat-icon svgIcon="global" />
+      <h5 i18n>Cuisines</h5>
+    </div>
+    <mat-chip-set class="app-chips-primary">
+      <mat-chip
+        *ngFor="let cuisine of relatedCuisines"
+        selectable
+        (click)="onSearchKeyword(cuisine)"
+      >
+        {{ cuisine | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+  <div class="grid-section">
     <!-- Loading state for all recipes -->
     <div *ngIf="isLoadingAll; else allRecipesContent">
       <app-loading-carousel />
@@ -14,6 +74,10 @@
     <ng-template #allRecipesContent>
       <div *ngIf="allRecipes">
         <div *ngIf="allRecipes && allRecipes.length > 0; else noAllRecipes">
+          <div class="search-header">
+            <mat-icon svgIcon="chef-hat" />
+            <h5 i18n>Recipes</h5>
+          </div>
           <div class="grid">
             <app-recipe-tile
               *ngFor="let recipe of allRecipes"
@@ -60,7 +124,17 @@
           </div>
         </div>
         <ng-template #noAllRecipes>
-          <p i18n>No recipes found.</p>
+          <div class="no-results">
+            <p i18n>No recipes found for your search.</p>
+            <button
+              mat-flat-button
+              class="primary-stroked-md-button"
+              (click)="onExplorePopularRecipes()"
+              i18n
+            >
+              Explore Recipes
+            </button>
+          </div>
         </ng-template>
       </div>
     </ng-template>

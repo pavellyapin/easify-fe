@@ -1,29 +1,16 @@
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 
 <!-- Headline -->
-<h5 i18n>Basic Information</h5>
+<h5 i18n>Tell Us About Your Daily Routine</h5>
 
 <!-- Sub-header -->
 <p class="sub-header" i18n>
-  We need this information to provide you with the best experience. Rest
-  assured, your data is safe with us.
+  The more we know about your daily habits, the better we can personalize your
+  experience. Don’t worry—your data stays private and secure.
 </p>
 
 <!-- Form -->
 <form [formGroup]="basicInfoForm">
-  <!-- Name Input -->
-  <fieldset>
-    <legend i18n>What is your name?</legend>
-    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
-      <input
-        matInput
-        formControlName="name"
-        placeholder="Enter your name"
-        i18n-placeholder
-      />
-    </mat-form-field>
-  </fieldset>
-
   <!-- Wake-up Time -->
   <fieldset class="primary-search-box time-display">
     <legend i18n>
@@ -42,12 +29,24 @@
       <ngx-mat-timepicker #wakeUpPicker dottedMinutesInGap />
     </mat-form-field>
   </fieldset>
-
+  <fieldset>
+    <legend i18n>What are your top morning goals?</legend>
+    <div class="primary-textarea-box">
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="morningGoals"
+          placeholder="e.g., Energizing workout, mindful meditation, healthy breakfast"
+          i18n-placeholder
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </fieldset>
   <!-- Sleep Time -->
   <fieldset class="primary-search-box time-display">
     <legend i18n>
-      When do you usually
-      <b>go to sleep?</b>
+      What time do you usually
+      <b>go to bed?</b>
     </legend>
     <mat-form-field appearance="outline" class="full-width" i18n-appearance>
       <input
@@ -61,10 +60,22 @@
       <ngx-mat-timepicker #sleepTimePicker dottedMinutesInGap />
     </mat-form-field>
   </fieldset>
-
+  <fieldset>
+    <legend i18n>What are your top evening goals?</legend>
+    <div class="primary-textarea-box">
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="eveningGoals"
+          placeholder="e.g., Read a book, unwind with music, sleep early"
+          i18n-placeholder
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </fieldset>
   <app-custom-day-step-actions
     [primaryLabel]="'Reset'"
-    [secondaryLabel]="'Skills'"
+    [secondaryLabel]="'Save & Continue'"
     (primaryButton)="resetForm()"
     (secondaryButton)="onSubmit()"
   />

@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="industries?.length; else noIndustriesTemplate">
+  <!-- Carousel for Industries -->
+  <ngx-slick-carousel
+    #slickModal="slick-carousel"
+    class="carousel"
+    [config]="slideConfig"
+  >
+    <app-industry-tile
+      *ngFor="let industry of industries; let i = index"
+      ngxSlickItem
+      class="carousel-item"
+      [industry]="industry"
+    />
+  </ngx-slick-carousel>
+</ng-container>
+
+<!-- No Industries Available Template -->
+<ng-template #noIndustriesTemplate>
+  <p i18n>No industries available.</p>
+</ng-template>

@@ -18,6 +18,8 @@ import { selectMiniResume } from '@store/started-growth/started-growth.selectors
 import { Subscription } from 'rxjs';
 import { MiniResumeComponent } from './mini-resume/mini-resume.component';
 import { ResumeUploadComponent } from './resume-upload/resume-upload.component';
+import { AllIndustriesComponent } from "./all-industries/all-industries.component";
+import { IndustrySearchBoxComponent } from "./industry-search-box/industry-search-box.component";
 
 @Component({
   selector: 'app-personal-growth',
@@ -31,7 +33,9 @@ import { ResumeUploadComponent } from './resume-upload/resume-upload.component';
     SuggestedActionComponent,
     ResumeUploadComponent,
     MiniResumeComponent,
-  ],
+    AllIndustriesComponent,
+    IndustrySearchBoxComponent
+],
   templateUrl: './personal-growth.component.html',
   styleUrl: './personal-growth.component.scss',
 })

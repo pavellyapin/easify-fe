@@ -1,24 +1,34 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <form [formGroup]="lifestyleHealthForm">
   <!-- Headline -->
-  <h5 i18n>Lifestyle & Health</h5>
+  <h5 i18n>Let's Personalize Your Wellness Journey</h5>
 
   <!-- Sub-header -->
   <p class="sub-header" i18n>
-    Your health and lifestyle details help us deliver personalized tips and
-    advice for your wellness journey.
+    Your health and lifestyle shape your daily energy and overall well-being.
+    Tell us more so we can tailor advice, workouts, and tips that fit your
+    lifestyle.
   </p>
 
   <!-- Physical Skills Section -->
   <fieldset>
-    <legend i18n>What are some physical skills you'd like to work on?</legend>
+    <legend i18n>
+      What
+      <b>physical skills</b>
+      would you like to improve?
+    </legend>
+    <p class="subtext" i18n>
+      Think strength, flexibility, endurance, or any sport you’d love to master!
+    </p>
+
     <!-- Health Autocomplete -->
     <app-workout-tag-autocomplete (tagAdded)="onWorkoutTagAdded($event)" />
 
     <!-- Added Health Tags as Chips -->
-    <div class="chips-container">
+    <div *ngIf="!chipsLoading" class="chips-container">
       <div class="app-chips-secondary">
         <mat-chip-set>
           <mat-chip
@@ -32,18 +42,29 @@
         </mat-chip-set>
       </div>
     </div>
+    <div *ngIf="chipsLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
   </fieldset>
 
   <!-- Exercises Section -->
   <fieldset>
-    <legend i18n>Which exercises are you into?</legend>
+    <legend i18n>
+      What
+      <b>workouts</b>
+      or activities keep you moving?
+    </legend>
+    <p class="subtext" i18n>
+      Whether it’s yoga, weightlifting, running, or martial arts—let us know
+      what keeps you active.
+    </p>
     <!-- Health Autocomplete -->
     <app-workout-category-autocomplete
       (categoryAdded)="onCategoryAdded($event)"
     />
 
     <!-- Added Exercise Tags as Chips -->
-    <div class="chips-container">
+    <div *ngIf="!chipsLoading" class="chips-container">
       <div class="app-chips-secondary">
         <mat-chip-set>
           <mat-chip
@@ -57,47 +78,66 @@
         </mat-chip-set>
       </div>
     </div>
+    <div *ngIf="chipsLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
   </fieldset>
 
   <!-- Martial Status Section -->
   <fieldset>
-    <legend i18n>What is your martial status?</legend>
-    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
-      <mat-select
-        formControlName="martialStatus"
-        placeholder="Select your status"
-        i18n-placeholder
-      >
-        <mat-option value="single" i18n>Single</mat-option>
-        <mat-option value="married" i18n>Married</mat-option>
-        <mat-option value="in-relationship" i18n>In a relationship</mat-option>
-        <mat-option value="looking-for-relationship" i18n>
-          Looking for a relationship
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <legend i18n>What’s your current relationship status?</legend>
+    <p class="subtext" i18n>
+      We understand that relationships play a big role in daily life. Let us
+      know where you stand!
+    </p>
+    <div class="primary-textarea-box">
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <mat-select
+          formControlName="martialStatus"
+          placeholder="Select your status"
+          i18n-placeholder
+        >
+          <mat-option value="single" i18n>Single</mat-option>
+          <mat-option value="married" i18n>Married</mat-option>
+          <mat-option value="in-relationship" i18n>
+            In a relationship
+          </mat-option>
+          <mat-option value="looking-for-relationship" i18n>
+            Looking for a relationship
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </fieldset>
 
   <!-- Kids Section -->
   <fieldset>
-    <legend i18n>
-      Please share any details about your family and living situation
-    </legend>
-    <mat-form-field appearance="outline" class="full-width" i18n-appearance>
-      <textarea
-        matInput
-        formControlName="family"
-        placeholder="Family and living situation"
-        i18n-placeholder
-        rows="3"
-      ></textarea>
-    </mat-form-field>
+    <legend i18n>Tell us about your home & family life</legend>
+    <p class="subtext" i18n>
+      Whether you live alone, with family, or have kids—your environment impacts
+      your lifestyle!
+    </p>
+    <div class="primary-textarea-box">
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="family"
+          placeholder="Tell us about your living situation (e.g., 'Married with two kids', 'Living with roommates')"
+          i18n-placeholder
+          rows="3"
+        ></textarea>
+      </mat-form-field>
+    </div>
   </fieldset>
 
   <app-custom-day-step-actions
     [primaryLabel]="'Reset'"
-    [secondaryLabel]="'Diet & Nutrition'"
+    [secondaryLabel]="'Save & Continue'"
     (primaryButton)="resetForm()"
     (secondaryButton)="onSubmit()"
   />
 </form>
+<!-- Loading state with ng-template for skeleton loaders -->
+<ng-template #loadingState>
+  <app-loading-chips />
+</ng-template>

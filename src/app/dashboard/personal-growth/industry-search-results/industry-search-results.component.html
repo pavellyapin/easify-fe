@@ -1,0 +1,149 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="all-container padded search-results">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('industriesHub')"
+      >
+        <span i18n>Industries Hub</span>
+      </button>
+    </span>
+  </div>
+  <!-- Search Box Section -->
+  <app-industry-search-box />
+  <!-- Search Result Count and Related Info -->
+  <div *ngIf="keyword" class="search-summary">
+    <h5 i18n>{{ allIndustries.length }} industries for</h5>
+    <h5>"{{ keyword }}"</h5>
+  </div>
+
+  <!-- Related Ingredients Section -->
+  <div *ngIf="relatedCategories!.length > 0" class="chip-set">
+    <div class="search-header">
+      <mat-icon svgIcon="global" />
+      <h5 i18n>Categories</h5>
+    </div>
+    <mat-chip-set class="app-chips-primary">
+      <mat-chip
+        *ngFor="let category of relatedCategories"
+        selectable
+        (click)="onSearchKeyword(category)"
+      >
+        {{ category | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Related Cuisines Section -->
+  <div *ngIf="relatedJobTitles!.length > 0" class="chip-set">
+    <div class="search-header">
+      <mat-icon svgIcon="work" />
+      <h5 i18n>Job Titles</h5>
+    </div>
+    <mat-chip-set class="app-chips-primary">
+      <mat-chip
+        *ngFor="let title of relatedJobTitles"
+        selectable
+        (click)="onSearchKeyword(title)"
+      >
+        {{ title | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+  <div class="grid-section">
+    <!-- Loading state for all industries -->
+    <div *ngIf="isLoadingAll; else allIndustriesContent">
+      <app-loading-carousel />
+    </div>
+
+    <!-- All Industries Content -->
+    <ng-template #allIndustriesContent>
+      <div *ngIf="allIndustries">
+        <div
+          *ngIf="
+            allIndustries && allIndustries.length > 0;
+            else noAllIndustries
+          "
+        >
+          <div class="search-header">
+            <mat-icon svgIcon="source_environment" />
+            <h5 i18n>Industries</h5>
+          </div>
+          <div class="grid">
+            <app-industry-tile
+              *ngFor="let industry of allIndustries"
+              class="industry-card"
+              [industry]="industry"
+            />
+          </div>
+          <!-- Load More Button -->
+          <div class="load-more-button">
+            <!-- Loading state for all industries -->
+            <div *ngIf="isLoadingMore; else moreButton">
+              <app-loading-carousel />
+            </div>
+            <ng-template #moreButton>
+              <button
+                #moreButton
+                class="nav-button-container"
+                (click)="loadMoreIndustries()"
+              >
+                <div class="slot-content">
+                  <div
+                    [ngClass]="
+                      !lastIndustry
+                        ? 'bottom-svg-container'
+                        : 'top-svg-container'
+                    "
+                  >
+                    <svg
+                      width="124"
+                      height="32"
+                      viewBox="0 0 124 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                        i18n-d
+                        fill="#c1e8da"
+                      />
+                    </svg>
+                    <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+                  </div>
+                  <h5 i18n>{{ !lastIndustry ? "Load More" : "Scroll Top" }}</h5>
+                </div>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <ng-template #noAllIndustries>
+          <div class="no-results">
+            <p i18n>No industries found for your search.</p>
+            <button
+              mat-flat-button
+              class="primary-stroked-md-button"
+              (click)="onExplorePopularIndustries()"
+              i18n
+            >
+              Explore Industries
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

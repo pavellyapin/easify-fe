@@ -1,0 +1,159 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<div class="all-container padded">
+  <!-- Filters Section inside mat-expansion-panel -->
+  <!-- Filters Section using mat-menu -->
+  <div class="filters-container">
+    <div class="filter-icon-and-chips">
+      <button
+        #filterTrigger="matMenuTrigger"
+        mat-icon-button
+        i18n-aria-label
+        aria-label="Filter options"
+        [matMenuTriggerFor]="filtersMenu"
+      >
+        <mat-icon i18n>filter_list</mat-icon>
+      </button>
+      <!-- Display Categories in Chip List -->
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip *ngFor="let category of filterForm.get('tags')?.value">
+            {{ category | capitalize }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <mat-menu #filtersMenu="matMenu" disableClose [hasBackdrop]="true">
+      <form
+        class="filters-form"
+        [formGroup]="filterForm"
+        (click)="$event.stopPropagation()"
+      >
+        <fieldset>
+          <!-- Category Autocomplete -->
+          <app-industries-autocomplete
+            (industryAdded)="onCategorySelected($event)"
+          />
+
+          <!-- Display Categories in Chip List -->
+          <div class="app-chips-secondary">
+            <mat-chip-set>
+              <mat-chip
+                *ngFor="let category of filterForm.get('tags')?.value"
+                (removed)="removeCategory(category)"
+              >
+                {{ category | capitalize }}
+                <mat-icon i18n matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </fieldset>
+        <fieldset class="new-switch">
+          <caption i18n class="new-chip">New</caption>
+          <mat-slide-toggle formControlName="isNew" color="primary" i18n>
+            New
+          </mat-slide-toggle>
+        </fieldset>
+        <!-- Buttons to Apply or Reset Filters -->
+        <div class="filter-buttons">
+          <button
+            mat-flat-button
+            color="primary"
+            class="primary-stroked-md-button"
+            (click)="onFilterSubmit(filterTrigger)"
+            i18n
+          >
+            Apply
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            class="primary-full-md-button"
+            (click)="resetFilters(filterTrigger)"
+            i18n
+          >
+            Reset
+          </button>
+        </div>
+      </form>
+    </mat-menu>
+  </div>
+  <div class="grid-section">
+    <h2 i18n>All Industries</h2>
+
+    <!-- Loading state for all industries -->
+    <div *ngIf="isLoadingAll; else allIndustriesContent">
+      <app-loading-carousel />
+    </div>
+
+    <!-- All Industries Content -->
+    <ng-template #allIndustriesContent>
+      <div *ngIf="allIndustries$ | async as allIndustries">
+        <div
+          *ngIf="
+            allIndustries && allIndustries.length > 0;
+            else noAllIndustries
+          "
+        >
+          <div class="grid-2">
+            <app-industry-tile
+              *ngFor="let industry of allIndustries"
+              class="industry-card"
+              [industry]="industry"
+            />
+          </div>
+          <!-- Load More Button -->
+          <div class="load-more-button">
+            <!-- Loading state for all industries -->
+            <div *ngIf="isLoadingMore; else moreButton">
+              <app-loading-carousel />
+            </div>
+            <ng-template #moreButton>
+              <button
+                #moreButton
+                class="nav-button-container"
+                (click)="loadMoreIndustries()"
+              >
+                <div class="slot-content">
+                  <div
+                    [ngClass]="
+                      lastIndustry
+                        ? 'bottom-svg-container'
+                        : 'top-svg-container'
+                    "
+                  >
+                    <svg
+                      width="124"
+                      height="32"
+                      viewBox="0 0 124 32"
+                      fill="none"
+                    >
+                      <path
+                        d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+                        i18n-d
+                        fill="#c1e8da"
+                      />
+                    </svg>
+                    <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+                  </div>
+                  <h5 i18n>{{ lastIndustry ? "Load More" : "Scroll Top" }}</h5>
+                </div>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <ng-template #noAllIndustries>
+          <p i18n>No industries found.</p>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -169,4 +169,13 @@ export class FitnessWorkoutsService {
     const resultPromise = filterWorkoutsFunction(requestPayload);
     return from(resultPromise); // Convert the Promise to an Observable
   }
+
+  workoutKeywordSearch(keyword: string): Observable<any> {
+    const workoutKeywordSearchFunction = httpsCallable(
+      this.functions,
+      'workoutKeywordSearch',
+    );
+    const resultPromise = workoutKeywordSearchFunction({ keyword });
+    return from(resultPromise); // Convert the Promise to an Observable
+  }
 }

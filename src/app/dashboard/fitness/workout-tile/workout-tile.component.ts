@@ -24,7 +24,9 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { WorkoutItem } from '@components/models/workout.models';
+import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
+import { setDashboardLoading } from '@store/loader/loading.actions';
 
 @Component({
   selector: 'app-workout-tile',
@@ -53,6 +55,7 @@ export class WorkoutTileComponent implements AfterViewInit, OnChanges {
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private store: Store,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -102,8 +105,13 @@ export class WorkoutTileComponent implements AfterViewInit, OnChanges {
   }
 
   startWorkout(workoutId: string) {
+    this.store.dispatch(setDashboardLoading({ isLoading: true }));
     try {
-      this.router.navigate(['dashboard/workout/', workoutId]);
+      setTimeout(() => {
+        this.router.navigate(['dashboard/workout/', workoutId]).then(() => {
+          this.store.dispatch(setDashboardLoading({ isLoading: false }));
+        });
+      }, 200);
     } catch (error: any) {
       console.error('Failed to start workout:', error);
     }

@@ -78,7 +78,19 @@ exports.filterCourses = functions.https.onCall(async (data, context) => {
 
     // Fetch the next batch of `count` courses
     console.log(`Fetching the next batch of ${count} courses`);
-    const coursesSnapshot = await coursesQuery.limit(count).get();
+    const coursesSnapshot = await coursesQuery
+      .select(
+        "createdDate",
+        "name",
+        "isNew",
+        "category",
+        "overview",
+        "level",
+        "image",
+        "tags",
+      )
+      .limit(count)
+      .get();
 
     // Check if any courses were retrieved
     if (coursesSnapshot.empty) {

@@ -16,7 +16,6 @@ import { CourseItem } from '@components/models/course.models';
 import { Store } from '@ngrx/store';
 import { CoursesProgressService } from '@services/courses-progress.service';
 import { CoursesService } from '@services/courses.service';
-import { setDashboardLoading } from '@store/loader/loading.actions';
 import * as StartedCourseActions from '@store/started-course/started-course.actions';
 
 @Injectable({
@@ -31,7 +30,6 @@ export class CourseGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
-    this.store.dispatch(setDashboardLoading(true));
     const courseId = route.paramMap.get('id')!;
     try {
       // Fetch the course by ID
@@ -86,7 +84,6 @@ export class CourseGuard implements CanActivate {
         this.store.dispatch(
           StartedCourseActions.loadStartedCourseSuccess({ startedCourse }),
         );
-        this.store.dispatch(setDashboardLoading(false));
         return true;
       }
 
@@ -105,8 +102,6 @@ export class CourseGuard implements CanActivate {
           responses: easifyResponses,
         }),
       );
-
-      this.store.dispatch(setDashboardLoading(false));
 
       // Allow navigation
       return true;

@@ -1,0 +1,79 @@
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<!-- Breadcrumb Navigation -->
+<div *ngIf="portfolio" class="portfolio-overview-container">
+  <div class="breadcrumbs scrollable-breadcrumbs">
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('home')"
+      >
+        <span i18n>Home</span>
+      </button>
+    </span>
+    <span>
+      <button
+        mat-button
+        class="breadcrumb-button"
+        (click)="navigateToBreadcrumb('investmentHub')"
+      >
+        <span i18n>Investment Hub</span>
+      </button>
+    </span>
+
+    <span class="breadcrumb-button">{{ portfolio.name }}</span>
+  </div>
+
+  <div class="main-with-side padded">
+    <div class="main-content">
+      <app-portfolio-intro
+        [portfolio]="portfolio"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedPortfolio]="startedPortfolio$ | async"
+      />
+
+      <section class="table-of-contents">
+        <app-portfolio-holdings
+          [portfolio]="portfolio"
+          [isMobile]="isMobile"
+          [isTablet]="isTablet"
+          [startedPortfolio]="startedPortfolio$ | async"
+        />
+      </section>
+    </div>
+
+    <div class="side-content">
+      <app-portfolio-stats
+        [portfolio]="portfolio"
+        [isMobile]="isMobile"
+        [isTablet]="isTablet"
+        [startedPortfolio]="startedPortfolio$ | async"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Started Portfolios Section -->
+<div *ngIf="false" class="portfolios-section padded">
+  <h5 i18n>Recommended Investment Plans</h5>
+
+  <!-- Loading state with card skeletons -->
+  <div
+    *ngIf="isLoadingRecommendedPortfolios; else recommendedPortfoliosContent"
+  >
+    <app-loading-carousel />
+  </div>
+
+  <!-- Portfolios content when loading is finished -->
+  <ng-template #recommendedPortfoliosContent>
+    <div *ngIf="recommendedPortfolios">
+      <div *ngIf="recommendedPortfolios.length">
+        <!-- Use the app-portfolios-carousel component -->
+        <app-portfolios-carousel [portfolios]="recommendedPortfolios" />
+      </div>
+    </div>
+  </ng-template>
+</div>

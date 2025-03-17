@@ -1,0 +1,68 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="stats-container">
+  <ng-container *ngIf="!isMobile && !isTablet; else portfolioOverview">
+    <!-- Portfolio Overview for Large Screens -->
+    <div class="details">
+      <p i18n>
+        This portfolio was carefully curated using AI-powered financial
+        analysis, offering a balanced mix of asset classes to optimize risk and
+        return.
+      </p>
+    </div>
+  </ng-container>
+
+  <ng-template #portfolioOverview>
+    <!-- Portfolio Name -->
+    <h3>{{ portfolio?.name }}</h3>
+
+    <!-- Portfolio Overview -->
+    <p>{{ portfolio?.description }}</p>
+  </ng-template>
+
+  <!-- Start Portfolio Button -->
+  <div class="button-container">
+    <button
+      mat-flat-button
+      class="primary-full-lg-button"
+      (click)="initializeOrUpdateProgress()"
+      i18n
+    >
+      Start Portfolio
+    </button>
+  </div>
+
+  <!-- Column of 4 rows with icon and text -->
+  <div class="stats-rows scrollable-row">
+    <span class="stat-row">
+      <mat-icon [svgIcon]="getRiskLevelIcons(portfolio.riskLevel)" />
+      <p>{{ portfolio.riskLevel | capitalize }}</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon [svgIcon]="'global'" />
+      <p>{{ portfolio.category | capitalize }}</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon [svgIcon]="'receipt-item'" />
+      <p i18n>{{ holdingsCount }} Holdings</p>
+    </span>
+    <span class="stat-row">
+      <mat-icon [svgIcon]="'alarm'" />
+      <p i18n>{{ timeSpan }}</p>
+    </span>
+  </div>
+
+  <app-suggested-action
+    [actions]="[
+      {
+        title: 'Not sure where to invest?',
+        subtext: 'Get AI-driven recommendations',
+        buttonText: 'Generate Portfolio Plan',
+        callback: completeModule,
+      },
+    ]"
+  />
+</div>

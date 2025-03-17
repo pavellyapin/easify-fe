@@ -123,7 +123,7 @@ export class TimeslotComponent implements OnInit, OnChanges, OnDestroy {
             );
             break;
           case ItemType.Financial:
-            fetchFn = this.financialPlanningService.recommendPlans.bind(
+            fetchFn = this.financialPlanningService.recommendPortfolios.bind(
               this.financialPlanningService,
             );
             break;

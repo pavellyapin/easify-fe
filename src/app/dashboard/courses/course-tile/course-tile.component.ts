@@ -24,7 +24,9 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { CourseItem } from '@components/models/course.models';
+import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
+import { setDashboardLoading } from '@store/loader/loading.actions';
 
 @Component({
   selector: 'app-course-tile',
@@ -53,6 +55,7 @@ export class CourseTileComponent implements AfterViewInit, OnChanges {
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private store: Store,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -103,8 +106,13 @@ export class CourseTileComponent implements AfterViewInit, OnChanges {
   }
 
   startCourse(courseId: string) {
+    this.store.dispatch(setDashboardLoading({ isLoading: true }));
     try {
-      this.router.navigate(['dashboard/course/', courseId]);
+      setTimeout(() => {
+        this.router.navigate(['dashboard/course/', courseId]).then(() => {
+          this.store.dispatch(setDashboardLoading({ isLoading: false }));
+        });
+      }, 200);
     } catch (error: any) {
       console.error('Failed to start course:', error);
     }

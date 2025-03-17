@@ -37,7 +37,7 @@ export class ScheduleEffects {
       switchMap((action) => {
         // Dispatch loading actions
 
-        this.store.dispatch(setDashboardLoading(true));
+        this.store.dispatch(setDashboardLoading({ isLoading: true }));
         if (action.request.forTomorrow) {
           this.store.dispatch(ScheduleActions.loadTomorrow());
         } else {
@@ -53,11 +53,11 @@ export class ScheduleEffects {
           take(1), // Ensure we respond to the first success action only
           map(() => {
             this.router.navigate(['/dashboard']); // Navigate to the dashboard
-            return setDashboardLoading(false); // Pass the success action to the reducer
+            return setDashboardLoading({ isLoading: false }); // Pass the success action to the reducer
           }),
           catchError((error) => {
             console.error('Error handling schedule via WebSocket:', error);
-            this.store.dispatch(setDashboardLoading(false));
+            this.store.dispatch(setDashboardLoading({ isLoading: false }));
             return of(refreshScheduleFailure({ error }));
           }),
         );
@@ -105,11 +105,11 @@ export class ScheduleEffects {
               take(1), // Ensure we respond to the first success action only
               map(() => {
                 this.router.navigate(['/dashboard']); // Navigate to the dashboard
-                return setDashboardLoading(false); // Pass the success action to the reducer
+                return setDashboardLoading({ isLoading: false }); // Pass the success action to the reducer
               }),
               catchError((error) => {
                 console.error('Error handling schedule via WebSocket:', error);
-                this.store.dispatch(setDashboardLoading(false));
+                this.store.dispatch(setDashboardLoading({ isLoading: false }));
                 return of(refreshScheduleFailure({ error }));
               }),
             );

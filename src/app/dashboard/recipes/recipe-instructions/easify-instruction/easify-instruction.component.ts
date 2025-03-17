@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -6,10 +7,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EasifyResponseContentComponent } from '@components/easify-response-content/easify-response-content.component';
 import { Store } from '@ngrx/store';
 import { TimeUtilsAndMore } from '@services/time.utils';
 import { selectEasifyRecipesResponses } from '@store/started-recipe/started-recipe.selectors';
@@ -18,7 +21,12 @@ import { Subscription, combineLatest, filter, map } from 'rxjs';
 @Component({
   selector: 'app-easify-instruction',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    EasifyResponseContentComponent,
+  ],
   templateUrl: './easify-instruction.component.html',
   styleUrl: './easify-instruction.component.scss',
 })
@@ -28,6 +36,7 @@ export class EasifyInstructionComponent implements OnInit, OnDestroy {
   recipeId!: string;
   stage!: number;
   instructionIndex!: number;
+  context: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,10 +51,11 @@ export class EasifyInstructionComponent implements OnInit, OnDestroy {
         this.store.select(selectEasifyRecipesResponses),
         this.route.paramMap,
         this.route.parent?.paramMap || [],
+        this.route.parent?.data || [],
       ])
         .pipe(
-          filter(([responses]) => !!responses),
-          map(([responses, params, parentParams]) => {
+          filter(([responses, , , parentData]) => !!responses && !!parentData),
+          map(([responses, params, parentParams, parentData]) => {
             this.recipeId = parentParams.get('id')!;
             this.stage = parseInt(
               params.get('stage') || parentParams.get('stage') || '1',
@@ -63,6 +73,13 @@ export class EasifyInstructionComponent implements OnInit, OnDestroy {
                     this.instructionIndex - 1,
               )
               .pop();
+            // Use the recipe data from the parent route
+            const recipe = parentData['recipe'];
+            if (recipe) {
+              this.context = `I am going through the recipe "${recipe.name}".`;
+            } else {
+              this.context = 'Recipe information is not available.';
+            }
           }),
         )
         .subscribe(),

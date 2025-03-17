@@ -1,0 +1,78 @@
+<!-- eslint-disable @angular-eslint/template/no-interpolation-in-attributes -->
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<div class="stats-container">
+  <ng-container *ngIf="!isMobile && !isTablet; else industryOverview">
+    <!-- Title and Subtext -->
+    <div class="details">
+      <p i18n>
+        This industry was crafted by our latest AI model, blending cutting-edge
+        technology with expert insights. It delivers a tailored learning
+        experience, ensuring each module is clear, engaging, and up-to-date with
+        the latest trends and research.
+      </p>
+    </div>
+  </ng-container>
+  <ng-template #industryOverview>
+    <!-- Industry Name -->
+    <h3>{{ industry?.name }}</h3>
+
+    <!-- Industry Overview -->
+    <p>{{ industry?.detailedInfo.description }}</p>
+  </ng-template>
+
+  <!-- Column of 4 rows with icon and text -->
+  <div class="stats-rows scrollable-row">
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{
+          industry?.detailedInfo.averageSalaryRange.entryLevel.range
+        }}entryLevel
+      </p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{ industry?.detailedInfo.averageSalaryRange.midLevel.range }}midLevel
+      </p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{
+          industry?.detailedInfo.averageSalaryRange.seniorLevel.range
+        }}seniorLevel
+      </p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{ industry?.detailedInfo.keyMetrics.averageWorkHours }}averageWorkHours
+      </p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{ industry?.detailedInfo.keyMetrics.employmentRate }}employmentRate
+      </p>
+    </span>
+    <span class="stat-row">
+      <mat-icon svgIcon="chapters" />
+      <p i18n>
+        {{ industry?.detailedInfo.keyMetrics.turnoverRate }}turnoverRate
+      </p>
+    </span>
+  </div>
+  <app-suggested-action
+    [actions]="[
+      {
+        title: 'Not sure where to start?',
+        subtext: 'Get started with basics',
+        buttonText: 'Generate learning path',
+        callback: completeModule,
+      },
+    ]"
+  />
+</div>

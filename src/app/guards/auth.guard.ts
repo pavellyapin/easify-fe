@@ -19,7 +19,7 @@ export const loggedIn: CanActivateFn = () => {
   return authState(auth).pipe(
     take(1),
     switchMap((user) => {
-      store.dispatch(setLoginLoading(true));
+      store.dispatch(setLoginLoading({ isLoading: true }));
       if (user) {
         store.dispatch(setProfileInfo()); // Dispatch the action to set the profile
 
@@ -28,7 +28,7 @@ export const loggedIn: CanActivateFn = () => {
           filter((isLoading) => !isLoading),
           take(1),
           map((isLoading) => {
-            store.dispatch(setLoginLoading(false));
+            store.dispatch(setLoginLoading({ isLoading: false }));
             if (!isLoading) {
               return true; // Allow navigation
             } else {
@@ -39,7 +39,7 @@ export const loggedIn: CanActivateFn = () => {
           }),
         );
       } else {
-        store.dispatch(setLoginLoading(false));
+        store.dispatch(setLoginLoading({ isLoading: false }));
         router.navigate(['/login']);
         return of(false); // User not logged in, deny navigation
       }

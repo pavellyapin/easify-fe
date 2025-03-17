@@ -20,7 +20,9 @@ import {
   getDoc,
 } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
-import { Observable, from, map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectWorkSkills } from '@store/user/user.selector';
+import { Observable, from, map, of, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,7 @@ export class GrowthService {
   constructor(
     private firestore: Firestore,
     private functions: Functions,
+    private store: Store,
   ) {}
 
   // Fetch a specific industry by its ID
@@ -41,7 +44,6 @@ export class GrowthService {
 
       if (industrySnapshot.exists()) {
         const industryData = industrySnapshot.data();
-        console.log('Fetched industry:', industryData);
 
         // Return the industry data
         return { id: industrySnapshot.id, ...industryData };
@@ -115,9 +117,80 @@ export class GrowthService {
     );
   }
 
+  getIndustryFilters(): Observable<string[]> {
+    return this.store.select(selectWorkSkills).pipe(
+      take(1),
+      switchMap((workSkills) => {
+        const industries = workSkills?.industryCategories;
+
+        // If categories exist in lifestyleHealth, return them as an Observable
+        if (industries && industries.length > 0) {
+          return of(industries);
+        }
+
+        // If no lifestyle categories exist, return an Observable from the Promise
+        return from(this.getTopIndustriesFromTagCounts());
+      }),
+    );
+  }
+
+  private async getTopIndustriesFromTagCounts(): Promise<string[]> {
+    const tagCountsRef = doc(this.firestore, 'tagCounts/industryTags');
+    const tagCountsDoc = await getDoc(tagCountsRef);
+
+    if (tagCountsDoc.exists()) {
+      const industriesData = tagCountsDoc.data()['tags'] || [];
+
+      // Sort categories by count in descending order
+      const sortedIndustries = industriesData
+        .sort((a: any, b: any) => b.count - a.count)
+        .map((industry: any) => industry.tag);
+
+      // Return a random selection of 3 categories from the top 20
+      const topIndustries = sortedIndustries.slice(0, 20);
+      return this.getRandomSample(topIndustries, 3);
+    }
+
+    return [];
+  }
+
+  filterIndustries(
+    filters: {
+      categories?: string[];
+      tags?: string[];
+      isNew?: boolean;
+      sortBy?: string;
+    },
+    count: number,
+    lastIndustry: any = null, // Pass the last workout for pagination (batch loading)
+  ): Observable<any> {
+    const filterIndustriesFunction = httpsCallable(
+      this.functions,
+      'filterIndustries',
+    );
+
+    const requestPayload = {
+      ...filters,
+      count,
+      lastIndustry,
+    };
+
+    const resultPromise = filterIndustriesFunction(requestPayload);
+    return from(resultPromise); // Convert the Promise to an Observable
+  }
+
   // Helper function to get a random sample from an array
   private getRandomSample<T>(array: T[], sampleSize: number): T[] {
     const shuffled = [...array].sort(() => 0.5 - Math.random()); // Shuffle the array
     return shuffled.slice(0, sampleSize); // Return the first 'sampleSize' elements
+  }
+
+  industryKeywordSearch(keyword: string): Observable<any> {
+    const industryKeywordSearchFunction = httpsCallable(
+      this.functions,
+      'industryKeywordSearch',
+    );
+    const resultPromise = industryKeywordSearchFunction({ keyword });
+    return from(resultPromise); // Convert the Promise to an Observable
   }
 }

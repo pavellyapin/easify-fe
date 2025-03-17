@@ -163,10 +163,6 @@ export class ScheduleService {
 
       // Save the updated schedule document
       await setDoc(scheduleRef, scheduleData, { merge: true });
-
-      console.log(
-        `Recommendations saved for schedule: ${scheduleId}, time slot index: ${timeSlotIndex}`,
-      );
     } catch (error) {
       console.error(
         `Error saving recommendations for schedule: ${scheduleId}, time slot index: ${timeSlotIndex}`,

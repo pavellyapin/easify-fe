@@ -1,0 +1,48 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<ng-container *ngIf="!loading; else loadingPortfolioNav">
+  <div class="portfolio-nav-container">
+    <div
+      *ngFor="
+        let assetClass of startedPortfolio.progress.assetClass;
+        let i = index
+      "
+      class="asset-class"
+    >
+      <!-- Asset Class Title with Icon -->
+      <p class="asset-class-title">
+        <mat-icon
+          class="toggle-icon"
+          [svgIcon]="getAssetClassIcon(assetClass.name, i) || 'more-horiz'"
+        />
+        <span class="asset-class-text">
+          {{ financialService.getAssetClassLabel(assetClass.name) }}
+        </span>
+      </p>
+
+      <!-- Expanded View Showing Holdings -->
+      <div class="asset-class-content">
+        <ul class="holdings-list">
+          <li
+            *ngFor="let holding of portfolio[assetClass.name]; let j = index"
+            class="holding-item"
+          >
+            <mat-chip class="app-primary-chip">
+              {{ holding.ticker | uppercase }}
+            </mat-chip>
+            <caption class="holding-text">
+              {{ holding.name }}
+            </caption>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loadingPortfolioNav>
+  <app-loading-nav />
+</ng-template>

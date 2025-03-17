@@ -1,0 +1,14 @@
+.easify-response {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .actions {
+    display: flex;
+    justify-content: space-between; // Space between the buttons
+    align-items: center; // Center align buttons vertically
+    gap: 20px;
+    margin-top: 16px; // Add some space above the buttons
+  }
+}

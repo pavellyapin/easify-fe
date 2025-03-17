@@ -1,0 +1,55 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+
+<ng-container *ngIf="!isMobile && !isTablet">
+  <!-- Industry Name -->
+  <h3>{{ industry?.name }}</h3>
+
+  <!-- Industry Overview -->
+  <summary>{{ industry?.detailedInfo.description }}</summary>
+</ng-container>
+<ng-container *ngIf="startedIndustry.progress.progress">
+  <h5 class="section-title" i18n>
+    {{
+      startedIndustry.status === "completed"
+        ? "Industry complete!"
+        : "Keep up the great work!"
+    }}
+  </h5>
+  <!-- Progress bar below image -->
+  <mat-progress-bar
+    mode="determinate"
+    class="custom-progress-bar"
+    i18n-mode
+    [value]="startedIndustry.progress.progress"
+  />
+  <p class="caption" i18n>
+    {{
+      startedIndustry.status === "completed"
+        ? "Great job! You’ve completed another industry. Keep going!"
+        : "You're making amazing progress! Stay focused to reach your next milestone."
+    }}
+  </p>
+  <p *ngIf="startedIndustry.status !== 'completed'" class="caption" i18n>
+    {{ getRemainingPercentage() }}% remaining to complete this industry
+  </p>
+</ng-container>
+
+<!-- Skills You'll Gain Section -->
+<h5 class="section-title" i18n>Skills you'll gain</h5>
+<div class="chips-container">
+  <div class="app-chips-secondary">
+    <mat-chip-set>
+      <mat-chip
+        *ngFor="let tag of industry?.tags"
+        i18n-ngFor
+        [removable]="false"
+      >
+        {{ tag | capitalize }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>

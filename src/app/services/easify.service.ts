@@ -32,16 +32,31 @@ export class EasifyService {
 
   getChatResponse(
     message: string,
-    conversation: { role: string; content: string }[],
+    conversation: { user: string; message: string }[],
   ): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    return from(
+      this.auth.currentUser?.getIdToken() ??
+        Promise.reject('User not authenticated'),
+    ).pipe(
+      switchMap((token: string) => {
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        });
 
-    return this.http.post<any>(
-      `${this.baseUrl}/getPrompt`,
-      { message, conversation },
-      { headers },
+        return this.http.post<any>(
+          `${this.baseUrl}/getPrompt`,
+          { message, conversation },
+          {
+            headers,
+          },
+        );
+      }),
+      catchError((error) => {
+        console.error('Error occurred while chatting:', error);
+        this.router.navigate(['dashboard', 'error']);
+        return throwError(() => new Error('Error chatting'));
+      }),
     );
   }
 
@@ -181,7 +196,7 @@ export class EasifyService {
                   miniResume: data.analysisResultObj,
                 }),
               );
-              this.store.dispatch(setDashboardLoading(false));
+              this.store.dispatch(setDashboardLoading({ isLoading: false }));
             } else {
               console.error('Error from WebSocket:', data.message);
               this.store.dispatch(
@@ -189,7 +204,7 @@ export class EasifyService {
                   error: data.message,
                 }),
               );
-              this.store.dispatch(setDashboardLoading(false));
+              this.store.dispatch(setDashboardLoading({ isLoading: false }));
             }
           } catch (error) {
             console.error('Error processing WebSocket message:', error);
@@ -198,10 +213,10 @@ export class EasifyService {
                 error: error,
               }),
             );
-            this.store.dispatch(setDashboardLoading(false));
+            this.store.dispatch(setDashboardLoading({ isLoading: false }));
           } finally {
             socket.close();
-            this.store.dispatch(setDashboardLoading(false));
+            this.store.dispatch(setDashboardLoading({ isLoading: false }));
           }
         };
 
@@ -213,7 +228,7 @@ export class EasifyService {
               error: 'WebSocket connection error',
             }),
           );
-          this.store.dispatch(setDashboardLoading(false));
+          this.store.dispatch(setDashboardLoading({ isLoading: false }));
           socket.close();
         };
       })
@@ -222,7 +237,7 @@ export class EasifyService {
         this.store.dispatch(
           StartedGrowthActions.loadMiniResumeFailure({ error }),
         );
-        this.store.dispatch(setDashboardLoading(false));
+        this.store.dispatch(setDashboardLoading({ isLoading: false }));
       });
   }
 

@@ -7,7 +7,16 @@
 }
 
 .logo {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  height: 100%; // Ensures it aligns within the toolbar
+}
+
+.logo-image {
+  max-width: 180px; // Prevents excessive width
+  height: 40px; // Adjust as needed
+  max-height: 100%;
+  object-fit: contain; // Ensures the image scales properly
 }
 
 .spacer {
@@ -37,6 +46,8 @@
   font-size: 16px;
 }
 
-::ng-deep .mat-mdc-menu-content {
-  padding-right: 20px !important;
+::ng-deep .profile-menu {
+  .mat-mdc-menu-content {
+    padding-right: 20px !important;
+  }
 }

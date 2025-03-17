@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomDayStepActionsComponent } from '@components/step-actions/step-actions.component';
 import { CourseCategoryAutocompleteComponent } from '@dashboard/courses/course-category-autocomplete/course-category-autocomplete.component';
+import { LoadingChipsComponent } from '@dashboard/daily-look/timeslot/loading-chips/loading-chips.component';
 import { IndustriesAutocompleteComponent } from '@dashboard/personal-growth/industries-autocomplete/industries-autocomplete.component';
 import { Store } from '@ngrx/store';
 import { CapitalizePipe } from '@services/capitalize.pipe';
@@ -45,6 +46,7 @@ import { Subscription, take } from 'rxjs';
     CourseCategoryAutocompleteComponent,
     CapitalizePipe,
     CustomDayStepActionsComponent,
+    LoadingChipsComponent,
   ],
   templateUrl: './work-skills.component.html',
   styleUrl: './work-skills.component.scss',
@@ -56,6 +58,7 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
   showHybridOptions = false;
   workSkills$: Subscription = new Subscription();
   subscriptions: Subscription[] = [];
+  chipsLoading = false;
 
   constructor(
     private industryService: GrowthService,
@@ -71,6 +74,8 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
       hybridStatus: new FormControl(''),
     });
 
+    this.chipsLoading = true;
+
     // Subscribe to workSkills state and prepopulate the form
     const workSkillsSub = this.store
       .select(UserSelectors.selectWorkSkills)
@@ -81,6 +86,9 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
           this.addedIndustries = workSkills.industries || this.addedIndustries;
           this.addedCourseTags = workSkills.courseTags || this.addedCourseTags;
         }
+        setTimeout(() => {
+          this.chipsLoading = false;
+        }, 500);
       });
 
     this.subscriptions.push(workSkillsSub);
@@ -129,7 +137,6 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
     if (industry && !this.addedIndustries.includes(industry)) {
       // Add the new industry to the array
       this.addedIndustries = [...this.addedIndustries, industry];
-      console.log('Industry added:', industry);
     } else {
       console.log('Industry already exists or is invalid.');
     }
@@ -150,8 +157,6 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
         ...this.addedIndustries.slice(0, index),
         ...this.addedIndustries.slice(index + 1),
       ];
-
-      console.log('Industry removed:', industry);
     }
   }
 
@@ -161,7 +166,6 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
     if (courseTag && !this.addedCourseTags.includes(courseTag)) {
       // Add the new course tag to the array using immutability
       this.addedCourseTags = [...this.addedCourseTags, courseTag];
-      console.log('Course tag added:', courseTag);
     } else {
       console.log('Course tag already exists or is invalid.');
     }
@@ -182,8 +186,6 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
         ...this.addedCourseTags.slice(0, index),
         ...this.addedCourseTags.slice(index + 1),
       ];
-
-      console.log('Course tag removed:', courseTag);
     }
   }
 
@@ -204,8 +206,6 @@ export class WorkSkillsComponent implements OnInit, OnDestroy {
 
       // Dispatch the setWorkSkills action with the form data
       this.store.dispatch(UserActions.setWorkSkills({ workSkills }));
-
-      console.log('Form Submitted', workSkills);
     } else {
       console.log('Form is invalid');
     }

@@ -170,4 +170,13 @@ export class CoursesService {
       }),
     );
   }
+
+  courseKeywordSearch(keyword: string): Observable<any> {
+    const courseKeywordSearchFunction = httpsCallable(
+      this.functions,
+      'courseKeywordSearch',
+    );
+    const resultPromise = courseKeywordSearchFunction({ keyword });
+    return from(resultPromise); // Convert the Promise to an Observable
+  }
 }

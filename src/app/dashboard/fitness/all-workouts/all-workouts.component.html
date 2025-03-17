@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
@@ -5,6 +7,112 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- All Workouts Section takes full width -->
 <div class="all-container padded">
+  <div class="filters-container">
+    <div class="filter-icon-and-chips">
+      <button
+        #filterTrigger="matMenuTrigger"
+        mat-icon-button
+        i18n-aria-label
+        aria-label="Filter options"
+        [matMenuTriggerFor]="filtersMenu"
+      >
+        <mat-icon i18n>filter_list</mat-icon>
+      </button>
+      <!-- Display Categories in Chip List -->
+      <div class="app-chips-secondary">
+        <mat-chip-set>
+          <mat-chip
+            *ngFor="let category of filterForm.get('categories')?.value"
+          >
+            {{ category | capitalize }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <mat-menu #filtersMenu="matMenu" disableClose [hasBackdrop]="true">
+      <form
+        class="filters-form"
+        [formGroup]="filterForm"
+        (click)="$event.stopPropagation()"
+      >
+        <fieldset>
+          <!-- Category Autocomplete -->
+          <app-workout-category-autocomplete
+            (categoryAdded)="onCategorySelected($event)"
+          />
+          <!-- Display Categories in Chip List -->
+          <div class="app-chips-secondary">
+            <mat-chip-set>
+              <mat-chip
+                *ngFor="let category of filterForm.get('categories')?.value"
+                (removed)="removeCategory(category)"
+              >
+                {{ category | capitalize }}
+                <mat-icon i18n matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </fieldset>
+        <div class="level-selector custom-checkbox-container">
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('levels')?.value.includes('beginner')"
+            (change)="onLevelChange('beginner', $event.checked)"
+          >
+            <mat-icon svgIcon="beginner" />
+            <span i18n>Beginner</span>
+          </mat-checkbox>
+
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('levels')?.value.includes('intermediate')"
+            (change)="onLevelChange('intermediate', $event.checked)"
+          >
+            <mat-icon svgIcon="intermediate" />
+            <span i18n>Intermediate</span>
+          </mat-checkbox>
+
+          <mat-checkbox
+            class="icon-checkbox"
+            [checked]="filterForm.get('levels')?.value.includes('advanced')"
+            (change)="onLevelChange('advanced', $event.checked)"
+          >
+            <mat-icon svgIcon="advanced" />
+            <span i18n>Advanced</span>
+          </mat-checkbox>
+        </div>
+        <fieldset class="new-switch">
+          <caption i18n class="new-chip">New</caption>
+          <mat-slide-toggle formControlName="isNew" color="primary" i18n>
+            New
+          </mat-slide-toggle>
+        </fieldset>
+        <!-- Buttons to Apply or Reset Filters -->
+        <div class="filter-buttons">
+          <button
+            mat-flat-button
+            color="primary"
+            class="primary-stroked-md-button"
+            (click)="onFilterSubmit(filterTrigger)"
+            i18n
+          >
+            Apply
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            class="primary-full-md-button"
+            (click)="resetFilters(filterTrigger)"
+            i18n
+          >
+            Reset
+          </button>
+        </div>
+      </form>
+    </mat-menu>
+  </div>
   <div class="grid-section">
     <h2 i18n>All Workouts</h2>
 
@@ -68,89 +176,4 @@
       </div>
     </ng-template>
   </div>
-
-  <!-- Filters Section inside mat-expansion-panel -->
-  <mat-expansion-panel *ngIf="!isLoadingAll" [expanded]="isPanelOpen">
-    <mat-expansion-panel-header>
-      <mat-panel-title i18n>Filters</mat-panel-title>
-    </mat-expansion-panel-header>
-    <form [formGroup]="filterForm">
-      <fieldset class="new-switch">
-        <caption i18n class="new-chip">New</caption>
-        <mat-slide-toggle formControlName="isNew" color="primary" i18n />
-      </fieldset>
-      <!-- Level Selection Styled as Icons -->
-      <div class="level-selector custom-checkbox-container">
-        <mat-checkbox
-          class="icon-checkbox"
-          [checked]="filterForm.get('levels')?.value.includes('beginner')"
-          (change)="onLevelChange('beginner', $event.checked)"
-        >
-          <mat-icon svgIcon="beginner" />
-          <span i18n>Beginner</span>
-        </mat-checkbox>
-
-        <mat-checkbox
-          class="icon-checkbox"
-          [checked]="filterForm.get('levels')?.value.includes('intermediate')"
-          (change)="onLevelChange('intermediate', $event.checked)"
-        >
-          <mat-icon svgIcon="intermediate" />
-          <span i18n>Intermediate</span>
-        </mat-checkbox>
-
-        <mat-checkbox
-          class="icon-checkbox"
-          [checked]="filterForm.get('levels')?.value.includes('advanced')"
-          (change)="onLevelChange('advanced', $event.checked)"
-        >
-          <mat-icon svgIcon="advanced" />
-          <span i18n>Advanced</span>
-        </mat-checkbox>
-      </div>
-
-      <fieldset>
-        <!-- Category Autocomplete -->
-        <app-workout-category-autocomplete
-          (categoryAdded)="onCategorySelected($event)"
-        />
-
-        <!-- Display Categories in Chip List -->
-        <div class="app-chips-secondary">
-          <mat-chip-set>
-            <mat-chip
-              *ngFor="let category of filterForm.get('categories')?.value"
-              (removed)="removeCategory(category)"
-            >
-              {{ category | capitalize }}
-              <mat-icon i18n matChipRemove>cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-set>
-        </div>
-      </fieldset>
-    </form>
-
-    <!-- Buttons to Apply or Reset Filters -->
-    <div class="filter-buttons">
-      <button
-        mat-flat-button
-        color="primary"
-        class="primary-stroked-md-button"
-        (click)="onFilterSubmit()"
-        i18n
-      >
-        Apply
-      </button>
-
-      <button
-        mat-stroked-button
-        color="primary"
-        class="primary-full-md-button"
-        (click)="resetFilters()"
-        i18n
-      >
-        Reset
-      </button>
-    </div>
-  </mat-expansion-panel>
 </div>

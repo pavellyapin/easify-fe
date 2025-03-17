@@ -10,16 +10,16 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingCarouselComponent } from '@components/loading-carousel/loading-carousel.component';
 import { CapitalizePipe } from '@services/capitalize.pipe';
 import { CoursesService } from '@services/courses.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { CourseCategoryAutocompleteComponent } from '../course-category-autocomplete/course-category-autocomplete.component';
 import { CourseTileComponent } from '../course-tile/course-tile.component';
@@ -35,7 +35,7 @@ import { CourseTileComponent } from '../course-tile/course-tile.component';
     MatChipsModule,
     MatIconModule,
     MatButtonModule,
-    MatExpansionModule,
+    MatMenuModule,
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
@@ -53,6 +53,7 @@ export class AllCoursesComponent implements OnInit {
   isLoadingMore = false;
   isPanelOpen = false;
   lastCourse: any = null;
+  subscriptions: Subscription[] = [];
 
   filterForm: FormGroup; // Form for the filter
 
@@ -71,37 +72,38 @@ export class AllCoursesComponent implements OnInit {
   ngOnInit(): void {
     // Set the panel to be open by default if the screen size is large
     this.isPanelOpen = window.innerWidth > 960;
-    // Fetch category filters from user workSkills or random categories
-    this.coursesService.getCategoryFilters().subscribe((categories) => {
-      this.filterForm.get('categories')?.setValue(categories); // Populate form categories
-      this.fetchCourses();
-    });
+    const categorySubscription = this.coursesService
+      .getCategoryFilters()
+      .subscribe((categories) => {
+        this.filterForm.get('categories')?.setValue(categories);
+        this.fetchCourses();
+      });
+
+    this.subscriptions.push(categorySubscription);
   }
 
   // Function to fetch courses based on form filters
   fetchCourses(): void {
-    const { categories, levels, isNew } = this.filterForm.value; // Extract form data
-
+    const { categories, levels, isNew } = this.filterForm.value;
     this.isLoadingAll = true;
 
-    this.coursesService
-      .filterCourses(
-        { categories, levels, isNew, sortBy: 'createdDate' }, // Pass filters and sort order
-        20, // Number of courses to return
-      )
+    const fetchSubscription = this.coursesService
+      .filterCourses({ categories, levels, isNew, sortBy: 'createdDate' }, 20)
       .pipe(
         catchError((error) => {
           console.error('Error fetching filtered courses:', error);
-          return of([]); // Return an empty array in case of error
+          return of([]);
         }),
         finalize(() => {
-          this.isLoadingAll = false; // Ensure the loading state is reset
+          this.isLoadingAll = false;
         }),
       )
       .subscribe((response) => {
-        this.allCourses$.next(response.data?.courses || []); // Assuming the response format
+        this.allCourses$.next(response.data?.courses || []);
         this.lastCourse = response.data?.lastCourse || null;
       });
+
+    this.subscriptions.push(fetchSubscription);
   }
 
   loadMoreCourses(): void {
@@ -115,10 +117,9 @@ export class AllCoursesComponent implements OnInit {
     }
 
     this.isLoadingMore = true;
-
     const { categories, levels, isNew } = this.filterForm.value;
 
-    this.coursesService
+    const loadMoreSubscription = this.coursesService
       .filterCourses(
         { levels, categories, isNew, sortBy: 'createdDate' },
         20,
@@ -137,6 +138,8 @@ export class AllCoursesComponent implements OnInit {
         this.allCourses$.next([...currentCourses, ...newCourses]);
         this.lastCourse = response.data?.lastCourse || null;
       });
+
+    this.subscriptions.push(loadMoreSubscription); // ✅ Store subscription
   }
 
   scrollToTop(): void {
@@ -156,7 +159,9 @@ export class AllCoursesComponent implements OnInit {
   }
 
   // Submit form and fetch courses when the filter is applied
-  onFilterSubmit(): void {
+  onFilterSubmit(filtersMenu: MatMenuTrigger): void {
+    // Close the menu
+    filtersMenu.closeMenu();
     this.fetchCourses();
   }
 
@@ -199,11 +204,18 @@ export class AllCoursesComponent implements OnInit {
     levelsControl.setValue(levels);
   }
 
-  resetFilters(): void {
+  resetFilters(filtersMenu: MatMenuTrigger): void {
     this.filterForm.reset({
       categories: [],
       levels: [],
       isNew: false,
     });
+    this.onFilterSubmit(filtersMenu);
+  }
+
+  // ✅ Unsubscribe from all active subscriptions when the component is destroyed
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = [];
   }
 }

@@ -10,10 +10,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingCarouselComponent } from '@components/loading-carousel/loading-carousel.component';
@@ -35,7 +35,7 @@ import { WorkoutTileComponent } from '../workout-tile/workout-tile.component';
     MatChipsModule,
     MatIconModule,
     MatButtonModule,
-    MatExpansionModule,
+    MatMenuModule,
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
@@ -156,7 +156,9 @@ export class AllWorkoutsComponent implements OnInit {
   }
 
   // Submit form and fetch workouts when the filter is applied
-  onFilterSubmit(): void {
+  onFilterSubmit(filtersMenu: MatMenuTrigger): void {
+    // Close the menu
+    filtersMenu.closeMenu();
     this.fetchWorkouts();
   }
 
@@ -199,11 +201,12 @@ export class AllWorkoutsComponent implements OnInit {
     levelsControl.setValue(levels);
   }
 
-  resetFilters(): void {
+  resetFilters(filtersMenu: MatMenuTrigger): void {
     this.filterForm.reset({
       categories: [],
       levels: [],
       isNew: false,
     });
+    this.onFilterSubmit(filtersMenu);
   }
 }

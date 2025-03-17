@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -10,6 +11,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EasifyResponseContentComponent } from '@components/easify-response-content/easify-response-content.component';
 import { Store } from '@ngrx/store';
 import { TimeUtilsAndMore } from '@services/time.utils';
 import { selectEasifyWorkoutResponses } from '@store/started-workout/started-workout.selectors';
@@ -18,7 +20,7 @@ import { Subscription, combineLatest, filter, map } from 'rxjs';
 @Component({
   selector: 'app-workout-easify-instruction',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, EasifyResponseContentComponent],
   templateUrl: './easify-workout-instruction.component.html',
   styleUrl: './easify-workout-instruction.component.scss',
 })
@@ -28,6 +30,7 @@ export class EasifyWorkoutInstructionComponent implements OnInit, OnDestroy {
   workoutId!: string;
   stage!: number;
   exerciseIndex!: number;
+  context: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,10 +45,11 @@ export class EasifyWorkoutInstructionComponent implements OnInit, OnDestroy {
         this.store.select(selectEasifyWorkoutResponses),
         this.route.paramMap,
         this.route.parent?.paramMap || [],
+        this.route.parent?.data || [],
       ])
         .pipe(
-          filter(([responses]) => !!responses),
-          map(([responses, params, parentParams]) => {
+          filter(([responses, , , parentData]) => !!responses && !!parentData),
+          map(([responses, params, parentParams, parentData]) => {
             this.workoutId = parentParams.get('id')!;
             this.stage = parseInt(
               params.get('stage') || parentParams.get('stage') || '1',
@@ -63,6 +67,13 @@ export class EasifyWorkoutInstructionComponent implements OnInit, OnDestroy {
                     this.exerciseIndex - 1,
               )
               .pop();
+            // Use the workout data from the parent route
+            const workout = parentData['workout'];
+            if (workout) {
+              this.context = `I am going through the workout "${workout.name}".`;
+            } else {
+              this.context = 'workout information is not available.';
+            }
           }),
         )
         .subscribe(),

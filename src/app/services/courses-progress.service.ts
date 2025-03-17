@@ -239,12 +239,8 @@ export class CoursesProgressService {
           id: doc.id, // Include document ID for reference
           ...doc.data(),
         }));
-        console.log(
-          `Fetched ${responses.length} responses for itemId: ${itemId}`,
-        );
         return responses;
       } else {
-        console.log(`No Easify responses found for itemId: ${itemId}`);
         return [];
       }
     } catch (error: any) {

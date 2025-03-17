@@ -7,8 +7,12 @@
   margin: 10px 0;
   box-shadow: none;
   width: 100%; /* Make sure it takes the full width of the container */
-  height: 300px;
+  height: 350px;
   text-align: start;
+
+  .app-chips-primary {
+    margin-top: 35px;
+  }
 
   mat-card-header {
     display: block;
@@ -35,7 +39,7 @@
   /* Floating action button positioned absolutely inside the relative container */
   .fab-bottom-right {
     position: absolute;
-    top: -20px;
+    top: -35px;
     right: 10px;
     z-index: 1000;
     border-radius: 25px;

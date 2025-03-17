@@ -65,7 +65,7 @@ export class ResumeUploadComponent implements OnInit {
     const file = this.uploadForm.get('resume')!.value;
 
     if (file) {
-      this.store.dispatch(setDashboardLoading(true));
+      this.store.dispatch(setDashboardLoading({ isLoading: true }));
       // Dispatch the loadMiniResume action
       this.store.dispatch(StartedGrowthActions.loadMiniResume());
 

@@ -69,8 +69,6 @@ export class ProfileDetailsComponent {
 
   // Single function to handle edit action for any section
   editSection(sectionType: string): void {
-    console.log(`Editing section: ${sectionType}`);
-    // Logic to navigate to the respective edit section
     this.router.navigate([`profile/edit/${sectionType}`]);
   }
 }

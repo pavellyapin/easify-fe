@@ -7,32 +7,9 @@
   <!-- Main content: recipes and banners -->
   <div class="main-content">
     <!-- Search Box Section -->
-    <div class="search-box-container primary-search-box">
-      <mat-form-field appearance="outline" i18n-appearance>
-        <mat-icon
-          i18n
-          matPrefix
-          class="search-icon"
-          (click)="onSearchKeyword(searchInput.value)"
-        >
-          search
-        </mat-icon>
-        <input
-          #searchInput
-          matInput
-          placeholder="What do you want to cook today?"
-          aria-label="What do you want to cook today?"
-          i18n-aria-label
-          i18n-placeholder
-          (keydown.enter)="onSearchKeyword(searchInput.value)"
-        />
-      </mat-form-field>
-    </div>
-
+    <app-recipe-search-box />
     <!-- Started Recipes Section -->
     <div class="recipes-section">
-      <h5 i18n>Started Recipes</h5>
-
       <!-- Loading state with card skeletons -->
       <div *ngIf="isLoadingCombinedRecipes; else startedRecipesContent">
         <app-loading-carousel />
@@ -54,7 +31,6 @@
     <div class="tracker-and-actions">
       <app-suggested-action
         *ngIf="!isTablet"
-        [title]="'Suggested Actions'"
         [actions]="[
           {
             title: 'Cook Pasta',

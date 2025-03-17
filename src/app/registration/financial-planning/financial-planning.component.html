@@ -3,24 +3,26 @@
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <form [formGroup]="financialPlanningForm">
   <!-- Headline -->
-  <h5 i18n>Financial Planning</h5>
+  <h5 i18n>Build Your Financial Future</h5>
 
   <!-- Sub-header -->
   <p class="sub-header" i18n>
-    Your financial goals and plans help us provide personalized financial advice
-    and strategies.
+    Smart financial decisions today shape your freedom tomorrow. Let’s craft a
+    plan tailored to your goals, investments, and financial aspirations.
   </p>
   <fieldset>
     <!-- Instruction Text for Categories -->
-    <h6 i18n>
-      Which financial tools and instruments would you like to learn more about?
-    </h6>
+    <h6 i18n>What areas of finance or investing are you curious about?</h6>
+    <p class="subtext" i18n>
+      Whether it's stock trading, real estate, or building passive income—select
+      the topics that matter to you.
+    </p>
 
     <!-- Categories Autocomplete -->
     <app-plan-tags-autocomplete (tagAdded)="onPlanTagAdded($event)" />
 
     <!-- Added Categories as Chips -->
-    <div class="chips-container">
+    <div *ngIf="!chipsLoading" class="chips-container">
       <div class="app-chips-secondary">
         <mat-chip-set>
           <mat-chip
@@ -34,35 +36,35 @@
         </mat-chip-set>
       </div>
     </div>
+    <div *ngIf="chipsLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
   </fieldset>
   <fieldset>
-    <!-- Instruction Text for Categories -->
-    <h6 i18n>What kind of financial plans are you interested in?</h6>
-    <!-- Categories Autocomplete -->
-    <app-plan-categories-autocomplete
-      (categoryAdded)="onCategoryAdded($event)"
-    />
-
-    <!-- Added Categories as Chips -->
-    <div class="chips-container">
-      <div class="app-chips-secondary">
-        <mat-chip-set>
-          <mat-chip
-            *ngFor="let category of addedCategories"
-            [removable]="true"
-            (removed)="removeCategory(category)"
-          >
-            {{ category | capitalize }}
-            <mat-icon i18n matChipRemove>cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-set>
-      </div>
+    <legend i18n>What are your top financial goals?</legend>
+    <p class="subtext" i18n>
+      Dream big! Whether it's retiring early, starting a business, or paying off
+      debt, share your vision for financial success.
+    </p>
+    <div class="primary-textarea-box">
+      <mat-form-field appearance="outline" class="full-width" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="goals"
+          placeholder="e.g., 'I want to save $50k in 2 years', 'Buy my first rental property'"
+          i18n-placeholder
+          rows="3"
+        ></textarea>
+      </mat-form-field>
     </div>
   </fieldset>
   <app-custom-day-step-actions
     [primaryLabel]="'Reset'"
-    [secondaryLabel]="'More Info'"
+    [secondaryLabel]="'Save & Continue'"
     (primaryButton)="resetForm()"
     (secondaryButton)="onSubmit()"
   />
 </form>
+<ng-template #loadingState>
+  <app-loading-chips />
+</ng-template>

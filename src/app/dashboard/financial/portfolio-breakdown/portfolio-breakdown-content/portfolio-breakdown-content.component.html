@@ -1,0 +1,155 @@
+<!-- eslint-disable @angular-eslint/template/use-track-by-function -->
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<!-- eslint-disable @angular-eslint/template/button-has-type -->
+<!-- Navigation Buttons for Next and Previous Steps -->
+<ng-container *ngIf="!initLoading; else loadingPortfolioTemplate">
+  <div class="nav-buttons">
+    <button mat-button class="action-link" (click)="navigatePrevious()">
+      <span i18n>Go back</span>
+      <mat-icon i18n>arrow_backward</mat-icon>
+    </button>
+  </div>
+  <div class="intro">
+    <div class="header">
+      <div>
+        <h5 class="title">{{ portfolio.name }}</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="theme-carousel">
+    <!-- Previous Step Button -->
+    <button
+      [ngClass]="
+        currentIndex === 0
+          ? 'nav-button-container opacity'
+          : 'nav-button-container'
+      "
+      (click)="goToPreviousSlide()"
+    >
+      <div class="slot-content">
+        <div class="top-svg-container">
+          <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+            <path
+              d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+              i18n-d
+              fill="#c1e8da"
+            />
+          </svg>
+          <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+        </div>
+        <div *ngIf="currentIndex > 0; else previousText" class="slot-details">
+          <h6>
+            {{ portfolio[assetClassName][currentIndex - 1]?.name }}
+          </h6>
+          <mat-chip class="app-primary-chip">
+            {{
+              portfolio[assetClassName][currentIndex - 1]?.ticker | uppercase
+            }}
+          </mat-chip>
+        </div>
+        <ng-template #previousText>
+          <div></div>
+        </ng-template>
+      </div>
+    </button>
+
+    <!-- Carousel for the Recipe Steps -->
+    <ngx-slick-carousel
+      #slickModal="slick-carousel"
+      class="carousel"
+      [config]="slideConfig"
+    >
+      <div
+        *ngFor="let holding of assetClass; let i = index"
+        class="point-content"
+        ngxSlickItem
+      >
+        <h5 class="title">{{ holding.name }}</h5>
+        <div
+          *ngIf="graphData?.length > 0"
+          #chartContainer
+          class="chart-wrapper"
+        >
+          <ngx-charts-line-chart
+            [results]="graphData"
+            [view]="chartView"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [autoScale]="true"
+            [customColors]="customColors"
+            [yAxisTickFormatting]="financialService.formatCurrency"
+            [trimXAxisTicks]="true"
+            [rotateXAxisTicks]="false"
+            [xAxisTicks]="xAxisTicks"
+            [showGridLines]="true"
+          >
+            <ng-template #tooltipTemplate let-model="model">
+              <div class="graph-tooltip">
+                <strong>{{ model.name }}</strong>
+                <h6 i18n>Total Value: {{ model.formattedValue }}</h6>
+              </div>
+            </ng-template>
+          </ngx-charts-line-chart>
+        </div>
+        <div class="action">
+          <caption class="caption" i18n>Easify AI</caption>
+          <button
+            mat-icon-button
+            matBadge="!"
+            matBadgeColor="primary"
+            i18n-matBadgeHidden
+            aria-label="Easify AI action"
+            i18n-matBadgeColor
+            [matBadgeHidden]="!holding.hasResponse"
+            i18n-aria-label
+            (click)="expandPoint(i)"
+          >
+            <mat-icon svgIcon="help" i18n />
+          </button>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+
+    <!-- Next Step Button -->
+    <button class="nav-button-container" (click)="goToNextSlide()">
+      <div class="slot-content">
+        <div class="bottom-svg-container">
+          <svg width="124" height="32" viewBox="0 0 124 32" fill="none">
+            <path
+              d="M124 17.7778C124 30.869 81.5667 32 62 32C42.4333 32 0 30.869 0 17.7778C26.5714 17.7778 33.5762 0 62 0C90.4238 0 97.4286 17.7778 124 17.7778Z"
+              i18n-d
+              fill="#c1e8da"
+            />
+          </svg>
+          <mat-icon i18n class="arrow">keyboard_arrow_up</mat-icon>
+        </div>
+        <ng-template #nextText>
+          <h5 class="opacity" i18n>Next</h5>
+        </ng-template>
+        <div
+          *ngIf="
+            currentIndex < portfolio[assetClassName].length - 1;
+            else nextText
+          "
+          class="slot-details"
+        >
+          <h6>
+            {{ portfolio[assetClassName][currentIndex + 1]?.name }}
+          </h6>
+          <mat-chip class="app-primary-chip">
+            {{
+              portfolio[assetClassName][currentIndex + 1]?.ticker | uppercase
+            }}
+          </mat-chip>
+        </div>
+      </div>
+    </button>
+  </div>
+</ng-container>
+<ng-template #loadingPortfolioTemplate>
+  <app-topic-loader />
+</ng-template>

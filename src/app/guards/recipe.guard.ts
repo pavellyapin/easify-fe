@@ -16,7 +16,6 @@ import { RecipeItem } from '@components/models/recipe.models';
 import { Store } from '@ngrx/store';
 import { RecipesProgressService } from '@services/recipes-progress.service';
 import { RecipesService } from '@services/recipes.service';
-import { setDashboardLoading } from '@store/loader/loading.actions';
 import * as StartedRecipeActions from '@store/started-recipe/started-recipe.actions';
 
 @Injectable({
@@ -31,7 +30,6 @@ export class RecipeGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
-    this.store.dispatch(setDashboardLoading(true));
     const recipeId = route.paramMap.get('id')!;
     try {
       // Fetch the recipe by ID
@@ -81,7 +79,6 @@ export class RecipeGuard implements CanActivate {
         this.store.dispatch(
           StartedRecipeActions.loadStartedRecipeSuccess({ startedRecipe }),
         );
-        this.store.dispatch(setDashboardLoading(false));
         return true;
       }
 
@@ -100,9 +97,6 @@ export class RecipeGuard implements CanActivate {
           responses: easifyResponses,
         }),
       );
-
-      this.store.dispatch(setDashboardLoading(false));
-
       // Allow navigation
       return true;
     } catch (error) {

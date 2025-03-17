@@ -1,0 +1,53 @@
+@use "variables" as var;
+
+.filters-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+}
+
+.new-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-checkbox-container {
+  padding-left: 10px;
+
+  ::ng-deep .mat-mdc-checkbox .mdc-checkbox__background {
+    display: none; /* Hide the default checkbox background */
+  }
+
+  /* Only show the circle when the checkbox is checked */
+  .mat-mdc-checkbox-checked {
+    ::ng-deep .mdc-checkbox {
+      border-radius: 25px !important;
+      background-color: var.$secondary-light-color !important;
+    }
+  }
+
+  /* Ensure each icon and label are aligned */
+  .icon-checkbox {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-bottom: 10px; /* Add space between checkboxes */
+
+    mat-icon {
+      position: absolute;
+      top: 6px;
+      left: 14px; /* Move the icon all the way to the left */
+      width: 12px;
+    }
+  }
+}

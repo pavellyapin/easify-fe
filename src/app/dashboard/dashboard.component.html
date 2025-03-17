@@ -107,7 +107,10 @@
     [mode]="'over'"
     [(opened)]="isChatOpen"
   >
-    <app-chat [isChatOpen]="isChatOpen" (chatToggled)="toggleChat()"></app-chat>
+    <app-chat
+      [isChatOpen]="isChatOpen"
+      (chatToggled)="toggleChat($event)"
+    ></app-chat>
   </mat-sidenav>
 
   <!-- Main Content Section -->
@@ -119,7 +122,7 @@
   >
     <div>
       <app-navbar (toggleSidenav)="toggleSidebar()"></app-navbar>
-      <ng-container *ngIf="!(loading$ | async); else loadingTemplate">
+      <ng-container *ngIf="!(loading$ | async).isLoading; else loadingTemplate">
         <router-outlet></router-outlet>
       </ng-container>
 
@@ -130,7 +133,7 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<div *ngIf="!isChatOpen" class="chat-bubble" (click)="toggleChat()">
+<div *ngIf="!isChatOpen" class="chat-bubble" (click)="toggleChat(!isChatOpen)">
   <img
     src="assets/illustrations/chat-circle.svg"
     alt="Chat"

@@ -8,13 +8,14 @@
   <!-- Left icon button (e.g., for sidenav toggle) -->
 
   <!-- Logo navigates to dashboard -->
-  <div
-    class="logo"
-    style="font-weight: 600; cursor: pointer"
-    (click)="navigateTo('/dashboard')"
-    i18n
-  >
-    Easify
+  <!-- Logo navigates to dashboard -->
+  <div class="logo" style="cursor: pointer" (click)="navigateTo('/dashboard')">
+    <img
+      src="assets/logo/full-grey-logo.png"
+      alt="Easify Logo"
+      class="logo-image"
+      i18n-alt
+    />
   </div>
   <span class="spacer"></span>
 
@@ -49,7 +50,7 @@
   </div>
 
   <!-- Dropdown menu for profile actions -->
-  <mat-menu #profileMenu="matMenu">
+  <mat-menu #profileMenu="matMenu" class="profile-menu">
     <button i18n mat-menu-item (click)="navigateTo('/profile')">Profile</button>
     <button
       matBadgeColor="primary"

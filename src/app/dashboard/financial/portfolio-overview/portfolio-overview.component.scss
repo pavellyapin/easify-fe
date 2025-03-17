@@ -1,0 +1,31 @@
+.portfolio-overview-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .breadcrumb-button {
+      color: #666;
+    }
+  }
+
+  .table-of-contents {
+    padding-top: 20px;
+  }
+
+  .side-content {
+    @media screen and (width <= 960px) {
+      order: 1 !important; // Ensures this stays at the top on smaller screens
+    }
+  }
+
+  .main-content {
+    @media screen and (width <= 960px) {
+      order: 2 !important; // Ensures this stays below side-content on smaller screens
+    }
+  }
+}

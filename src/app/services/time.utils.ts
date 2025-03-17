@@ -83,51 +83,24 @@ export class TimeUtilsAndMore {
     }
   }
 
-  jsonToHtml(json: any): string {
-    if (
-      typeof json === 'string' ||
-      typeof json === 'number' ||
-      typeof json === 'boolean'
-    ) {
-      return `<span>${json}</span>`;
-    }
-
-    if (Array.isArray(json)) {
-      return `
-        <ul>
-          ${json.map((item) => `<li>${this.jsonToHtml(item)}</li>`).join('')}
-        </ul>
-      `;
-    }
-
-    if (typeof json === 'object' && json !== null) {
-      return `
-        <div>
-          ${Object.entries(json)
-            .map(
-              ([key, value]) => `
-                <div>
-                  <h6>${this.formatKey(key)}</h6>
-                  <p>${this.jsonToHtml(value)}</p>
-                </div>
-              `,
-            )
-            .join('')}
-        </div>
-      `;
-    }
-
-    return '';
-  }
-
   /**
-   * Formats a JSON key into a more readable format.
-   * For example, "conflictAndRivalry" becomes "Conflict and Rivalry".
+   * Calculates the time difference between two dates and returns a human-friendly string.
+   * @param startDate The start date.
+   * @param endDate The end date.
+   * @returns {string} The human-friendly time span.
    */
-  formatKey(key: string): string {
-    return key
-      .replace(/_/g, ' ')
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/^\w/, (c) => c.toUpperCase());
+  getFriendlyTimeSpan(startDate: Date, endDate: Date): string {
+    const diffInMs = endDate.getTime() - startDate.getTime();
+    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+    if (diffInDays < 30) {
+      return `${Math.floor(diffInDays)} day${diffInDays !== 1 ? 's' : ''}`;
+    } else if (diffInDays < 365) {
+      const months = Math.floor(diffInDays / 30);
+      return `${months} month${months !== 1 ? 's' : ''}`;
+    } else {
+      const years = Math.floor(diffInDays / 365);
+      return `${years} year${years !== 1 ? 's' : ''}`;
+    }
   }
 }

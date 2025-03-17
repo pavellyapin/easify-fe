@@ -1,38 +1,43 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!-- eslint-disable @angular-eslint/template/use-track-by-function -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <!-- Headline -->
-<h5 i18n>Work & Skills</h5>
+<h5 i18n>Shape Your Career Journey</h5>
 
 <!-- Sub-header -->
 <p class="sub-header" i18n>
-  Your industry and work details help us deliver tailored tips and advice for
-  your career growth.
+  Help us understand your work life so we can deliver tailored insights, career
+  growth strategies, and learning recommendations just for you.
 </p>
 <form [formGroup]="workSkillsForm">
   <!-- Occupation Field -->
   <fieldset>
     <legend i18n>What is your occupation?</legend>
-    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
-      <input
-        matInput
-        formControlName="occupation"
-        placeholder="Enter your occupation"
-        i18n-placeholder
-      />
-    </mat-form-field>
+    <div class="primary-textarea-box">
+      <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+        <textarea
+          matInput
+          formControlName="occupation"
+          placeholder="Enter your job title (e.g., Software Engineer, Marketing Specialist)"
+          i18n-placeholder
+        ></textarea>
+      </mat-form-field>
+    </div>
   </fieldset>
   <fieldset>
     <!-- Instruction Text for Industries -->
     <legend i18n>
-      Related
-      <b>industries:</b>
+      Which
+      <b>industries</b>
+      are you involved in?
     </legend>
+
     <!-- Industry Autocomplete -->
     <app-industries-autocomplete (industryAdded)="onIndustryAdded($event)" />
 
     <!-- Added Industries as Chips -->
-    <div class="chips-container">
+    <div *ngIf="!chipsLoading" class="chips-container">
       <div class="app-chips-secondary">
         <mat-chip-set>
           <mat-chip
@@ -46,20 +51,25 @@
         </mat-chip-set>
       </div>
     </div>
+
+    <div *ngIf="chipsLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
   </fieldset>
   <fieldset>
     <!-- Instruction Text for Industries -->
     <legend i18n>
-      What are your
-      <b>interests</b>
-      ?
+      What
+      <b>skills</b>
+      or topics are you excited to learn?
     </legend>
+
     <!-- Industry Autocomplete -->
     <app-course-category-autocomplete
       (categoryAdded)="onCourseTagAdded($event)"
     />
 
-    <div class="chips-container">
+    <div *ngIf="!chipsLoading" class="chips-container">
       <div class="app-chips-secondary">
         <mat-chip-set>
           <mat-chip
@@ -73,44 +83,58 @@
         </mat-chip-set>
       </div>
     </div>
+
+    <div *ngIf="chipsLoading">
+      <ng-container *ngTemplateOutlet="loadingState" />
+    </div>
   </fieldset>
 
   <!-- Work Status Dropdown -->
   <fieldset>
     <legend i18n>What is your current work status?</legend>
-    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
-      <mat-select
-        formControlName="workStatus"
-        placeholder="Select your work status"
-        i18n-placeholder
-      >
-        <mat-option value="full-time" i18n>Full-time employed</mat-option>
-        <mat-option value="part-time" i18n>Part-time employed</mat-option>
-        <mat-option value="looking-for-work" i18n>Looking for work</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="primary-textarea-box">
+      <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+        <mat-select
+          formControlName="workStatus"
+          placeholder="Select your work status"
+          i18n-placeholder
+        >
+          <mat-option value="full-time" i18n>Full-time employed</mat-option>
+          <mat-option value="part-time" i18n>Part-time employed</mat-option>
+          <mat-option value="looking-for-work" i18n>
+            Looking for work
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </fieldset>
 
   <!-- Hybrid Status Dropdown -->
   <fieldset>
-    <legend i18n>Do you work remotely, in-office, or hybrid?</legend>
-    <mat-form-field class="full-width" appearance="outline" i18n-appearance>
-      <mat-select
-        formControlName="hybridStatus"
-        placeholder="Select your work type"
-        i18n-placeholder
-      >
-        <mat-option value="remote" i18n>Remote</mat-option>
-        <mat-option value="in-office" i18n>In-office</mat-option>
-        <mat-option value="hybrid" i18n>Hybrid</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <legend i18n>How do you usually work?</legend>
+    <div class="primary-textarea-box">
+      <mat-form-field class="full-width" appearance="outline" i18n-appearance>
+        <mat-select
+          formControlName="hybridStatus"
+          placeholder="Select your work type"
+          i18n-placeholder
+        >
+          <mat-option value="remote" i18n>Remote</mat-option>
+          <mat-option value="in-office" i18n>Onsite</mat-option>
+          <mat-option value="hybrid" i18n>Hybrid</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </fieldset>
 
   <app-custom-day-step-actions
     [primaryLabel]="'Reset'"
-    [secondaryLabel]="'Health & Lifestyle'"
+    [secondaryLabel]="'Save & Continue'"
     (primaryButton)="resetForm()"
     (secondaryButton)="onSubmit()"
   />
 </form>
+<!-- Loading state with ng-template for skeleton loaders -->
+<ng-template #loadingState>
+  <app-loading-chips />
+</ng-template>

@@ -67,6 +67,29 @@
   }
 }
 
+.app-primary-chip {
+  display: inline-block; /* Ensure it behaves like an inline-block element */
+  cursor: pointer;
+  border: solid 2px var.$primary-color !important;
+  background-color: white !important;
+  padding: 4px;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+  height: fit-content !important;
+  white-space: nowrap; /* Prevent wrapping */
+
+  .mat-mdc-chip-action-label {
+    cursor: pointer;
+    font-size: 14px;
+    line-height: normal !important;
+    white-space: normal !important;
+  }
+
+  span {
+    color: var.$primary-color !important;
+  }
+}
+
 .app-chips-secondary {
   padding: 16px 0;
 

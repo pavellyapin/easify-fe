@@ -1,0 +1,21 @@
+<div class="search-box-container primary-search-box">
+  <mat-form-field appearance="outline" i18n-appearance>
+    <mat-icon
+      i18n
+      matPrefix
+      class="search-icon"
+      (click)="onSearchKeyword(searchInput.value)"
+    >
+      search
+    </mat-icon>
+    <input
+      #searchInput
+      matInput
+      placeholder="What do you want to cook today?"
+      aria-label="What do you want to cook today?"
+      i18n-aria-label
+      i18n-placeholder
+      (keydown.enter)="onSearchKeyword(searchInput.value)"
+    />
+  </mat-form-field>
+</div>

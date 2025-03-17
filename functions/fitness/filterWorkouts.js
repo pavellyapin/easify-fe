@@ -78,7 +78,19 @@ exports.filterWorkouts = functions.https.onCall(async (data, context) => {
 
     // Fetch the next batch of `count` workouts
     console.log(`Fetching the next batch of ${count} workouts`);
-    const workoutsSnapshot = await workoutsQuery.limit(count).get();
+    const workoutsSnapshot = await workoutsQuery
+      .select(
+        "createdDate",
+        "name",
+        "isNew",
+        "category",
+        "overview",
+        "level",
+        "image",
+        "tags",
+      )
+      .limit(count)
+      .get();
 
     // Check if any workouts were retrieved
     if (workoutsSnapshot.empty) {

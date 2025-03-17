@@ -24,8 +24,19 @@
   }
 }
 
+.primary-naked-md-button {
+  border-radius: 18px !important; /* Add more border radius for rounded corners */
+  background-color: transparent !important;
+  padding: 12px 0 !important; /* Increase the padding for a larger button */
+  width: 100% !important; /* Make the button span the full card width */
+  max-width: 180px;
+  color: var.$primary-color !important; /* Set the font color to white */
+  font-weight: bold !important; /* Optional: make the text bold */
+  font-size: 14px !important;
+}
+
 .primary-full-md-button {
-  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  border-radius: 18px !important; /* Add more border radius for rounded corners */
   background-color: var.$primary-color !important;
   padding: 12px 0 !important; /* Increase the padding for a larger button */
   width: 100% !important; /* Make the button span the full card width */
@@ -37,7 +48,7 @@
 
 .primary-stroked-md-button {
   border: solid 2px var.$primary-color !important;
-  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  border-radius: 18px !important; /* Add more border radius for rounded corners */
   background-color: white !important;
   padding: 12px 0 !important; /* Increase the padding for a larger button */
   width: 100% !important; /* Make the button span the full card width */
@@ -48,7 +59,7 @@
 }
 
 .primary-full-lg-button {
-  border-radius: 12px !important; /* Add more border radius for rounded corners */
+  border-radius: 18px !important; /* Add more border radius for rounded corners */
   background-color: var.$primary-color !important;
   padding: 24px 0 !important; /* Increase the padding for a larger button */
   width: 100% !important; /* Make the button span the full card width */

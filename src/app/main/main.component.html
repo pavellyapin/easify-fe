@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <!-- eslint-disable @angular-eslint/template/no-negated-async -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
@@ -6,20 +7,42 @@
 <!-- eslint-disable @angular-eslint/template/button-has-type -->
 <mat-toolbar class="main-toolbar">
   <!-- Left icon button (e.g., for sidenav toggle) -->
-  <button mat-icon-button (click)="toggleSidebar()">
-    <mat-icon i18n>menu</mat-icon>
-  </button>
 
   <!-- Logo navigates to dashboard -->
-  <div
-    class="logo"
-    style="font-weight: 600; cursor: pointer"
-    (click)="navigateTo('/main/home')"
-    i18n
-  >
-    Easify
+  <div class="logo" (click)="navigateTo('/main/home')" i18n>
+    <img
+      src="assets/logo/full-grey-logo.png"
+      alt="Easify Logo"
+      class="logo-image"
+      i18n-alt
+    />
   </div>
-  <span class="spacer"></span>
+  <div class="toolbar-buttons">
+    <button
+      i18n
+      mat-flat-button
+      class="primary-naked-md-button"
+      (click)="navigateTo('/main/signup')"
+    >
+      Log in
+    </button>
+    <button
+      i18n
+      mat-flat-button
+      class="primary-stroked-md-button"
+      (click)="toggleSidebar()"
+    >
+      How it works
+    </button>
+    <button
+      i18n
+      mat-flat-button
+      class="primary-full-md-button"
+      (click)="toggleSidebar()"
+    >
+      Get Started
+    </button>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">

@@ -12,6 +12,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
+        data: { title: 'Home' },
         loadComponent: () =>
           import('./pages/home/home.component').then((m) => m.HomeComponent),
       },

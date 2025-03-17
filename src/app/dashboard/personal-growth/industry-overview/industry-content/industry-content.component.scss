@@ -1,0 +1,47 @@
+@use "variables" as var;
+
+.theme-carousel {
+  padding-bottom: 20px;
+
+  .nav-button-container {
+    background-color: var.$primary-light-color-2; /* Primary color for the slot container */
+  }
+
+  .slot-details {
+    h5 {
+      margin: 0;
+      color: black;
+    }
+
+    span {
+      color: grey;
+    }
+  }
+
+  .opacity {
+    opacity: 0.5;
+  }
+
+  .point-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+    height: 270px;
+
+    @media screen and (width <= 768px) {
+      height: 420px;
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .action {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      color: grey;
+    }
+  }
+}

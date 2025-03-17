@@ -8,21 +8,15 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
 import { LoadingCarouselComponent } from '@components/loading-carousel/loading-carousel.component';
 import { SuggestedActionComponent } from '@components/suggested-action/suggested-action.component';
-import { Store } from '@ngrx/store';
 import { ChallengeService } from '@services/challenges.service';
 import { RecipesProgressService } from '@services/recipes-progress.service';
 import { RecipesService } from '@services/recipes.service';
-import { setDashboardLoading } from '@store/loader/loading.actions';
-import { setSearchResults } from '@store/recipe/recipe.actions';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, take } from 'rxjs/operators';
 import { AllRecipesComponent } from './all-recipes/all-recipes.component';
+import { RecipeSearchBoxComponent } from './recipe-search-box/recipe-search-box.component';
 import { RecipesCarouselComponent } from './recipes-carousel/recipes-carousel.component';
 
 @Component({
@@ -30,14 +24,12 @@ import { RecipesCarouselComponent } from './recipes-carousel/recipes-carousel.co
   standalone: true,
   imports: [
     CommonModule,
-    MatFormFieldModule,
-    MatIconModule,
     MatButtonModule,
-    MatInputModule,
     LoadingCarouselComponent,
     AllRecipesComponent,
     SuggestedActionComponent,
     RecipesCarouselComponent,
+    RecipeSearchBoxComponent,
   ],
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
@@ -57,8 +49,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
     private recipesService: RecipesService,
     private challengesService: ChallengeService,
     private breakpointObserver: BreakpointObserver,
-    private store: Store,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -129,36 +119,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error loading first incomplete challenge:', error);
     }
-  }
-
-  onSearchKeyword(keyword: string): void {
-    keyword = keyword.trim();
-    if (!keyword) {
-      return; // Do nothing if search is empty
-    }
-
-    // Dispatch dashboard loading state
-    this.store.dispatch(setDashboardLoading(true));
-
-    // Call the search service
-    this.recipesService.recipeKeywordSearch(keyword).subscribe(
-      (results) => {
-        // Save results to state
-        this.store.dispatch(setSearchResults({ results: results.data }));
-
-        // Turn off the loading state
-        this.store.dispatch(setDashboardLoading(false));
-
-        // Navigate to the search results page
-        this.router.navigate(['/dashboard/recipe-search-results']);
-      },
-      (error) => {
-        console.error('Error searching recipes:', error);
-
-        // Turn off the loading state in case of an error
-        this.store.dispatch(setDashboardLoading(false));
-      },
-    );
   }
 
   completeRecipe() {
